@@ -53,6 +53,17 @@ class LinkedListTest {
   }
 
   @Test
+  @DisplayName("should clear linked list")
+  void shouldClear() {
+    assertThat(list.count()).isEqualTo(5);
+    list.clear();
+    assertThat(list.count()).isZero();
+
+    assertThat(list.head).isNull();
+    assertThat(list.tail).isNull();
+  }
+
+  @Test
   @DisplayName("should count nodes in linked list")
   void shouldCountNodes() {
     assertThat(emptyList.count()).isZero();

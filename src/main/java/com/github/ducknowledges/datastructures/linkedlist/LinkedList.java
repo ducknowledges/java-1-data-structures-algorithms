@@ -31,6 +31,12 @@ public class LinkedList {
     return null;
   }
 
+  public void clear() {
+    this.head = null;
+    this.tail = null;
+    this.length = 0;
+  }
+
   public int count() {
     return this.length;
   }
