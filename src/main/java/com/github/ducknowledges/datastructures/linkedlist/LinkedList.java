@@ -50,6 +50,38 @@ public class LinkedList {
     }
   }
 
+  public boolean remove(int _value) {
+    if (this.length == 0) return false;
+    return head.value == _value ? this.removeFirstNode() : this.removeNextNode(_value);
+  }
+
+  private boolean removeFirstNode() {
+    this.head = this.head.next;
+    this.length--;
+    if (this.length == 0) {
+      this.tail = null;
+    }
+    return true;
+  }
+
+  private boolean removeNextNode(int value) {
+    Node currentNode = this.head;
+    Node nextNode = this.head.next;
+    while (nextNode != null) {
+      if (nextNode.value == value) {
+        currentNode.next = nextNode.next;
+        if (nextNode == tail) {
+          tail = currentNode;
+        }
+        this.length--;
+        return true;
+      }
+      currentNode = nextNode;
+      nextNode = nextNode.next;
+    }
+    return false;
+  }
+
   public void clear() {
     this.head = null;
     this.tail = null;
