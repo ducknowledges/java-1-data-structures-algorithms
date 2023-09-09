@@ -31,6 +31,10 @@ public class LinkedList {
     return null;
   }
 
+  public int count() {
+    return this.length;
+  }
+
 }
 
 class Node {

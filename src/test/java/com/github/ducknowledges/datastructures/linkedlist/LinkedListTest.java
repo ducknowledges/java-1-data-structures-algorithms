@@ -52,4 +52,20 @@ class LinkedListTest {
     assertThat(list.tail).isEqualTo(nodes.get(4));
   }
 
+  @Test
+  @DisplayName("should count nodes in linked list")
+  void shouldCountNodes() {
+    assertThat(emptyList.count()).isZero();
+    assertThat(emptyList.head).isNull();
+    assertThat(emptyList.tail).isNull();
+
+    assertThat(singleNodeList.count()).isEqualTo(1);
+    assertThat(singleNodeList.head).isEqualTo(node);
+    assertThat(singleNodeList.tail).isEqualTo(node);
+
+    assertThat(list.count()).isEqualTo(5);
+    assertThat(list.head).isEqualTo(nodes.get(0));
+    assertThat(list.tail).isEqualTo(nodes.get(4));
+  }
+
 }
