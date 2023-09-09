@@ -1,2 +1,2 @@
-# java-data-structures-algorithm
-Java: Data Structures and Algorithm examples
+# java-data-structures-algorithms
+Java: Data Structures and Algorithms examples
