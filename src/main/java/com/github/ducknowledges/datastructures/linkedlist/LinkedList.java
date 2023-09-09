@@ -1,5 +1,8 @@
 package com.github.ducknowledges.datastructures.linkedlist;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LinkedList {
   public Node head;
   public Node tail;
@@ -29,6 +32,22 @@ public class LinkedList {
       node = node.next;
     }
     return null;
+  }
+
+  public ArrayList<Node> findAll(int _value) {
+    ArrayList<Node> nodes = new ArrayList<>();
+    if (head == null) return nodes;
+    this.addNodesWithValueToList(_value, nodes);
+    return nodes;
+  }
+
+  private void addNodesWithValueToList(int value, List<Node> nodes) {
+    Node node = this.head;
+    while (node != null) {
+      if (node.value == value)
+        nodes.add(node);
+      node = node.next;
+    }
   }
 
   public void clear() {

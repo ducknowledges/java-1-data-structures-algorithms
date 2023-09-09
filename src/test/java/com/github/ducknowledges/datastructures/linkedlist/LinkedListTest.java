@@ -53,6 +53,27 @@ class LinkedListTest {
   }
 
   @Test
+  @DisplayName("should find all nodes with value")
+  void shouldFindAllNodesByValue() {
+    assertThat(emptyList.findAll(1)).isEmpty();
+
+    assertThat(singleNodeList.findAll(1)).isNotEmpty();
+    assertThat(singleNodeList.findAll(1)).hasSize(1);
+    assertThat(singleNodeList.head).isEqualTo(node);
+    assertThat(singleNodeList.tail).isEqualTo(node);
+
+    assertThat(list.findAll(5)).isEmpty();
+    assertThat(list.findAll(1)).isNotEmpty();
+    List<Node> actual = list.findAll(1);
+    assertThat(actual).hasSize(3);
+    assertThat(actual.get(0)).isEqualTo(nodes.get(0));
+    assertThat(actual.get(1)).isEqualTo(nodes.get(2));
+    assertThat(actual.get(2)).isEqualTo(nodes.get(4));
+    assertThat(list.head).isEqualTo(nodes.get(0));
+    assertThat(list.tail).isEqualTo(nodes.get(4));
+  }
+
+  @Test
   @DisplayName("should clear linked list")
   void shouldClear() {
     assertThat(list.count()).isEqualTo(5);
