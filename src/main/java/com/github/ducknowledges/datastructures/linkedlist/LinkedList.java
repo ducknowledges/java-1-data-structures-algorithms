@@ -58,6 +58,9 @@ public class LinkedList {
   private boolean removeFirstNode() {
     this.head = this.head.next;
     this.length--;
+    if (this.head == null) {
+      this.tail = null;
+    }
     return true;
   }
 
@@ -107,6 +110,7 @@ public class LinkedList {
 
   public void clear() {
     this.head = null;
+    this.tail = null;
     this.length = 0;
   }
 
