@@ -103,6 +103,29 @@ class LinkedListTest {
   }
 
   @Test
+  @DisplayName("should remove all nodes by value")
+  void shouldRemoveAllNodesByValue() {
+    emptyList.removeAll(1);
+    assertThat(emptyList.head).isNull();
+    assertThat(emptyList.tail).isNull();
+
+    assertThat(singleNodeList.count()).isEqualTo(1);
+    singleNodeList.removeAll(8);
+    assertThat(singleNodeList.count()).isEqualTo(1);
+    singleNodeList.removeAll(1);
+    assertThat(singleNodeList.count()).isZero();
+    assertThat(singleNodeList.head).isNull();
+    assertThat(singleNodeList.tail).isNull();
+
+    assertThat(list.count()).isEqualTo(5);
+    list.removeAll(1);
+    assertThat(list.count()).isEqualTo(2);
+    assertThat(list.find(1)).isNull();
+    assertThat(list.head).isEqualTo(nodes.get(1));
+    assertThat(list.tail).isEqualTo(nodes.get(3));
+  }
+
+  @Test
   @DisplayName("should clear linked list")
   void shouldClear() {
     assertThat(list.count()).isEqualTo(5);

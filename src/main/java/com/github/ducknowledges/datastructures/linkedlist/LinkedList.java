@@ -82,6 +82,32 @@ public class LinkedList {
     return false;
   }
 
+  public void removeAll(int _value) {
+    if (this.length == 0) return;
+    if (head.value == _value) {
+      this.removeFirstNode();
+    }
+    if (this.length > 0) {
+      this.removeRestNodes(_value);
+    }
+  }
+
+  private void removeRestNodes(int value) {
+    Node currentNode = this.head;
+    Node nextNode = this.head.next;
+    while (nextNode != null) {
+      if (nextNode.value == value) {
+        currentNode.next = nextNode.next;
+        if (nextNode == tail) {
+          tail = currentNode;
+        }
+        this.length--;
+      }
+      currentNode = nextNode;
+      nextNode = nextNode.next;
+    }
+  }
+
   public void clear() {
     this.head = null;
     this.tail = null;
