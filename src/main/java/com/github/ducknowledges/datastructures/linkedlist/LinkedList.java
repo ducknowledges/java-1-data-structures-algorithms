@@ -118,6 +118,25 @@ public class LinkedList {
     return this.length;
   }
 
+  public void insertAfter(Node _nodeAfter, Node _nodeToInsert) {
+    if (_nodeAfter == null) {
+      _nodeToInsert.next = this.head;
+      this.head = _nodeToInsert;
+      if (this.length == 0) {
+        this.tail = _nodeToInsert;
+      }
+      this.length++;
+      return;
+    }
+    Node nextNode = _nodeAfter.next;
+    _nodeAfter.next = _nodeToInsert;
+    _nodeToInsert.next = nextNode;
+    if (this.tail == _nodeAfter) {
+      this.tail = _nodeToInsert;
+    }
+    this.length++;
+  }
+
 }
 
 class Node {

@@ -152,4 +152,36 @@ class LinkedListTest {
     assertThat(list.tail).isEqualTo(nodes.get(4));
   }
 
+  @Test
+  @DisplayName("should insert node after existing node")
+  void shouldInsertNode() {
+    //after first, last, first argument null
+    assertThat(emptyList.count()).isZero();
+    emptyList.insertAfter(null, node);
+    assertThat(emptyList.count()).isEqualTo(1);
+    assertThat(emptyList.head).isEqualTo(node);
+    assertThat(emptyList.tail).isEqualTo(node);
+
+    Node insertedNode1 = new Node(8);
+    Node insertedNode2 = new Node(2);
+
+    assertThat(singleNodeList.count()).isEqualTo(1);
+    singleNodeList.insertAfter(node, insertedNode1);
+    assertThat(singleNodeList.count()).isEqualTo(2);
+    assertThat(singleNodeList.head).isEqualTo(node);
+    assertThat(singleNodeList.tail).isEqualTo(insertedNode1);
+
+    singleNodeList.insertAfter(null, insertedNode2);
+    assertThat(singleNodeList.count()).isEqualTo(3);
+    assertThat(singleNodeList.head).isEqualTo(insertedNode2);
+    assertThat(singleNodeList.tail).isEqualTo(insertedNode1);
+
+    assertThat(list.count()).isEqualTo(5);
+    list.insertAfter(nodes.get(3), insertedNode1);
+    assertThat(list.count()).isEqualTo(6);
+    assertThat(list.find(8)).isEqualTo(insertedNode1);
+    assertThat(list.head).isEqualTo(nodes.get(0));
+    assertThat(list.tail).isEqualTo(nodes.get(4));
+  }
+
 }
