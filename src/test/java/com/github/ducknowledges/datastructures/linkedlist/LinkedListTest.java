@@ -90,7 +90,8 @@ class LinkedListTest {
     assertThat(list.remove(8)).isFalse();
     assertThat(list.remove(1)).isTrue();
     assertThat(list.count()).isEqualTo(4);
-    assertThat(list.find(1)).isEqualTo(nodes.get(2));
+    assertThat(list.head).isEqualTo(nodes.get(1));
+    assertThat(list.tail).isEqualTo(nodes.get(4));
 
     assertThat(list.remove(1)).isTrue();
     assertThat(list.find(1)).isEqualTo(nodes.get(4));
@@ -101,6 +102,23 @@ class LinkedListTest {
     assertThat(list.find(1)).isNull();
     assertThat(list.head).isEqualTo(nodes.get(1));
     assertThat(list.tail).isEqualTo(nodes.get(3));
+  }
+
+  @Test
+  @DisplayName("should remove first found node from tail by value")
+  void shouldRemoveNodeFromTail() {
+    nodes = List.of(new Node(3), new Node(2),
+        new Node(1));
+    list = new LinkedList();
+    list.addInTail(nodes.get(0));
+    list.addInTail(nodes.get(1));
+    list.addInTail(nodes.get(2));
+
+    assertThat(list.count()).isEqualTo(3);
+    assertThat(list.remove(1)).isTrue();
+    assertThat(list.count()).isEqualTo(2);
+    assertThat(list.head).isEqualTo(nodes.get(0));
+    assertThat(list.tail).isEqualTo(nodes.get(1));
   }
 
   @Test
@@ -123,6 +141,22 @@ class LinkedListTest {
     assertThat(list.find(1)).isNull();
     assertThat(list.head).isEqualTo(nodes.get(1));
     assertThat(list.tail).isEqualTo(nodes.get(3));
+  }
+
+  @Test
+  @DisplayName("should remove all nodes when node in tail by value")
+  void shouldRemoveAllNodesWhenNodeInTail() {
+    nodes = List.of(new Node(3), new Node(2), new Node(1));
+    list = new LinkedList();
+    list.addInTail(nodes.get(0));
+    list.addInTail(nodes.get(1));
+    list.addInTail(nodes.get(2));
+
+    assertThat(list.count()).isEqualTo(3);
+    list.removeAll(1);
+    assertThat(list.count()).isEqualTo(2);
+    assertThat(list.head).isEqualTo(nodes.get(0));
+    assertThat(list.tail).isEqualTo(nodes.get(1));
   }
 
   @Test
