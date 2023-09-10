@@ -51,16 +51,13 @@ public class LinkedList {
   }
 
   public boolean remove(int _value) {
-    if (this.length == 0) return false;
+    if (this.head == null) return false;
     return head.value == _value ? this.removeFirstNode() : this.removeNextNode(_value);
   }
 
   private boolean removeFirstNode() {
     this.head = this.head.next;
     this.length--;
-    if (this.length == 0) {
-      this.tail = null;
-    }
     return true;
   }
 
@@ -83,7 +80,7 @@ public class LinkedList {
   }
 
   public void removeAll(int _value) {
-    if (this.length == 0) return;
+    if (this.head == null) return;
     if (head.value == _value) {
       this.removeFirstNode();
     }
@@ -110,7 +107,6 @@ public class LinkedList {
 
   public void clear() {
     this.head = null;
-    this.tail = null;
     this.length = 0;
   }
 

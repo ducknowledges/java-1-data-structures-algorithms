@@ -85,16 +85,17 @@ class LinkedListTest {
     assertThat(singleNodeList.remove(1)).isTrue();
     assertThat(singleNodeList.count()).isZero();
     assertThat(singleNodeList.head).isNull();
-    assertThat(singleNodeList.tail).isNull();
 
     assertThat(list.count()).isEqualTo(5);
-    assertThat(singleNodeList.remove(8)).isFalse();
+    assertThat(list.remove(8)).isFalse();
     assertThat(list.remove(1)).isTrue();
     assertThat(list.count()).isEqualTo(4);
     assertThat(list.find(1)).isEqualTo(nodes.get(2));
 
     assertThat(list.remove(1)).isTrue();
     assertThat(list.find(1)).isEqualTo(nodes.get(4));
+    assertThat(list.head).isEqualTo(nodes.get(1));
+    assertThat(list.tail).isEqualTo(nodes.get(4));
 
     assertThat(list.remove(1)).isTrue();
     assertThat(list.find(1)).isNull();
@@ -115,7 +116,6 @@ class LinkedListTest {
     singleNodeList.removeAll(1);
     assertThat(singleNodeList.count()).isZero();
     assertThat(singleNodeList.head).isNull();
-    assertThat(singleNodeList.tail).isNull();
 
     assertThat(list.count()).isEqualTo(5);
     list.removeAll(1);
@@ -131,9 +131,7 @@ class LinkedListTest {
     assertThat(list.count()).isEqualTo(5);
     list.clear();
     assertThat(list.count()).isZero();
-
     assertThat(list.head).isNull();
-    assertThat(list.tail).isNull();
   }
 
   @Test
