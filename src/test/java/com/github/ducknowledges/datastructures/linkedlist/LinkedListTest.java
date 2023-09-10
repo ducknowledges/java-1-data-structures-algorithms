@@ -184,4 +184,35 @@ class LinkedListTest {
     assertThat(list.tail).isEqualTo(nodes.get(4));
   }
 
+  @Test
+  @DisplayName("should sum nodes of two linked lists with same length")
+  void shouldSumNodesOfTwoLinkedLists() {
+    LinkedList list1 = new LinkedList();
+    list1.addInTail(new Node(1));
+    list1.addInTail(new Node(2));
+    list1.addInTail(new Node(3));
+
+    LinkedList list2 = new LinkedList();
+    list2.addInTail(new Node(1));
+    list2.addInTail(new Node(2));
+    list2.addInTail(new Node(3));
+
+    LinkedList list3 = new LinkedList();
+    list3.addInTail(new Node(1));
+
+    LinkedList actual = LinkedList.sumLists(list1, list2);
+    assertThat(actual.count()).isEqualTo(list1.count());
+    Node node1 = actual.find(nodes.get(0).value + nodes.get(0).value);
+    Node node2 = actual.find(nodes.get(1).value + nodes.get(1).value);
+    Node node3 = actual.find(nodes.get(2).value + nodes.get(2).value);
+    assertThat(node1).isNotNull();
+    assertThat(node2).isNotNull();
+    assertThat(node3).isNotNull();
+
+    LinkedList actualEmptyList = LinkedList.sumLists(list2, list3);
+    assertThat(actualEmptyList.count()).isZero();
+    assertThat(actualEmptyList.head).isNull();
+    assertThat(actualEmptyList.tail).isNull();
+  }
+
 }
