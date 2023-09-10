@@ -134,6 +134,7 @@ class LinkedListTest {
     singleNodeList.removeAll(1);
     assertThat(singleNodeList.count()).isZero();
     assertThat(singleNodeList.head).isNull();
+    assertThat(singleNodeList.tail).isNull();
 
     assertThat(list.count()).isEqualTo(5);
     list.removeAll(1);
@@ -166,6 +167,7 @@ class LinkedListTest {
     list.clear();
     assertThat(list.count()).isZero();
     assertThat(list.head).isNull();
+    assertThat(list.tail).isNull();
   }
 
   @Test
