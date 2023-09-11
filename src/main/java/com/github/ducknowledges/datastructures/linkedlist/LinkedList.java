@@ -52,32 +52,24 @@ public class LinkedList {
 
   public boolean remove(int _value) {
     if (this.head == null) return false;
-    return head.value == _value ? this.removeFirstNode() : this.removeNextNode(_value);
-  }
-
-  private boolean removeFirstNode() {
-    this.head = this.head.next;
-    this.length--;
-    if (this.head == null) {
-      this.tail = null;
-    }
-    return true;
-  }
-
-  private boolean removeNextNode(int value) {
-    Node currentNode = this.head;
-    Node nextNode = this.head.next;
-    while (nextNode != null) {
-      if (nextNode.value == value) {
-        currentNode.next = nextNode.next;
-        if (nextNode == tail) {
-          tail = currentNode;
+    Node previousPointer = null;
+    Node currentPointer = this.head;
+    while (currentPointer != null) {
+      if (currentPointer.value == _value) {
+        if (previousPointer == null) {
+          this.head = currentPointer.next;
+        } else {
+          previousPointer.next = currentPointer.next;
+        }
+        if (currentPointer == tail) {
+          tail = previousPointer;
         }
         this.length--;
         return true;
+      } else {
+        previousPointer = currentPointer;
+        currentPointer = currentPointer.next;
       }
-      currentNode = nextNode;
-      nextNode = nextNode.next;
     }
     return false;
   }
