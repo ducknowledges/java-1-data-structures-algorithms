@@ -84,27 +84,24 @@ public class LinkedList {
 
   public void removeAll(int _value) {
     if (this.head == null) return;
-    if (head.value == _value) {
-      this.removeFirstNode();
-    }
-    if (this.length > 0) {
-      this.removeRestNodes(_value);
-    }
-  }
-
-  private void removeRestNodes(int value) {
-    Node currentNode = this.head;
-    Node nextNode = this.head.next;
-    while (nextNode != null) {
-      if (nextNode.value == value) {
-        currentNode.next = nextNode.next;
-        if (nextNode == tail) {
-          tail = currentNode;
+    Node previousPointer = null;
+    Node currentPointer = this.head;
+    while (currentPointer != null) {
+      if (currentPointer.value == _value) {
+        if (previousPointer == null) {
+          this.head = currentPointer.next;
+        } else {
+          previousPointer.next = currentPointer.next;
         }
+        if (currentPointer == tail) {
+          tail = previousPointer;
+        }
+        currentPointer = currentPointer.next;
         this.length--;
+      } else {
+        previousPointer = currentPointer;
+        currentPointer = currentPointer.next;
       }
-      currentNode = nextNode;
-      nextNode = nextNode.next;
     }
   }
 
