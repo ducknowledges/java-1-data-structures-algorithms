@@ -141,6 +141,37 @@ class LinkedListTest {
     assertThat(list.find(1)).isNull();
     assertThat(list.head).isEqualTo(nodes.get(2));
     assertThat(list.tail).isEqualTo(nodes.get(4));
+    assertThat(list.tail.next).isNull();
+  }
+
+  @Test
+  @DisplayName("should remove all nodes when node in tail by value")
+  void shouldRemoveAllNodesWhenNodeInTail() {
+    List <Node> nodes = List.of(
+        new Node(1), new Node(1),
+        new Node(2),
+        new Node(1), new Node(1),
+        new Node(4),
+        new Node(1), new Node(1)
+    );
+    list = new LinkedList();
+    list.addInTail(nodes.get(0));
+    list.addInTail(nodes.get(1));
+    list.addInTail(nodes.get(2));
+    list.addInTail(nodes.get(3));
+    list.addInTail(nodes.get(4));
+    list.addInTail(nodes.get(5));
+    list.addInTail(nodes.get(6));
+    list.addInTail(nodes.get(7));
+
+    assertThat(list.count()).isEqualTo(8);
+    list.removeAll(1);
+    assertThat(list.count()).isEqualTo(2);
+    assertThat(list.find(1)).isNull();
+    assertThat(list.head).isEqualTo(nodes.get(2));
+    assertThat(list.head.next).isEqualTo(nodes.get(5));
+    assertThat(list.tail).isEqualTo(nodes.get(5));
+    assertThat(list.tail.next).isNull();
   }
 
   @Test
