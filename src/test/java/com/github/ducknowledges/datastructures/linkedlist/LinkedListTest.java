@@ -24,14 +24,19 @@ class LinkedListTest {
     singleNodeList = new LinkedList();
     singleNodeList.addInTail(node);
 
-    nodes = List.of(new Node(1), new Node(2),
-        new Node(1), new Node(4), new Node(1));
+    nodes = List.of(
+        new Node(1), new Node(1),
+        new Node(2), new Node(1), new Node(4),
+        new Node(1), new Node(1)
+    );
     list = new LinkedList();
     list.addInTail(nodes.get(0));
     list.addInTail(nodes.get(1));
     list.addInTail(nodes.get(2));
     list.addInTail(nodes.get(3));
     list.addInTail(nodes.get(4));
+    list.addInTail(nodes.get(5));
+    list.addInTail(nodes.get(6));
   }
 
   @Test
@@ -47,9 +52,9 @@ class LinkedListTest {
     assertThat(singleNodeList.tail).isEqualTo(node);
 
     assertThat(list.find(0)).isNull();
-    assertThat(list.find(2)).isEqualTo(nodes.get(1));
+    assertThat(list.find(2)).isEqualTo(nodes.get(2));
     assertThat(list.head).isEqualTo(nodes.get(0));
-    assertThat(list.tail).isEqualTo(nodes.get(4));
+    assertThat(list.tail).isEqualTo(nodes.get(6));
   }
 
   @Test
@@ -65,12 +70,14 @@ class LinkedListTest {
     assertThat(list.findAll(5)).isEmpty();
     assertThat(list.findAll(1)).isNotEmpty();
     List<Node> actual = list.findAll(1);
-    assertThat(actual).hasSize(3);
+    assertThat(actual).hasSize(5);
     assertThat(actual.get(0)).isEqualTo(nodes.get(0));
-    assertThat(actual.get(1)).isEqualTo(nodes.get(2));
-    assertThat(actual.get(2)).isEqualTo(nodes.get(4));
+    assertThat(actual.get(1)).isEqualTo(nodes.get(1));
+    assertThat(actual.get(2)).isEqualTo(nodes.get(3));
+    assertThat(actual.get(3)).isEqualTo(nodes.get(5));
+    assertThat(actual.get(4)).isEqualTo(nodes.get(6));
     assertThat(list.head).isEqualTo(nodes.get(0));
-    assertThat(list.tail).isEqualTo(nodes.get(4));
+    assertThat(list.tail).isEqualTo(nodes.get(6));
   }
 
   @Test
@@ -82,43 +89,32 @@ class LinkedListTest {
 
     assertThat(singleNodeList.count()).isEqualTo(1);
     assertThat(singleNodeList.remove(2)).isFalse();
+    assertThat(singleNodeList.head).isEqualTo(node);
+    assertThat(singleNodeList.head.next).isNull();
+    assertThat(singleNodeList.tail).isEqualTo(node);
+    assertThat(singleNodeList.tail.next).isNull();
+
     assertThat(singleNodeList.remove(1)).isTrue();
     assertThat(singleNodeList.count()).isZero();
     assertThat(singleNodeList.head).isNull();
+    assertThat(singleNodeList.tail).isNull();
 
-    assertThat(list.count()).isEqualTo(5);
+    assertThat(list.count()).isEqualTo(7);
     assertThat(list.remove(8)).isFalse();
-    assertThat(list.remove(1)).isTrue();
-    assertThat(list.count()).isEqualTo(4);
-    assertThat(list.head).isEqualTo(nodes.get(1));
-    assertThat(list.tail).isEqualTo(nodes.get(4));
-
-    assertThat(list.remove(1)).isTrue();
-    assertThat(list.find(1)).isEqualTo(nodes.get(4));
-    assertThat(list.head).isEqualTo(nodes.get(1));
-    assertThat(list.tail).isEqualTo(nodes.get(4));
-
-    assertThat(list.remove(1)).isTrue();
-    assertThat(list.find(1)).isNull();
-    assertThat(list.head).isEqualTo(nodes.get(1));
-    assertThat(list.tail).isEqualTo(nodes.get(3));
-  }
-
-  @Test
-  @DisplayName("should remove first found node from tail by value")
-  void shouldRemoveNodeFromTail() {
-    nodes = List.of(new Node(3), new Node(2),
-        new Node(1));
-    list = new LinkedList();
-    list.addInTail(nodes.get(0));
-    list.addInTail(nodes.get(1));
-    list.addInTail(nodes.get(2));
-
-    assertThat(list.count()).isEqualTo(3);
-    assertThat(list.remove(1)).isTrue();
-    assertThat(list.count()).isEqualTo(2);
+    assertThat(list.count()).isEqualTo(7);
     assertThat(list.head).isEqualTo(nodes.get(0));
-    assertThat(list.tail).isEqualTo(nodes.get(1));
+    assertThat(list.head.next).isEqualTo(nodes.get(1));
+    assertThat(list.tail).isEqualTo(nodes.get(6));
+    assertThat(list.tail.next).isNull();
+
+    for (Node n: list.findAll(1)) {
+      assertThat(list.remove(1)).isTrue();
+    }
+    assertThat(list.count()).isEqualTo(2);
+    assertThat(list.head).isEqualTo(nodes.get(2));
+    assertThat(list.head.next).isEqualTo(nodes.get(4));
+    assertThat(list.tail).isEqualTo(nodes.get(4));
+    assertThat(list.tail.next).isNull();
   }
 
   @Test
@@ -131,39 +127,26 @@ class LinkedListTest {
     assertThat(singleNodeList.count()).isEqualTo(1);
     singleNodeList.removeAll(8);
     assertThat(singleNodeList.count()).isEqualTo(1);
+    assertThat(singleNodeList.head).isEqualTo(node);
+    assertThat(singleNodeList.tail).isEqualTo(node);
+
     singleNodeList.removeAll(1);
     assertThat(singleNodeList.count()).isZero();
     assertThat(singleNodeList.head).isNull();
     assertThat(singleNodeList.tail).isNull();
 
-    assertThat(list.count()).isEqualTo(5);
+    assertThat(list.count()).isEqualTo(7);
     list.removeAll(1);
     assertThat(list.count()).isEqualTo(2);
     assertThat(list.find(1)).isNull();
-    assertThat(list.head).isEqualTo(nodes.get(1));
-    assertThat(list.tail).isEqualTo(nodes.get(3));
-  }
-
-  @Test
-  @DisplayName("should remove all nodes when node in tail by value")
-  void shouldRemoveAllNodesWhenNodeInTail() {
-    nodes = List.of(new Node(3), new Node(2), new Node(1));
-    list = new LinkedList();
-    list.addInTail(nodes.get(0));
-    list.addInTail(nodes.get(1));
-    list.addInTail(nodes.get(2));
-
-    assertThat(list.count()).isEqualTo(3);
-    list.removeAll(1);
-    assertThat(list.count()).isEqualTo(2);
-    assertThat(list.head).isEqualTo(nodes.get(0));
-    assertThat(list.tail).isEqualTo(nodes.get(1));
+    assertThat(list.head).isEqualTo(nodes.get(2));
+    assertThat(list.tail).isEqualTo(nodes.get(4));
   }
 
   @Test
   @DisplayName("should clear linked list")
   void shouldClear() {
-    assertThat(list.count()).isEqualTo(5);
+    assertThat(list.count()).isEqualTo(7);
     list.clear();
     assertThat(list.count()).isZero();
     assertThat(list.head).isNull();
@@ -181,20 +164,21 @@ class LinkedListTest {
     assertThat(singleNodeList.head).isEqualTo(node);
     assertThat(singleNodeList.tail).isEqualTo(node);
 
-    assertThat(list.count()).isEqualTo(5);
+    assertThat(list.count()).isEqualTo(7);
     assertThat(list.head).isEqualTo(nodes.get(0));
-    assertThat(list.tail).isEqualTo(nodes.get(4));
+    assertThat(list.tail).isEqualTo(nodes.get(6));
   }
 
   @Test
   @DisplayName("should insert node after existing node")
   void shouldInsertNode() {
-    //after first, last, first argument null
     assertThat(emptyList.count()).isZero();
     emptyList.insertAfter(null, node);
     assertThat(emptyList.count()).isEqualTo(1);
     assertThat(emptyList.head).isEqualTo(node);
+    assertThat(emptyList.head.next).isNull();
     assertThat(emptyList.tail).isEqualTo(node);
+    assertThat(emptyList.tail.next).isNull();
 
     Node insertedNode1 = new Node(8);
     Node insertedNode2 = new Node(2);
@@ -203,45 +187,54 @@ class LinkedListTest {
     singleNodeList.insertAfter(node, insertedNode1);
     assertThat(singleNodeList.count()).isEqualTo(2);
     assertThat(singleNodeList.head).isEqualTo(node);
+    assertThat(singleNodeList.head.next).isEqualTo(insertedNode1);
     assertThat(singleNodeList.tail).isEqualTo(insertedNode1);
+    assertThat(singleNodeList.tail.next).isNull();
 
     singleNodeList.insertAfter(null, insertedNode2);
     assertThat(singleNodeList.count()).isEqualTo(3);
     assertThat(singleNodeList.head).isEqualTo(insertedNode2);
     assertThat(singleNodeList.tail).isEqualTo(insertedNode1);
 
-    assertThat(list.count()).isEqualTo(5);
+    assertThat(list.count()).isEqualTo(7);
     list.insertAfter(nodes.get(3), insertedNode1);
-    assertThat(list.count()).isEqualTo(6);
+    assertThat(list.count()).isEqualTo(8);
     assertThat(list.find(8)).isEqualTo(insertedNode1);
     assertThat(list.head).isEqualTo(nodes.get(0));
-    assertThat(list.tail).isEqualTo(nodes.get(4));
+    assertThat(list.tail).isEqualTo(nodes.get(6));
   }
 
   @Test
   @DisplayName("should sum nodes of two linked lists with same length")
   void shouldSumNodesOfTwoLinkedLists() {
     LinkedList list1 = new LinkedList();
-    list1.addInTail(new Node(1));
-    list1.addInTail(new Node(2));
-    list1.addInTail(new Node(3));
+    int a = 1;
+    int b = 2;
+    int c = 3;
+    list1.addInTail(new Node(a));
+    list1.addInTail(new Node(b));
+    list1.addInTail(new Node(c));
 
     LinkedList list2 = new LinkedList();
-    list2.addInTail(new Node(1));
-    list2.addInTail(new Node(2));
-    list2.addInTail(new Node(3));
+    list2.addInTail(new Node(a));
+    list2.addInTail(new Node(b));
+    list2.addInTail(new Node(c));
 
     LinkedList list3 = new LinkedList();
     list3.addInTail(new Node(1));
 
     LinkedList actual = LinkedList.sumLists(list1, list2);
     assertThat(actual.count()).isEqualTo(list1.count());
-    Node node1 = actual.find(nodes.get(0).value + nodes.get(0).value);
-    Node node2 = actual.find(nodes.get(1).value + nodes.get(1).value);
-    Node node3 = actual.find(nodes.get(2).value + nodes.get(2).value);
+    Node node1 = actual.find(a + a);
+    Node node2 = actual.find(b + b);
+    Node node3 = actual.find(c + c);
     assertThat(node1).isNotNull();
     assertThat(node2).isNotNull();
     assertThat(node3).isNotNull();
+    assertThat(actual.head).isEqualTo(node1);
+    assertThat(actual.head.next).isEqualTo(node2);
+    assertThat(actual.tail).isEqualTo(node3);
+    assertThat(actual.tail.next).isNull();
 
     LinkedList actualEmptyList = LinkedList.sumLists(list2, list3);
     assertThat(actualEmptyList.count()).isZero();
