@@ -24,6 +24,17 @@ public class LinkedList2 {
     this.length++;
   }
 
+  public Node find(int _value) {
+    Node node = this.head;
+    while (node != null) {
+      if (node.value == _value) {
+        return node;
+      }
+      node = node.next;
+    }
+    return null;
+  }
+
 
   public int count() {
     return length;
