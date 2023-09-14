@@ -102,7 +102,7 @@ class LinkedList2Test {
   @Nested
   @DisplayName("find all")
   class FindAll {
-    @org.junit.jupiter.api.Test
+    @Test
     @DisplayName("should find no nodes by value in empty list")
     void shouldFindNoNodeInEmptyList() {
       LinkedList2 emptyList = getListWith(List.of());
@@ -111,7 +111,7 @@ class LinkedList2Test {
       assertThat(emptyList.tail).isNull();
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     @DisplayName("should find all nodes by value in single node list")
     void shouldFindAllNodesInSingleList() {
       int value = 1;
@@ -125,7 +125,7 @@ class LinkedList2Test {
       assertListTail(singleNodeList, node);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     @DisplayName("should find no nodes by value in single node list")
     void shouldFindNoNodesInSingleList() {
       int value = 1;
@@ -138,22 +138,54 @@ class LinkedList2Test {
       assertListTail(singleNodeList, node);
     }
 
-    @org.junit.jupiter.api.Test
-    @DisplayName("should find node by value with repeating nodes in list")
-    void shouldFindNodeInRepeatingNodes() {
-      int value = 2;
-      List<Node> nodes = getNodes(List.of(1, value, value, 3));
-      this.assertThatFindAllNodes(nodes, 2);
+    @Test
+    @DisplayName("should find node by value with repeating head nodes in list")
+    void shouldFindAllNodesInRepeatingHeadNodes() {
+      int value = 0;
+      List<Node> nodes = getNodes(List.of(value, value, 1, 2));
+      this.assertThatFindAllNodes(nodes, value);
     }
 
-    @org.junit.jupiter.api.Test
-    @DisplayName("should find no node by value with repeating nodes in list")
-    void shouldFindNoNodeInRepeatingNodes() {
-      int value = 2;
-      List<Node> nodes = getNodes(List.of(1, value, value, 3));
+    @Test
+    @DisplayName("should find node by value with repeating middle nodes in list")
+    void shouldFindAllNodesInRepeatingMiddleNodes() {
+      int value = 1;
+      List<Node> nodes = getNodes(List.of(0, value, value, 2));
+      this.assertThatFindAllNodes(nodes, value);
+    }
+
+    @Test
+    @DisplayName("should find no node by value with repeating middle nodes in list")
+    void shouldFindNoNodesInRepeatingMiddleNodes() {
+      int value = 1;
+      List<Node> nodes = getNodes(List.of(0, value, value, 2));
       LinkedList2 list = getListWith(nodes);
       var notExistValue = 5;
       assertThat(list.find(notExistValue)).isNull();
+      assertListHead(list, nodes.get(0), nodes.get(1));
+      assertListTail(list, nodes.get(3));
+    }
+
+    @Test
+    @DisplayName("should find node by value with repeating tail nodes in list")
+    void shouldFindAllNodeInRepeatingTailNodes() {
+      int value = 2;
+      List<Node> nodes = getNodes(List.of(0, 1, value, value));
+      this.assertThatFindAllNodes(nodes, value);
+    }
+
+    @Test
+    @DisplayName("should find node by value with repeating nodes in list")
+    void shouldFindAllNodesInRepeatingNodes() {
+      int value = 1;
+      List<Node> nodes = getNodes(List.of(value, value, value, value));
+      LinkedList2 list = getListWith(nodes);
+      List<Node> foundNodes = list.findAll(value);
+      assertThat(foundNodes).hasSize(4);
+      assertThat(foundNodes.get(0)).isEqualTo(nodes.get(0));
+      assertThat(foundNodes.get(1)).isEqualTo(nodes.get(1));
+      assertThat(foundNodes.get(2)).isEqualTo(nodes.get(2));
+      assertThat(foundNodes.get(3)).isEqualTo(nodes.get(3));
       assertListHead(list, nodes.get(0), nodes.get(1));
       assertListTail(list, nodes.get(3));
     }
@@ -168,6 +200,7 @@ class LinkedList2Test {
       assertListTail(list, testNodes.get(3));
     }
   }
+
 
   @Nested
   @DisplayName("count")
