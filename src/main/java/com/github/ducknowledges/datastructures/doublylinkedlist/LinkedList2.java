@@ -62,8 +62,16 @@ public class LinkedList2 {
     while (currentPointer != null) {
       if (currentPointer.value == _value) {
         if (previousPointer == null) {
-          this.head = currentPointer.next;
+          if (currentPointer.next == null) {
+            this.head = null;
+          } else {
+            this.head = currentPointer.next;
+            this.head.prev = null;
+          }
         } else {
+          if (currentPointer.next != null) {
+            currentPointer.next.prev = previousPointer;
+          }
           previousPointer.next = currentPointer.next;
         }
         if (currentPointer == tail) {
