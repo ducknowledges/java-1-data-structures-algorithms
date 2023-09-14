@@ -55,6 +55,30 @@ public class LinkedList2 {
     }
   }
 
+  public boolean remove(int _value) {
+    if (this.head == null) return false;
+    Node previousPointer = null;
+    Node currentPointer = this.head;
+    while (currentPointer != null) {
+      if (currentPointer.value == _value) {
+        if (previousPointer == null) {
+          this.head = currentPointer.next;
+        } else {
+          previousPointer.next = currentPointer.next;
+        }
+        if (currentPointer == tail) {
+          tail = previousPointer;
+        }
+        this.length--;
+        return true;
+      } else {
+        previousPointer = currentPointer;
+        currentPointer = currentPointer.next;
+      }
+    }
+    return false;
+  }
+
   public int count() {
     return length;
   }
