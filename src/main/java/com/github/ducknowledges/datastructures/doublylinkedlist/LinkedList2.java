@@ -1,4 +1,4 @@
-package com.github.ducknowledges.datastructures.linkedlist2;
+package com.github.ducknowledges.datastructures.doublylinkedlist;
 
 public class LinkedList2 {
 
