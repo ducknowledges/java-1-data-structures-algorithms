@@ -19,6 +19,7 @@ class LinkedList2Test {
     void shouldFindNoNodeInEmptyList() {
       LinkedList2 emptyList = getListWith(List.of());
       assertThat(emptyList.find(1)).isNull();
+
       assertThat(emptyList.head).isNull();
       assertThat(emptyList.tail).isNull();
     }
@@ -31,8 +32,9 @@ class LinkedList2Test {
       Node node = nodes.get(0);
       LinkedList2 singleNodeList = getListWith(nodes);
       assertThat(singleNodeList.find(value)).isEqualTo(node);
+
       assertListHead(singleNodeList, node, null);
-      assertListTail(singleNodeList, node);
+      assertListTail(singleNodeList, node, null);
     }
 
     @Test
@@ -43,8 +45,9 @@ class LinkedList2Test {
       Node node = nodes.get(0);
       LinkedList2 singleNodeList = getListWith(nodes);
       assertThat(singleNodeList.find(100)).isNull();
+
       assertListHead(singleNodeList, node, null);
-      assertListTail(singleNodeList, node);
+      assertListTail(singleNodeList, node, null);
     }
 
     @Test
@@ -87,15 +90,17 @@ class LinkedList2Test {
       LinkedList2 list = getListWith(nodes);
       var notExistValue = 5;
       assertThat(list.find(notExistValue)).isNull();
+
       assertListHead(list, nodes.get(0), nodes.get(1));
-      assertListTail(list, nodes.get(3));
+      assertListTail(list, nodes.get(3), nodes.get(2));
     }
 
     private void assertThatFindNode(List<Node> testNodes, int nodeValue) {
       LinkedList2 list = getListWith(testNodes);
       assertThat(list.find(nodeValue)).isEqualTo(testNodes.get(nodeValue));
+
       assertListHead(list, testNodes.get(0), testNodes.get(1));
-      assertListTail(list, testNodes.get(3));
+      assertListTail(list, testNodes.get(3), testNodes.get(2));
     }
   }
 
@@ -107,6 +112,7 @@ class LinkedList2Test {
     void shouldFindNoNodeInEmptyList() {
       LinkedList2 emptyList = getListWith(List.of());
       assertThat(emptyList.findAll(1)).isEmpty();
+
       assertThat(emptyList.head).isNull();
       assertThat(emptyList.tail).isNull();
     }
@@ -121,8 +127,9 @@ class LinkedList2Test {
       List<Node> foundNodes = singleNodeList.findAll(value);
       assertThat(foundNodes).hasSize(1);
       assertThat(foundNodes.get(0)).isEqualTo(node);
+
       assertListHead(singleNodeList, node, null);
-      assertListTail(singleNodeList, node);
+      assertListTail(singleNodeList, node, null);
     }
 
     @Test
@@ -134,8 +141,9 @@ class LinkedList2Test {
       LinkedList2 singleNodeList = getListWith(nodes);
       List<Node> foundNodes = singleNodeList.findAll(2);
       assertThat(foundNodes).isEmpty();
+
       assertListHead(singleNodeList, node, null);
-      assertListTail(singleNodeList, node);
+      assertListTail(singleNodeList, node, null);
     }
 
     @Test
@@ -186,8 +194,9 @@ class LinkedList2Test {
       LinkedList2 list = getListWith(nodes);
       var notExistValue = 5;
       assertThat(list.find(notExistValue)).isNull();
+
       assertListHead(list, nodes.get(0), nodes.get(1));
-      assertListTail(list, nodes.get(3));
+      assertListTail(list, nodes.get(3), nodes.get(2));
     }
 
     @Test
@@ -210,8 +219,9 @@ class LinkedList2Test {
       assertThat(foundNodes.get(1)).isEqualTo(nodes.get(1));
       assertThat(foundNodes.get(2)).isEqualTo(nodes.get(2));
       assertThat(foundNodes.get(3)).isEqualTo(nodes.get(3));
+
       assertListHead(list, nodes.get(0), nodes.get(1));
-      assertListTail(list, nodes.get(3));
+      assertListTail(list, nodes.get(3), nodes.get(2));
     }
 
     private void assertThatFindTwoNodes(List<Node> testNodes, int nodeValue) {
@@ -220,8 +230,9 @@ class LinkedList2Test {
       assertThat(foundNodes).hasSize(2);
       assertThat(foundNodes.get(0).value).isEqualTo(nodeValue);
       assertThat(foundNodes.get(1).value).isEqualTo(nodeValue);
+
       assertListHead(list, testNodes.get(0), testNodes.get(1));
-      assertListTail(list, testNodes.get(3));
+      assertListTail(list, testNodes.get(3), testNodes.get(2));
     }
 
     private void assertThatFindOneNode(List<Node> testNodes, int nodeValue) {
@@ -229,8 +240,9 @@ class LinkedList2Test {
       List<Node> foundNodes = list.findAll(nodeValue);
       assertThat(foundNodes).hasSize(1);
       assertThat(foundNodes.get(0).value).isEqualTo(nodeValue);
+
       assertListHead(list, testNodes.get(0), testNodes.get(1));
-      assertListTail(list, testNodes.get(3));
+      assertListTail(list, testNodes.get(3), testNodes.get(2));
     }
   }
 
@@ -243,6 +255,7 @@ class LinkedList2Test {
     void shouldNotRemoveNodeInEmptyList() {
       LinkedList2 emptyList = getListWith(List.of());
       assertThat(emptyList.remove(1)).isFalse();
+
       assertThat(emptyList.head).isNull();
       assertThat(emptyList.tail).isNull();
     }
@@ -256,6 +269,7 @@ class LinkedList2Test {
       assertThat(singleNodeList.count()).isEqualTo(1);
       assertThat(singleNodeList.remove(value)).isTrue();
       assertThat(singleNodeList.count()).isZero();
+
       assertThat(singleNodeList.head).isNull();
       assertThat(singleNodeList.tail).isNull();
     }
@@ -270,8 +284,9 @@ class LinkedList2Test {
       assertThat(singleNodeList.count()).isEqualTo(1);
       assertThat(singleNodeList.remove(0)).isFalse();
       assertThat(singleNodeList.count()).isEqualTo(1);
+
       assertListHead(singleNodeList, node, null);
-      assertListTail(singleNodeList, node);
+      assertListTail(singleNodeList, node, null);
     }
 
     @Test
@@ -283,8 +298,9 @@ class LinkedList2Test {
       assertThat(list.count()).isEqualTo(nodes.size());
       assertThat(list.remove(value)).isTrue();
       assertThat(list.count()).isEqualTo(nodes.size() - 1);
+
       assertListHead(list, nodes.get(1), nodes.get(2));
-      assertListTail(list, nodes.get(3));
+      assertListTail(list, nodes.get(3), nodes.get(2));
     }
 
     @Test
@@ -296,8 +312,9 @@ class LinkedList2Test {
       assertThat(list.count()).isEqualTo(nodes.size());
       assertThat(list.remove(value)).isTrue();
       assertThat(list.count()).isEqualTo(nodes.size() - 1);
+
       assertListHead(list, nodes.get(0), nodes.get(1));
-      assertListTail(list, nodes.get(3));
+      assertListTail(list, nodes.get(3), nodes.get(1));
     }
 
     @Test
@@ -309,8 +326,9 @@ class LinkedList2Test {
       assertThat(list.count()).isEqualTo(nodes.size());
       assertThat(list.remove(value)).isTrue();
       assertThat(list.count()).isEqualTo(nodes.size() - 1);
+
       assertListHead(list, nodes.get(0), nodes.get(1));
-      assertListTail(list, nodes.get(2));
+      assertListTail(list, nodes.get(2), nodes.get(1));
     }
 
     @Test
@@ -322,8 +340,9 @@ class LinkedList2Test {
       assertThat(list.count()).isEqualTo(nodes.size());
       assertThat(list.remove(value)).isTrue();
       assertThat(list.count()).isEqualTo(nodes.size() - 1);
+
       assertListHead(list, nodes.get(0), nodes.get(2));
-      assertListTail(list, nodes.get(3));
+      assertListTail(list, nodes.get(3), nodes.get(2));
     }
 
     @Test
@@ -336,8 +355,9 @@ class LinkedList2Test {
       assertThat(list.count()).isEqualTo(nodes.size());
       assertThat(list.remove(notExistValue)).isFalse();
       assertThat(list.count()).isEqualTo(nodes.size());
+
       assertListHead(list, nodes.get(0), nodes.get(1));
-      assertListTail(list, nodes.get(3));
+      assertListTail(list, nodes.get(3), nodes.get(2));
     }
   }
 
@@ -349,6 +369,7 @@ class LinkedList2Test {
     void shouldCountEmptyList() {
       LinkedList2 emptyList = getListWith(List.of());
       assertThat(emptyList.count()).isZero();
+
       assertThat(emptyList.head).isNull();
       assertThat(emptyList.tail).isNull();
     }
@@ -361,18 +382,20 @@ class LinkedList2Test {
       Node node = nodes.get(0);
       LinkedList2 singleNodeList = getListWith(nodes);
       assertThat(singleNodeList.count()).isEqualTo(value);
+
       assertListHead(singleNodeList, node, null);
-      assertListTail(singleNodeList, node);
+      assertListTail(singleNodeList, node, null);
     }
 
     @Test
     @DisplayName("should count nodes in list")
     void shouldCountList() {
-      List<Node> nodes = getNodes(List.of(1, 2, 3, 4));
+      List<Node> nodes = getNodes(List.of(0, 1, 2, 3));
       LinkedList2 singleNodeList = getListWith(nodes);
       assertThat(singleNodeList.count()).isEqualTo(nodes.size());
+
       assertListHead(singleNodeList, nodes.get(0), nodes.get(1));
-      assertListTail(singleNodeList, nodes.get(3));
+      assertListTail(singleNodeList, nodes.get(3), nodes.get(2));
     }
   }
 
@@ -386,6 +409,7 @@ class LinkedList2Test {
       assertThat(emptyList.count()).isZero();
       emptyList.clear();
       assertThat(emptyList.count()).isZero();
+
       assertThat(emptyList.head).isNull();
       assertThat(emptyList.tail).isNull();
     }
@@ -398,6 +422,7 @@ class LinkedList2Test {
       assertThat(list.count()).isEqualTo(nodes.size());
       list.clear();
       assertThat(list.count()).isZero();
+
       assertThat(list.head).isNull();
       assertThat(list.tail).isNull();
     }
@@ -425,17 +450,20 @@ class LinkedList2Test {
     if (headNext == null) {
       assertThat(list.head).isEqualTo(head);
       assertThat(list.head.next).isNull();
+      assertThat(list.head.prev).isNull();
     } else {
       assertThat(list.head).isEqualTo(head);
       assertThat(list.head.next).isEqualTo(headNext);
+      assertThat(list.head.prev).isNull();
     }
   }
 
-  private void assertListTail(LinkedList2 list, Node tail) {
+  private void assertListTail(LinkedList2 list, Node tail, Node tailPrev) {
     if (tail == null) {
       throw new IllegalArgumentException("Expected Tail can't be null");
     }
     assertThat(list.tail).isEqualTo(tail);
+    assertThat(list.tail.prev).isEqualTo(tailPrev);
     assertThat(list.tail.next).isNull();
   }
 }
