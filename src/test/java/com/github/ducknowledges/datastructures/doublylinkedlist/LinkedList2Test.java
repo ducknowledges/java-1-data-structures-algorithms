@@ -139,11 +139,35 @@ class LinkedList2Test {
     }
 
     @Test
+    @DisplayName("should find node in head by value in list")
+    void shouldFindNodeInHead() {
+      int value = 0;
+      List<Node> nodes = getNodes(List.of(value, 1, 2, 3));
+      this.assertThatFindOneNode(nodes, value);
+    }
+
+    @Test
+    @DisplayName("should find node in middle by value in list")
+    void shouldFindNodeInMiddle() {
+      int value = 2;
+      List<Node> nodes = getNodes(List.of(0, 1, value, 3));
+      this.assertThatFindOneNode(nodes, value);
+    }
+
+    @Test
+    @DisplayName("should find node in tail by value in list")
+    void shouldFindNodeInTail() {
+      int value = 3;
+      List<Node> nodes = getNodes(List.of(0, 1, 2, value));
+      this.assertThatFindOneNode(nodes, value);
+    }
+
+    @Test
     @DisplayName("should find node by value with repeating head nodes in list")
     void shouldFindAllNodesInRepeatingHeadNodes() {
       int value = 0;
       List<Node> nodes = getNodes(List.of(value, value, 1, 2));
-      this.assertThatFindAllNodes(nodes, value);
+      this.assertThatFindTwoNodes(nodes, value);
     }
 
     @Test
@@ -151,7 +175,7 @@ class LinkedList2Test {
     void shouldFindAllNodesInRepeatingMiddleNodes() {
       int value = 1;
       List<Node> nodes = getNodes(List.of(0, value, value, 2));
-      this.assertThatFindAllNodes(nodes, value);
+      this.assertThatFindTwoNodes(nodes, value);
     }
 
     @Test
@@ -171,7 +195,7 @@ class LinkedList2Test {
     void shouldFindAllNodeInRepeatingTailNodes() {
       int value = 2;
       List<Node> nodes = getNodes(List.of(0, 1, value, value));
-      this.assertThatFindAllNodes(nodes, value);
+      this.assertThatFindTwoNodes(nodes, value);
     }
 
     @Test
@@ -190,12 +214,21 @@ class LinkedList2Test {
       assertListTail(list, nodes.get(3));
     }
 
-    private void assertThatFindAllNodes(List<Node> testNodes, int nodeValue) {
+    private void assertThatFindTwoNodes(List<Node> testNodes, int nodeValue) {
       LinkedList2 list = getListWith(testNodes);
       List<Node> foundNodes = list.findAll(nodeValue);
       assertThat(foundNodes).hasSize(2);
       assertThat(foundNodes.get(0).value).isEqualTo(nodeValue);
       assertThat(foundNodes.get(1).value).isEqualTo(nodeValue);
+      assertListHead(list, testNodes.get(0), testNodes.get(1));
+      assertListTail(list, testNodes.get(3));
+    }
+
+    private void assertThatFindOneNode(List<Node> testNodes, int nodeValue) {
+      LinkedList2 list = getListWith(testNodes);
+      List<Node> foundNodes = list.findAll(nodeValue);
+      assertThat(foundNodes).hasSize(1);
+      assertThat(foundNodes.get(0).value).isEqualTo(nodeValue);
       assertListHead(list, testNodes.get(0), testNodes.get(1));
       assertListTail(list, testNodes.get(3));
     }
