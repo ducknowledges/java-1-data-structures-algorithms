@@ -9,6 +9,7 @@ public class LinkedList2 {
   public LinkedList2() {
     head = null;
     tail = null;
+    length = 0;
   }
 
   public void addInTail(Node _item) {
@@ -35,9 +36,14 @@ public class LinkedList2 {
     return null;
   }
 
-
   public int count() {
     return length;
+  }
+
+  public void clear() {
+    this.head = null;
+    this.tail = null;
+    this.length = 0;
   }
 
 }

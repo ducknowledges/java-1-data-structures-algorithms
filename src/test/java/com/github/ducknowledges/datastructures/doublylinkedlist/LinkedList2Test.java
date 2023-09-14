@@ -27,6 +27,8 @@ class LinkedList2Test {
       new Node(1), new Node(1), new Node(1), new Node(1)
   );
 
+
+
   @Nested
   @DisplayName("find")
   class Find {
@@ -141,6 +143,34 @@ class LinkedList2Test {
     }
   }
 
+
+
+  @Nested
+  @DisplayName("clear")
+  class Clear {
+    @Test
+    @DisplayName("should clear empty list")
+    void shouldClearEmptyList() {
+      LinkedList2 emptyList = getListWith(List.of());
+      assertThat(emptyList.count()).isZero();
+      emptyList.clear();
+      assertThat(emptyList.count()).isZero();
+      assertThat(emptyList.head).isNull();
+      assertThat(emptyList.tail).isNull();
+    }
+
+    @Test
+    @DisplayName("should clear list")
+    void shouldClearList() {
+      LinkedList2 list = getListWith(nodes);
+      assertThat(list.count()).isEqualTo(nodes.size());
+      list.clear();
+      assertThat(list.count()).isZero();
+      assertThat(list.head).isNull();
+      assertThat(list.tail).isNull();
+    }
+  }
+
   private LinkedList2 getListWith(List<Node> nodes) {
     LinkedList2 list = new LinkedList2();
     for (Node node: nodes) {
@@ -169,5 +199,4 @@ class LinkedList2Test {
     assertThat(list.tail).isEqualTo(tail);
     assertThat(list.tail.next).isNull();
   }
-
 }
