@@ -16,7 +16,7 @@ public class LinkedList2 {
   }
 
   public void addInTail(Node _item) {
-    if (head == null) {
+    if (this.head == null) {
       this.head = _item;
       this.head.next = null;
       this.head.prev = null;
@@ -128,6 +128,33 @@ public class LinkedList2 {
     this.length = 0;
   }
 
+  public void insertAfter(Node _nodeAfter, Node _nodeToInsert) {
+    if (_nodeAfter == null) {
+      this.addInHead(_nodeToInsert);
+    } else {
+      if (this.tail == _nodeAfter) {
+        this.tail = _nodeToInsert;
+      } else {
+        _nodeAfter.next.prev = _nodeToInsert;
+      }
+      _nodeToInsert.next = _nodeAfter.next;
+      _nodeAfter.next = _nodeToInsert;
+      _nodeToInsert.prev = _nodeAfter;
+      this.length++;
+    }
+  }
+
+  public void addInHead(Node _item) {
+    if (this.head == null) {
+      this.head = _item;
+      this.tail = _item;
+    } else {
+      _item.next = this.head;
+      this.head.prev = _item;
+      this.head = _item;
+    }
+    this.length++;
+  }
 }
 
 class Node {

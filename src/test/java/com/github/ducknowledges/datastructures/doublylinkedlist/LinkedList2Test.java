@@ -392,7 +392,7 @@ class LinkedList2Test {
     }
 
     @Test
-    @DisplayName("should not remove all nodes by value in single nodelist")
+    @DisplayName("should not remove all nodes by value in single node list")
     void shouldNotRemoveAllNodesInSingleNodeList() {
       int value = 1;
       int notExistValue = 2;
@@ -583,6 +583,149 @@ class LinkedList2Test {
 
       assertThat(list.head).isNull();
       assertThat(list.tail).isNull();
+    }
+  }
+
+  @Nested
+  @DisplayName("insert node")
+  class InsertAfter {
+    @Test
+    @DisplayName("should insert in empty list")
+    void shouldInsertInEmptyList() {
+      LinkedList2 emptyList = getListWith(List.of());
+      Node node = new Node(1);
+      assertThat(emptyList.count()).isZero();
+      emptyList.insertAfter(null, node);
+      assertThat(emptyList.count()).isEqualTo(1);
+
+      assertListHead(emptyList, node, null);
+      assertListTail(emptyList, node, null);
+    }
+
+    @Test
+    @DisplayName("should insert before in single node list")
+    void shouldInsertBeforeInSingleList() {
+      int value = 1;
+      List<Node> nodes = getNodes(List.of(value));
+      Node node = nodes.get(0);
+      Node insertNode = new Node(2);
+      LinkedList2 singleNodeList = getListWith(nodes);
+      assertThat(singleNodeList.count()).isEqualTo(nodes.size());
+      singleNodeList.insertAfter(null, insertNode);
+      assertThat(singleNodeList.count()).isEqualTo(nodes.size() + 1);
+
+      assertListHead(singleNodeList, insertNode, node);
+      assertListTail(singleNodeList, node, insertNode);
+    }
+
+    @Test
+    @DisplayName("should insert after in single node list")
+    void shouldInsertAfterInSingleList() {
+      int value = 1;
+      List<Node> nodes = getNodes(List.of(value));
+      Node node = nodes.get(0);
+      Node insertNode = new Node(2);
+      LinkedList2 singleNodeList = getListWith(nodes);
+      assertThat(singleNodeList.count()).isEqualTo(nodes.size());
+      singleNodeList.insertAfter(node, insertNode);
+      assertThat(singleNodeList.count()).isEqualTo(nodes.size() + 1);
+
+      assertListHead(singleNodeList, node, insertNode);
+      assertListTail(singleNodeList, insertNode, node);
+
+    }
+
+    @Test
+    @DisplayName("should insert node after head")
+    void shouldInsertAfterHead() {
+      int index = 0;
+      List<Node> nodes = getNodes(List.of(index, 1, 2, 3));
+      Node node = new Node(4);
+      LinkedList2 list = getListWith(nodes);
+      assertThat(list.count()).isEqualTo(nodes.size());
+      list.insertAfter(nodes.get(index), node);
+      assertThat(list.count()).isEqualTo(nodes.size() + 1);
+
+      assertListHead(list, nodes.get(0), node);
+      assertListTail(list, nodes.get(3), nodes.get(2));
+    }
+
+    @Test
+    @DisplayName("should insert node after middle node")
+    void shouldInsertAfterMiddle() {
+      int index = 2;
+      List<Node> nodes = getNodes(List.of(0, 1, index, 3));
+      Node node = new Node(4);
+      LinkedList2 list = getListWith(nodes);
+      assertThat(list.count()).isEqualTo(nodes.size());
+      list.insertAfter(nodes.get(2), node);
+      assertThat(list.count()).isEqualTo(nodes.size() + 1);
+
+      assertListHead(list, nodes.get(0), nodes.get(1));
+      assertListTail(list, nodes.get(3), node);
+    }
+
+    @Test
+    @DisplayName("should insert node after tail")
+    void shouldInsertAfterTail() {
+      int index = 3;
+      List<Node> nodes = getNodes(List.of(0, 1, 2, index));
+      Node node = new Node(4);
+      LinkedList2 list = getListWith(nodes);
+      assertThat(list.count()).isEqualTo(nodes.size());
+      list.insertAfter(nodes.get(index), node);
+      assertThat(list.count()).isEqualTo(nodes.size() + 1);
+
+      assertListHead(list, nodes.get(0), nodes.get(1));
+      assertListTail(list, node, nodes.get(3));
+    }
+  }
+
+  @Nested
+  @DisplayName("add head")
+  class AddHead {
+    @Test
+    @DisplayName("should add head in empty list")
+    void shouldAddHeadInEmptyList() {
+      LinkedList2 emptyList = getListWith(List.of());
+      Node node = new Node(1);
+      assertThat(emptyList.count()).isZero();
+      emptyList.addInHead(node);
+      assertThat(emptyList.count()).isEqualTo(1);
+
+      assertListHead(emptyList, node, null);
+      assertListTail(emptyList, node, null);
+    }
+
+    @Test
+    @DisplayName("should add head in single node list")
+    void shouldAddHeadInSingleList() {
+      int value = 1;
+      List<Node> nodes = getNodes(List.of(value));
+      Node node = nodes.get(0);
+      Node insertNode = new Node(2);
+      LinkedList2 singleNodeList = getListWith(nodes);
+      assertThat(singleNodeList.count()).isEqualTo(nodes.size());
+      singleNodeList.addInHead(insertNode);
+      assertThat(singleNodeList.count()).isEqualTo(nodes.size() + 1);
+
+      assertListHead(singleNodeList, insertNode, node);
+      assertListTail(singleNodeList, node, insertNode);
+    }
+
+    @Test
+    @DisplayName("should add head in list")
+    void shouldAddHead() {
+      int index = 0;
+      List<Node> nodes = getNodes(List.of(index, 1, 2, 3));
+      Node node = new Node(4);
+      LinkedList2 list = getListWith(nodes);
+      assertThat(list.count()).isEqualTo(nodes.size());
+      list.addInHead(node);
+      assertThat(list.count()).isEqualTo(nodes.size() + 1);
+
+      assertListHead(list, node, nodes.get(index));
+      assertListTail(list, nodes.get(3), nodes.get(2));
     }
   }
 
