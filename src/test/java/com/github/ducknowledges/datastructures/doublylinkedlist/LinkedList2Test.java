@@ -3,31 +3,13 @@ package com.github.ducknowledges.datastructures.doublylinkedlist;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Doubly linked list")
 class LinkedList2Test {
-
-  private final Node node = new Node(1);
-  private final List<Node> nodes = List.of(
-      new Node(0), new Node(1), new Node(2), new Node(3)
-  );
-  private final List<Node> repeatInBeginNodes = List.of(
-      new Node(1), new Node(1), new Node(2), new Node(3)
-  );
-  private final List<Node> repeatInMiddleNodes = List.of(
-      new Node(0), new Node(1), new Node(1), new Node(2)
-  );
-  private final List<Node> repeatInEndNodes = List.of(
-      new Node(1), new Node(2), new Node(3), new Node(3)
-  );
-  private final List<Node> repeatInAllNodes = List.of(
-      new Node(1), new Node(1), new Node(1), new Node(1)
-  );
-
-
 
   @Nested
   @DisplayName("find")
@@ -42,10 +24,13 @@ class LinkedList2Test {
     }
 
     @Test
-    @DisplayName("should find should find node by value in single node list")
+    @DisplayName("should find node by value in single node list")
     void shouldFindNodeInSingleList() {
-      LinkedList2 singleNodeList = getListWith(List.of(node));
-      assertThat(singleNodeList.find(node.value)).isEqualTo(node);
+      int value = 1;
+      List<Node> nodes = getNodes(List.of(value));
+      Node node = nodes.get(0);
+      LinkedList2 singleNodeList = getListWith(nodes);
+      assertThat(singleNodeList.find(value)).isEqualTo(node);
       assertListHead(singleNodeList, node, null);
       assertListTail(singleNodeList, node);
     }
@@ -53,7 +38,10 @@ class LinkedList2Test {
     @Test
     @DisplayName("should find no node by value in single node list")
     void shouldFindNoNodeInSingleList() {
-      LinkedList2 singleNodeList = getListWith(List.of(node));
+      int value = 1;
+      List<Node> nodes = getNodes(List.of(value));
+      Node node = nodes.get(0);
+      LinkedList2 singleNodeList = getListWith(nodes);
       assertThat(singleNodeList.find(100)).isNull();
       assertListHead(singleNodeList, node, null);
       assertListTail(singleNodeList, node);
@@ -62,46 +50,45 @@ class LinkedList2Test {
     @Test
     @DisplayName("should find node in head by value in list")
     void shouldFindNodeInHead() {
-      var headNodeValue = 0;
-      this.assertThatFindNode(nodes, headNodeValue);
+      int value = 0;
+      List<Node> nodes = getNodes(List.of(value, 1, 2, 3));
+      this.assertThatFindNode(nodes, value);
     }
 
     @Test
     @DisplayName("should find node in middle by value in list")
     void shouldFindNodeInMiddle() {
-      var middleNodeValue = 2;
-      this.assertThatFindNode(nodes, middleNodeValue);
+      int value = 2;
+      List<Node> nodes = getNodes(List.of(0, 1, value, 3));
+      this.assertThatFindNode(nodes, value);
     }
 
     @Test
     @DisplayName("should find node in tail by value in list")
     void shouldFindNodeInTail() {
-      var tailNodeValue = 3;
-      this.assertThatFindNode(nodes, tailNodeValue);
+      int value = 3;
+      List<Node> nodes = getNodes(List.of(0, 1, 2, value));
+      this.assertThatFindNode(nodes, value);
     }
 
     @Test
     @DisplayName("should find node by value with repeating nodes in list")
     void shouldFindNodeInRepeatingNodes() {
-      LinkedList2 list = getListWith(repeatInMiddleNodes);
-      var value = 1;
-      assertThat(list.find(value)).isEqualTo(repeatInMiddleNodes.get(value));
-      assertThat(list.head).isEqualTo(repeatInMiddleNodes.get(0));
-      assertThat(list.head.next).isEqualTo(repeatInMiddleNodes.get(1));
-      assertThat(list.tail).isEqualTo(repeatInMiddleNodes.get(3));
-      assertThat(list.tail.next).isNull();
+      int value = 1;
+      List<Node> nodes = getNodes(List.of(0, value, value, 2));
+      this.assertThatFindNode(nodes, value);
     }
 
     @Test
-    @DisplayName("should find no node by value with repeating nodes in list")
+    @DisplayName("should find no node by value in list")
     void shouldFindNoNodeInRepeatingNodes() {
-      LinkedList2 list = getListWith(repeatInMiddleNodes);
-      var value = 5;
-      assertThat(list.find(value)).isNull();
-      assertThat(list.head).isEqualTo(repeatInMiddleNodes.get(0));
-      assertThat(list.head.next).isEqualTo(repeatInMiddleNodes.get(1));
-      assertThat(list.tail).isEqualTo(repeatInMiddleNodes.get(3));
-      assertThat(list.tail.next).isNull();
+      int value = 1;
+      List<Node> nodes = getNodes(List.of(0, value, value, 2));
+      LinkedList2 list = getListWith(nodes);
+      var notExistValue = 5;
+      assertThat(list.find(notExistValue)).isNull();
+      assertListHead(list, nodes.get(0), nodes.get(1));
+      assertListTail(list, nodes.get(3));
     }
 
     private void assertThatFindNode(List<Node> testNodes, int nodeValue) {
@@ -127,8 +114,11 @@ class LinkedList2Test {
     @Test
     @DisplayName("should count nodes in single node list")
     void shouldCountSingleNodeList() {
-      LinkedList2 singleNodeList = getListWith(List.of(node));
-      assertThat(singleNodeList.count()).isEqualTo(1);
+      int value = 1;
+      List<Node> nodes = getNodes(List.of(value));
+      Node node = nodes.get(0);
+      LinkedList2 singleNodeList = getListWith(nodes);
+      assertThat(singleNodeList.count()).isEqualTo(value);
       assertListHead(singleNodeList, node, null);
       assertListTail(singleNodeList, node);
     }
@@ -136,14 +126,13 @@ class LinkedList2Test {
     @Test
     @DisplayName("should count nodes in list")
     void shouldCountList() {
+      List<Node> nodes = getNodes(List.of(1, 2, 3, 4));
       LinkedList2 singleNodeList = getListWith(nodes);
       assertThat(singleNodeList.count()).isEqualTo(nodes.size());
       assertListHead(singleNodeList, nodes.get(0), nodes.get(1));
       assertListTail(singleNodeList, nodes.get(3));
     }
   }
-
-
 
   @Nested
   @DisplayName("clear")
@@ -162,6 +151,7 @@ class LinkedList2Test {
     @Test
     @DisplayName("should clear list")
     void shouldClearList() {
+      List<Node> nodes = getNodes(List.of(1, 2, 3, 4));
       LinkedList2 list = getListWith(nodes);
       assertThat(list.count()).isEqualTo(nodes.size());
       list.clear();
@@ -169,6 +159,13 @@ class LinkedList2Test {
       assertThat(list.head).isNull();
       assertThat(list.tail).isNull();
     }
+  }
+
+  private List<Node> getNodes(List<Integer> values) {
+    return values
+        .stream()
+        .map(Node::new)
+        .collect(Collectors.toList());
   }
 
   private LinkedList2 getListWith(List<Node> nodes) {
