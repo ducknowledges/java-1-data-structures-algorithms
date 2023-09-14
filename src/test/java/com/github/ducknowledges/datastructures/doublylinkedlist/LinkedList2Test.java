@@ -362,6 +362,164 @@ class LinkedList2Test {
   }
 
   @Nested
+  @DisplayName("remove all")
+  class RemoveAll {
+    @Test
+    @DisplayName("should not remove all nodes by value in empty list")
+    void shouldRemoveNodeInEmptyList() {
+      int notExistValue = 1;
+      LinkedList2 emptyList = getListWith(List.of());
+      assertThat(emptyList.count()).isZero();
+      emptyList.removeAll(notExistValue);
+      assertThat(emptyList.count()).isZero();
+
+      assertThat(emptyList.head).isNull();
+      assertThat(emptyList.tail).isNull();
+    }
+
+    @Test
+    @DisplayName("should remove all nodes by value in single node list")
+    void shouldRemoveAllNodesInSingleNodeList() {
+      int value = 1;
+      List<Node> nodes = getNodes(List.of(value));
+      LinkedList2 singleNodeList = getListWith(nodes);
+      assertThat(singleNodeList.count()).isEqualTo(nodes.size());
+      singleNodeList.removeAll(value);
+      assertThat(singleNodeList.count()).isZero();
+
+      assertThat(singleNodeList.head).isNull();
+      assertThat(singleNodeList.tail).isNull();
+    }
+
+    @Test
+    @DisplayName("should not remove all nodes by value in single nodelist")
+    void shouldNotRemoveAllNodesInSingleNodeList() {
+      int value = 1;
+      int notExistValue = 2;
+      List<Node> nodes = getNodes(List.of(value));
+      LinkedList2 singleNodeList = getListWith(nodes);
+      assertThat(singleNodeList.count()).isEqualTo(nodes.size());
+      singleNodeList.removeAll(notExistValue);
+      assertThat(singleNodeList.count()).isEqualTo(nodes.size());
+
+      Node node = nodes.get(0);
+      assertListHead(singleNodeList, node, null);
+      assertListTail(singleNodeList, node, null);
+    }
+
+    @Test
+    @DisplayName("should remove node in head by value")
+    void shouldRemoveNodeInHead() {
+      int value = 0;
+      List<Node> nodes = getNodes(List.of(value, 1, 2, 3));
+      LinkedList2 list = getListWith(nodes);
+      assertThat(list.count()).isEqualTo(nodes.size());
+      list.removeAll(value);
+      assertThat(list.count()).isEqualTo(nodes.size() - 1);
+
+      assertListHead(list, nodes.get(1), nodes.get(2));
+      assertListTail(list, nodes.get(3), nodes.get(2));
+    }
+
+    @Test
+    @DisplayName("should remove node in middle by value")
+    void shouldRemoveNodeInMiddle() {
+      int value = 2;
+      List<Node> nodes = getNodes(List.of(0, 1, value, 3));
+      LinkedList2 list = getListWith(nodes);
+      assertThat(list.count()).isEqualTo(nodes.size());
+      list.remove(value);
+      assertThat(list.count()).isEqualTo(nodes.size() - 1);
+
+      assertListHead(list, nodes.get(0), nodes.get(1));
+      assertListTail(list, nodes.get(3), nodes.get(1));
+    }
+
+    @Test
+    @DisplayName("should remove node in tail by value")
+    void shouldRemoveNodeInTail() {
+      int value = 3;
+      List<Node> nodes = getNodes(List.of(0, 1, 2, value));
+      LinkedList2 list = getListWith(nodes);
+      assertThat(list.count()).isEqualTo(nodes.size());
+      list.removeAll(value);
+      assertThat(list.count()).isEqualTo(nodes.size() - 1);
+
+      assertListHead(list, nodes.get(0), nodes.get(1));
+      assertListTail(list, nodes.get(2), nodes.get(1));
+    }
+
+    @Test
+    @DisplayName("should remove all repeating nodes in head by value")
+    void shouldRemoveAllRepeatingNodesInHead() {
+      int value = 0;
+      List<Node> nodes = getNodes(List.of(value, value, 1, 2));
+      LinkedList2 list = getListWith(nodes);
+      assertThat(list.count()).isEqualTo(nodes.size());
+      list.removeAll(value);
+      assertThat(list.count()).isEqualTo(nodes.size() - 2);
+
+      assertListHead(list, nodes.get(2), nodes.get(3));
+      assertListTail(list, nodes.get(3), nodes.get(2));
+    }
+
+    @Test
+    @DisplayName("should remove all repeating nodes in middle by value")
+    void shouldRemoveAllRepeatingNodesInMiddle() {
+      int value = 1;
+      List<Node> nodes = getNodes(List.of(0, value, value, 2));
+      LinkedList2 list = getListWith(nodes);
+      assertThat(list.count()).isEqualTo(nodes.size());
+      list.removeAll(value);
+      assertThat(list.count()).isEqualTo(nodes.size() - 2);
+
+      assertListHead(list, nodes.get(0), nodes.get(3));
+      assertListTail(list, nodes.get(3), nodes.get(0));
+    }
+
+    @Test
+    @DisplayName("should not remove repeating nodes in middle by value")
+    void shouldNotRemoveRepeatingNodesInMiddle() {
+      int value = 1;
+      List<Node> nodes = getNodes(List.of(0, value, value, 2));
+      LinkedList2 list = getListWith(nodes);
+      var notExistValue = 5;
+      list.removeAll(notExistValue);
+
+      assertListHead(list, nodes.get(0), nodes.get(1));
+      assertListTail(list, nodes.get(3), nodes.get(2));
+    }
+
+    @Test
+    @DisplayName("should remove all repeating nodes in tail by value")
+    void shouldRemoveAllRepeatingNodesInTail() {
+      int value = 2;
+      List<Node> nodes = getNodes(List.of(0, 1, value, value));
+      LinkedList2 list = getListWith(nodes);
+      assertThat(list.count()).isEqualTo(nodes.size());
+      list.removeAll(value);
+      assertThat(list.count()).isEqualTo(nodes.size() - 2);
+
+      assertListHead(list, nodes.get(0), nodes.get(1));
+      assertListTail(list, nodes.get(1), nodes.get(0));
+    }
+
+    @Test
+    @DisplayName("should remove all repeating nodes by value")
+    void shouldRemoveAllNodesInRepeatingNodes() {
+      int value = 1;
+      List<Node> nodes = getNodes(List.of(value, value, value, value));
+      LinkedList2 singleNodeList = getListWith(nodes);
+      assertThat(singleNodeList.count()).isEqualTo(nodes.size());
+      singleNodeList.removeAll(value);
+      assertThat(singleNodeList.count()).isZero();
+
+      assertThat(singleNodeList.head).isNull();
+      assertThat(singleNodeList.tail).isNull();
+    }
+  }
+
+  @Nested
   @DisplayName("count")
   class Count {
     @Test

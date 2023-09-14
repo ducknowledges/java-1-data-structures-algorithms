@@ -87,6 +87,37 @@ public class LinkedList2 {
     return false;
   }
 
+  public void removeAll(int _value) {
+    if (this.head == null) return;
+    Node previousPointer = null;
+    Node currentPointer = this.head;
+    while (currentPointer != null) {
+      if (currentPointer.value == _value) {
+        if (previousPointer == null) {
+          if (currentPointer.next == null) {
+            this.head = null;
+          } else {
+            this.head = currentPointer.next;
+            this.head.prev = null;
+          }
+        } else {
+          if (currentPointer.next != null) {
+            currentPointer.next.prev = previousPointer;
+          }
+          previousPointer.next = currentPointer.next;
+        }
+        if (currentPointer == tail) {
+          tail = previousPointer;
+        }
+        currentPointer = currentPointer.next;
+        this.length--;
+      } else {
+        previousPointer = currentPointer;
+        currentPointer = currentPointer.next;
+      }
+    }
+  }
+
   public int count() {
     return length;
   }
