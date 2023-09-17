@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 @DisplayName("Dynamic array")
 class DynArrayTest {
 
+  private final static int DEF_CAPACITY = 16;
+
   @Nested
   @DisplayName("make array")
   class MakeArray {
@@ -37,4 +39,62 @@ class DynArrayTest {
       assertThat(dynArray.array).isEqualTo(expectedArray);
     }
   }
+
+  @Nested
+  @DisplayName("append")
+  class Append {
+    @Test
+    @DisplayName("should append elements")
+    void shouldAppendElements() {
+      Integer[] expected = new Integer[] {1, 2, 3};
+      DynArray<Integer> dynArray = getDynArray(expected);
+      assertThat(dynArray.array[0]).isEqualTo(expected[0]);
+      assertThat(dynArray.array[1]).isEqualTo(expected[1]);
+      assertThat(dynArray.array[2]).isEqualTo(expected[2]);
+    }
+
+    @Test
+    @DisplayName("should append element without increasing capacity")
+    void shouldAppendElementWithoutIncreasingCapacity() {
+      Integer[] arr = getIntegerArray(16);
+      DynArray<Integer> dynArray = getDynArray(arr);
+
+      assertThat(dynArray.count).isEqualTo(arr.length);
+      assertThat(dynArray.capacity).isEqualTo(DEF_CAPACITY);
+      assertThat(dynArray.array).hasSize(DEF_CAPACITY);
+    }
+
+    @Test
+    @DisplayName("should append element with increasing capacity")
+    void shouldAppendElementWithIncreasingCapacity() {
+      int length = DEF_CAPACITY * 2;
+      int expectedCapacity = DEF_CAPACITY * 4;
+      int expectedValue = 999;
+      Integer[] arr = getIntegerArray(length);
+      DynArray<Integer> dynArray = getDynArray(arr);
+      dynArray.append(expectedValue);
+      assertThat(dynArray.array[length]).isEqualTo(expectedValue);
+      assertThat(dynArray.count).isEqualTo(length + 1);
+      assertThat(dynArray.capacity).isEqualTo(expectedCapacity);
+      assertThat(dynArray.array).hasSize(expectedCapacity);
+    }
+
+    private DynArray<Integer> getDynArray(Integer[] array) {
+      DynArray<Integer> dynArr = new DynArray<>(Integer.class);
+      for (Integer integer : array) {
+        dynArr.append(integer);
+      }
+      return dynArr;
+    }
+
+    private Integer[] getIntegerArray(int length) {
+      Integer[] arr = new Integer[length];
+      for (int i = 0; i < length; i++) {
+        arr[i] = i;
+      }
+      return arr;
+    }
+  }
+
+
 }
