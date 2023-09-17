@@ -26,6 +26,18 @@ public class DynArray<T> {
     }
   }
 
+  public T getItem(int index) {
+    this.checkIndexInRange(index);
+    return array[index];
+  }
+
+  private void checkIndexInRange(int index) {
+    if (index >= count || index < 0) {
+      String message = String.format("Index %d out of bounds for length %d", index, count);
+      throw new ArrayIndexOutOfBoundsException(message);
+    }
+  }
+
   public void append(T itm) {
     if (count == capacity) {
       this.grow();

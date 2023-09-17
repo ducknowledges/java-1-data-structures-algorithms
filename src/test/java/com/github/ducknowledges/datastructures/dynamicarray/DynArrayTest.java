@@ -1,6 +1,7 @@
 package com.github.ducknowledges.datastructures.dynamicarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -78,23 +79,73 @@ class DynArrayTest {
       assertThat(dynArray.capacity).isEqualTo(expectedCapacity);
       assertThat(dynArray.array).hasSize(expectedCapacity);
     }
+  }
 
-    private DynArray<Integer> getDynArray(Integer[] array) {
-      DynArray<Integer> dynArr = new DynArray<>(Integer.class);
-      for (Integer integer : array) {
-        dynArr.append(integer);
-      }
-      return dynArr;
+  @Nested
+  @DisplayName("get item")
+  class GetItem {
+    @Test
+    @DisplayName("should get item by index")
+    void shouldGetItem() {
+      int length = 4;
+      Integer[] arr = getIntegerArray(length);
+      DynArray<Integer> dynArr = getDynArray(arr);
+      assertThat(dynArr.getItem(3)).isEqualTo(arr[3]);
     }
 
-    private Integer[] getIntegerArray(int length) {
-      Integer[] arr = new Integer[length];
-      for (int i = 0; i < length; i++) {
-        arr[i] = i;
-      }
-      return arr;
+    @Test
+    @DisplayName("should throw ArrayIndexOutOfBoundsException if array is empty")
+    void shouldThrowExceptionIfEmptyArray() {
+      int outIndex = 0;
+      int length = 0;
+      String expected = String.format("Index %d out of bounds for length %d", outIndex, length);
+      Integer[] arr = getIntegerArray(length);
+      DynArray<Integer> dynArr = getDynArray(arr);
+      assertThatThrownBy(() -> dynArr.getItem(outIndex))
+          .isInstanceOf(ArrayIndexOutOfBoundsException.class)
+          .hasMessage(expected);
+    }
+
+    @Test
+    @DisplayName("should throw ArrayIndexOutOfBoundsException if index is negative")
+    void shouldThrowIndexOutOfBoundExceptionIfNegativeIndex() {
+      int outIndex = -1;
+      int length = 3;
+      String expected = String.format("Index %d out of bounds for length %d", outIndex, length);
+      Integer[] arr = getIntegerArray(length);
+      DynArray<Integer> dynArr = getDynArray(arr);
+      assertThatThrownBy(() -> dynArr.getItem(outIndex))
+          .isInstanceOf(IndexOutOfBoundsException.class)
+          .hasMessage(expected);
+    }
+
+    @Test()
+    @DisplayName("should throw ArrayIndexOutOfBoundsException if index out of max index")
+    void shouldThrowIndexOutOfBoundExceptionIfIndexOutOfMaxIndex() {
+      int outIndex = 3;
+      int length = 3;
+      String expected = String.format("Index %d out of bounds for length %d", outIndex, length);
+      Integer[] arr = getIntegerArray(length);
+      DynArray<Integer> dynArr = getDynArray(arr);
+      assertThatThrownBy(() -> dynArr.getItem(outIndex))
+          .isInstanceOf(IndexOutOfBoundsException.class)
+          .hasMessage(expected);
     }
   }
 
+  private DynArray<Integer> getDynArray(Integer[] array) {
+    DynArray<Integer> dynArr = new DynArray<>(Integer.class);
+    for (Integer integer : array) {
+      dynArr.append(integer);
+    }
+    return dynArr;
+  }
 
+  private Integer[] getIntegerArray(int length) {
+    Integer[] arr = new Integer[length];
+    for (int i = 0; i < length; i++) {
+      arr[i] = i;
+    }
+    return arr;
+  }
 }
