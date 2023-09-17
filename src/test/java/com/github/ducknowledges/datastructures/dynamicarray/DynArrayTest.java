@@ -23,6 +23,8 @@ class DynArrayTest {
       Integer[] expectedArray =  new Integer[16];
       DynArray<Integer> dynArray = new DynArray<>(Integer.class);
 
+      assertThat(dynArray.capacity).isEqualTo(expected);
+      assertThat(dynArray.array).hasSize(expected);
       dynArray.makeArray(capacity);
       assertThat(dynArray.capacity).isEqualTo(expected);
       assertThat(dynArray.array).isEqualTo(expectedArray);
@@ -89,8 +91,8 @@ class DynArrayTest {
     void shouldGetItem() {
       int length = 4;
       Integer[] arr = getIntegerArray(length);
-      DynArray<Integer> dynArr = getDynArray(arr);
-      assertThat(dynArr.getItem(3)).isEqualTo(arr[3]);
+      DynArray<Integer> dynArray = getDynArray(arr);
+      assertThat(dynArray.getItem(3)).isEqualTo(arr[3]);
     }
 
     @Test
@@ -100,8 +102,8 @@ class DynArrayTest {
       int length = 0;
       String expected = String.format("Index %d out of bounds for length %d", outIndex, length);
       Integer[] arr = getIntegerArray(length);
-      DynArray<Integer> dynArr = getDynArray(arr);
-      assertThatThrownBy(() -> dynArr.getItem(outIndex))
+      DynArray<Integer> dynArray = getDynArray(arr);
+      assertThatThrownBy(() -> dynArray.getItem(outIndex))
           .isInstanceOf(ArrayIndexOutOfBoundsException.class)
           .hasMessage(expected);
     }
@@ -113,8 +115,8 @@ class DynArrayTest {
       int length = 3;
       String expected = String.format("Index %d out of bounds for length %d", outIndex, length);
       Integer[] arr = getIntegerArray(length);
-      DynArray<Integer> dynArr = getDynArray(arr);
-      assertThatThrownBy(() -> dynArr.getItem(outIndex))
+      DynArray<Integer> dynArray = getDynArray(arr);
+      assertThatThrownBy(() -> dynArray.getItem(outIndex))
           .isInstanceOf(IndexOutOfBoundsException.class)
           .hasMessage(expected);
     }
@@ -126,26 +128,26 @@ class DynArrayTest {
       int length = 3;
       String expected = String.format("Index %d out of bounds for length %d", outIndex, length);
       Integer[] arr = getIntegerArray(length);
-      DynArray<Integer> dynArr = getDynArray(arr);
-      assertThatThrownBy(() -> dynArr.getItem(outIndex))
+      DynArray<Integer> dynArray = getDynArray(arr);
+      assertThatThrownBy(() -> dynArray.getItem(outIndex))
           .isInstanceOf(IndexOutOfBoundsException.class)
           .hasMessage(expected);
     }
   }
 
   private DynArray<Integer> getDynArray(Integer[] array) {
-    DynArray<Integer> dynArr = new DynArray<>(Integer.class);
+    DynArray<Integer> dynArray = new DynArray<>(Integer.class);
     for (Integer integer : array) {
-      dynArr.append(integer);
+      dynArray.append(integer);
     }
-    return dynArr;
+    return dynArray;
   }
 
   private Integer[] getIntegerArray(int length) {
-    Integer[] arr = new Integer[length];
+    Integer[] array = new Integer[length];
     for (int i = 0; i < length; i++) {
-      arr[i] = i;
+      array[i] = i;
     }
-    return arr;
+    return array;
   }
 }
