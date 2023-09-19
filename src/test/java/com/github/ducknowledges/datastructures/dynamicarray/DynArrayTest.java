@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 class DynArrayTest {
 
   private final static int DEF_CAPACITY = 16;
+  private final static int INCREMENT = 2;
 
   @Nested
   @DisplayName("make array")
@@ -130,6 +131,100 @@ class DynArrayTest {
       Integer[] arr = getIntegerArray(length);
       DynArray<Integer> dynArray = getDynArray(arr);
       assertThatThrownBy(() -> dynArray.getItem(outIndex))
+          .isInstanceOf(IndexOutOfBoundsException.class)
+          .hasMessage(expected);
+    }
+  }
+
+  @Nested
+  @DisplayName("insert")
+  class Insert {
+    @Test
+    @DisplayName("should insert element without grow capacity")
+    void shouldInsertWithoutGrowCapacity() {
+      int length = 15;
+      int expected = 999;
+      Integer[] array = getIntegerArray(length);
+      DynArray<Integer> dynArray = getDynArray(array);
+
+      assertThat(dynArray.count).isEqualTo(length);
+      assertThat(dynArray.capacity).isEqualTo(DEF_CAPACITY);
+      dynArray.insert(expected, 7);
+      assertThat(dynArray.count).isEqualTo(length + 1);
+      assertThat(dynArray.capacity).isEqualTo(DEF_CAPACITY);
+      assertThat(dynArray.getItem(7)).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("should insert element with grow capacity")
+    void shouldInsertWithGrowCapacity() {
+      int length = 16;
+      int expected = 999;
+      Integer[] array = getIntegerArray(length);
+      DynArray<Integer> dynArray = getDynArray(array);
+
+      assertThat(dynArray.count).isEqualTo(length);
+      assertThat(dynArray.capacity).isEqualTo(DEF_CAPACITY);
+      dynArray.insert(expected, 7);
+      assertThat(dynArray.count).isEqualTo(length + 1);
+      assertThat(dynArray.capacity).isEqualTo(DEF_CAPACITY * INCREMENT);
+      assertThat(dynArray.getItem(7)).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("should append element without grow capacity")
+    void shouldAppendWithoutGrowCapacity() {
+      int length = 15;
+      int expected = 999;
+      Integer[] array = getIntegerArray(length);
+      DynArray<Integer> dynArray = getDynArray(array);
+
+      assertThat(dynArray.count).isEqualTo(length);
+      assertThat(dynArray.capacity).isEqualTo(DEF_CAPACITY);
+      dynArray.insert(expected, length);
+      assertThat(dynArray.count).isEqualTo(length + 1);
+      assertThat(dynArray.capacity).isEqualTo(DEF_CAPACITY);
+      assertThat(dynArray.getItem(length)).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("should append element with grow capacity")
+    void shouldAppendWithGrowCapacity() {
+      int length = 16;
+      int expected = 999;
+      Integer[] array = getIntegerArray(length);
+      DynArray<Integer> dynArray = getDynArray(array);
+
+      assertThat(dynArray.count).isEqualTo(length);
+      assertThat(dynArray.capacity).isEqualTo(DEF_CAPACITY);
+      dynArray.insert(expected, length);
+      assertThat(dynArray.count).isEqualTo(length + 1);
+      assertThat(dynArray.capacity).isEqualTo(DEF_CAPACITY * INCREMENT);
+      assertThat(dynArray.getItem(length)).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("should throw ArrayIndexOutOfBoundsException if index is negative")
+    void shouldThrowIndexOutOfBoundExceptionIfNegativeIndex() {
+      int outIndex = -1;
+      int length = 3;
+      String expected = String.format("Index %d out of bounds for length %d", outIndex, length);
+      Integer[] arr = getIntegerArray(length);
+      DynArray<Integer> dynArray = getDynArray(arr);
+      assertThatThrownBy(() -> dynArray.insert(1, outIndex))
+          .isInstanceOf(IndexOutOfBoundsException.class)
+          .hasMessage(expected);
+    }
+
+    @Test()
+    @DisplayName("should throw ArrayIndexOutOfBoundsException if index out of max index")
+    void shouldThrowIndexOutOfBoundExceptionIfIndexOutOfMaxIndex() {
+      int outIndex = 4;
+      int length = 3;
+      String expected = String.format("Index %d out of bounds for length %d", outIndex, length);
+      Integer[] arr = getIntegerArray(length);
+      DynArray<Integer> dynArray = getDynArray(arr);
+      assertThatThrownBy(() -> dynArray.insert(1, outIndex))
           .isInstanceOf(IndexOutOfBoundsException.class)
           .hasMessage(expected);
     }

@@ -9,7 +9,7 @@ public class DynArray<T> {
   Class clazz;
 
   private static final int DEF_CAPACITY = 16;
-  private static final int INCREASE = 2;
+  private static final int INCREMENT = 2;
 
   public DynArray(Class clz) {
     clazz = clz;
@@ -31,12 +31,7 @@ public class DynArray<T> {
     return array[index];
   }
 
-  private void checkIndexInRange(int index) {
-    if (index >= count || index < 0) {
-      String message = String.format("Index %d out of bounds for length %d", index, count);
-      throw new ArrayIndexOutOfBoundsException(message);
-    }
-  }
+
 
   public void append(T itm) {
     if (count == capacity) {
@@ -46,8 +41,32 @@ public class DynArray<T> {
     count++;
   }
 
-  private void grow() {
-    makeArray(INCREASE * capacity);
+  public void insert(T itm, int index) {
+    if (index != count) {
+      this.checkIndexInRange(index);
+      if (count == capacity) {
+        this.grow();
+      }
+      shiftToRightFrom(index);
+      array[index] = itm;
+      count++;
+    } else {
+      this.append(itm);
+    }
   }
 
+  private void shiftToRightFrom(int index) {
+    System.arraycopy(array, index, array, index + 1, count - index);
+  }
+
+  private void grow() {
+    makeArray(INCREMENT * capacity);
+  }
+
+  private void checkIndexInRange(int index) {
+    if (index >= count || index < 0) {
+      String message = String.format("Index %d out of bounds for length %d", index, count);
+      throw new ArrayIndexOutOfBoundsException(message);
+    }
+  }
 }
