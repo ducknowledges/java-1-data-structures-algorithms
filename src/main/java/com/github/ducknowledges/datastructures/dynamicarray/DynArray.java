@@ -5,8 +5,8 @@ import java.lang.reflect.Array;
 public class DynArray<T> {
 
   private static final int DEF_CAPACITY = 16;
-  private static final int INCREMENT = 2;
-  private static final double DECREMENT = 1.5;
+  private static final int INCREASE_CAPACITY = 2;
+  private static final double DECREASE_CAPACITY = 1.5;
 
   public T [] array;
   public int count;
@@ -70,7 +70,7 @@ public class DynArray<T> {
   }
 
   private void shrink() {
-    makeArray((int)(this.capacity / DECREMENT));
+    makeArray((int)(this.capacity / DECREASE_CAPACITY));
   }
 
   private void shiftElementsToRightFrom(int index) {
@@ -78,7 +78,7 @@ public class DynArray<T> {
   }
 
   private void grow() {
-    makeArray(INCREMENT * this.capacity);
+    makeArray(INCREASE_CAPACITY * this.capacity);
   }
 
   private void checkIndexInRange(int index) {
