@@ -41,6 +41,7 @@ public class DynArray<T> {
     this.count++;
   }
 
+  // Time complexity O(n)
   public void insert(T itm, int index) {
     if (index != this.count) {
       this.checkIndexInRange(index);
@@ -55,6 +56,7 @@ public class DynArray<T> {
     }
   }
 
+  // Time complexity O(n)
   public void remove(int index) {
     this.checkIndexInRange(index);
     this.shiftElementsToLeftFrom(index);
