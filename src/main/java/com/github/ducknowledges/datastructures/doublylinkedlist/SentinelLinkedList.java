@@ -26,7 +26,7 @@ public class SentinelLinkedList {
 
   public DoublyNode find(int _value) {
     DoublyNode current = head.next;
-    while (current != tail) {
+    while (!(current instanceof SentinelNode)) {
       if (current.value == _value) {
         return current;
       }
@@ -38,7 +38,7 @@ public class SentinelLinkedList {
   public ArrayList<DoublyNode> findAll(int _value) {
     ArrayList<DoublyNode> nodes = new ArrayList<>();
     DoublyNode current = head.next;
-    while (current != tail) {
+    while (!(current instanceof SentinelNode)) {
       if (current.value == _value) {
         nodes.add(current);
       }
@@ -49,7 +49,7 @@ public class SentinelLinkedList {
 
   public boolean remove(int _value) {
     DoublyNode current = head.next;
-    while (current != tail) {
+    while (!(current instanceof SentinelNode)) {
       if (current.value == _value) {
         DoublyNode prevNode = current.prev;
         DoublyNode nextNode = current.next;
@@ -65,7 +65,7 @@ public class SentinelLinkedList {
 
   public void removeAll(int _value) {
     DoublyNode current = head.next;
-    while (current != tail) {
+    while (!(current instanceof SentinelNode)) {
       if (current.value == _value) {
         DoublyNode prevNode = current.prev;
         DoublyNode nextNode = current.next;
