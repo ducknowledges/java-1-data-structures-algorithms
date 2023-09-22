@@ -34,9 +34,8 @@ public class DynArray<T> {
   }
 
   public void append(T itm) {
-    if (this.count == this.capacity) {
-      this.grow();
-    }
+    boolean isFullBuffer = this.count == this.capacity;
+    this.grow(isFullBuffer);
     this.array[this.count] = itm;
     this.count++;
   }
@@ -45,9 +44,8 @@ public class DynArray<T> {
   public void insert(T itm, int index) {
     if (index != this.count) {
       this.checkIndexInRange(index);
-      if (this.count == this.capacity) {
-        this.grow();
-      }
+      boolean isFullBuffer = this.count == this.capacity;
+      this.grow(isFullBuffer);
       this.shiftElementsToRightFrom(index);
       array[index] = itm;
       this.count++;
@@ -79,8 +77,10 @@ public class DynArray<T> {
     System.arraycopy(array, index, array, index + 1, this.count - index);
   }
 
-  private void grow() {
-    makeArray(INCREASE_CAPACITY * this.capacity);
+  private void grow(boolean isFullBuffer) {
+    if (isFullBuffer) {
+      makeArray(INCREASE_CAPACITY * this.capacity);
+    }
   }
 
   private void checkIndexInRange(int index) {
