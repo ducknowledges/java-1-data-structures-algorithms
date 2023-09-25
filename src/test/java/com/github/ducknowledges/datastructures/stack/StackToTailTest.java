@@ -8,12 +8,12 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Stack")
-public class StackToEndTest {
-  private StackToEnd<Integer> stack;
+public class StackToTailTest {
+  private StackToTail<Integer> stack;
 
   @BeforeEach
   void initBeforeEach() {
-    this.stack = new StackToEnd<>();
+    this.stack = new StackToTail<>();
   }
 
   @Nested

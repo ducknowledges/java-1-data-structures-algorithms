@@ -3,11 +3,11 @@ package com.github.ducknowledges.datastructures.stack;
 import java.util.Deque;
 import java.util.LinkedList;
 
-public class StackToEnd<T> {
+public class StackToTail<T> {
 
   private final Deque<T> storage;
 
-  public StackToEnd() {
+  public StackToTail() {
     this.storage = new LinkedList<>();
   }
 
