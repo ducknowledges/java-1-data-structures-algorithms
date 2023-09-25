@@ -20,19 +20,19 @@ public class Stack<T> {
     if(storage.isEmpty()) {
       return null;
     }
-    return storage.removeLast();
+    return storage.pop();
   }
 
   // Time complexity O(1)
   public void push(T val) {
-    storage.addLast(val);
+    storage.push(val);
   }
 
   public T peek() {
     if (storage.isEmpty()) {
       return null;
     }
-    return storage.peekLast();
+    return storage.peek();
   }
 
   public Object[] toArray() {

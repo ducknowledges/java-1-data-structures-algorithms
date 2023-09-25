@@ -35,6 +35,7 @@ class StackTest {
       assertThat(stack.size()).isEqualTo(1);
       assertThat(stack.toArray())
           .hasSize(1);
+      assertThat(stack.toArray()[0]).isEqualTo(array[0]);
     }
 
     @Test
@@ -46,6 +47,8 @@ class StackTest {
       stack.push(array[2]);
       assertThat(stack.size()).isEqualTo(3);
       assertThat(stack.toArray()).hasSize(3);
+      assertThat(stack.toArray()[0]).isEqualTo(array[2]);
+      assertThat(stack.toArray()[2]).isEqualTo(array[0]);
     }
   }
 
@@ -78,6 +81,8 @@ class StackTest {
       assertThat(stack.pop()).isEqualTo(array[2]);
       assertThat(stack.toArray())
           .hasSize(2);
+      assertThat(stack.toArray()[0]).isEqualTo(array[1]);
+      assertThat(stack.toArray()[1]).isEqualTo(array[0]);
       assertThat(stack.pop()).isEqualTo(array[1]);
       assertThat(stack.pop()).isEqualTo(array[0]);
       assertThat(stack.toArray()).isEmpty();
@@ -96,6 +101,8 @@ class StackTest {
       stack.push(array[2]);
       assertThat(stack.size()).isEqualTo(3);
       assertThat(stack.toArray()).hasSize(3);
+      assertThat(stack.toArray()[0]).isEqualTo(array[2]);
+      assertThat(stack.toArray()[2]).isEqualTo(array[0]);
     }
   }
 
@@ -116,6 +123,7 @@ class StackTest {
       stack.push(array[0]);
       assertThat(stack.peek()).isEqualTo(array[0]);
       assertThat(stack.toArray()).hasSize(1);
+      assertThat(stack.toArray()[0]).isEqualTo(array[0]);
     }
 
     @Test
@@ -127,6 +135,8 @@ class StackTest {
       stack.push(array[2]);
       assertThat(stack.peek()).isEqualTo(array[2]);
       assertThat(stack.toArray()).hasSize(3);
+      assertThat(stack.toArray()[0]).isEqualTo(array[2]);
+      assertThat(stack.toArray()[2]).isEqualTo(array[0]);
     }
   }
 
