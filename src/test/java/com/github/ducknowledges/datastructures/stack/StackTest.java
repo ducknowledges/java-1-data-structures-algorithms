@@ -50,6 +50,41 @@ class StackTest {
   }
 
   @Nested
+  @DisplayName("pop")
+  class Pop {
+    @Test
+    @DisplayName("should pop null from empty stack")
+    void shouldPopNullFromEmptyStack() {
+      assertThat(stack.pop()).isNull();
+      assertThat(stack.toArray()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("should pop element from top of single element stack")
+    void shouldPopElementFromSingleElementStack() {
+      Integer[] array = new Integer[]{1};
+      stack.push(array[0]);
+      assertThat(stack.pop()).isEqualTo(array[0]);
+      assertThat(stack.toArray()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("should pop element from top of stack")
+    void shouldPeekElementFromStack() {
+      Integer[] array = new Integer[]{1, 2 ,3};
+      stack.push(array[0]);
+      stack.push(array[1]);
+      stack.push(array[2]);
+      assertThat(stack.pop()).isEqualTo(array[2]);
+      assertThat(stack.toArray())
+          .hasSize(2);
+      assertThat(stack.pop()).isEqualTo(array[1]);
+      assertThat(stack.pop()).isEqualTo(array[0]);
+      assertThat(stack.toArray()).isEmpty();
+    }
+  }
+
+  @Nested
   @DisplayName("push")
   class Push {
     @Test

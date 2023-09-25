@@ -16,6 +16,14 @@ public class Stack<T> {
   }
 
   // Time complexity O(1)
+  public T pop() {
+    if(storage.isEmpty()) {
+      return null;
+    }
+    return storage.removeLast();
+  }
+
+  // Time complexity O(1)
   public void push(T val) {
     storage.addLast(val);
   }
