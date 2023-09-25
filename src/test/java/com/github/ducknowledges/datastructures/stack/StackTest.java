@@ -26,6 +26,27 @@ class StackTest {
       assertThat(stack.size()).isZero();
       assertThat(stack.toArray()).isEmpty();
     }
+
+    @Test
+    @DisplayName("should get size of single element stack")
+    void shouldSizeSingleStack() {
+      Integer[] array = new Integer[]{1};
+      stack.push(array[0]);
+      assertThat(stack.size()).isEqualTo(1);
+      assertThat(stack.toArray())
+          .hasSize(1);
+    }
+
+    @Test
+    @DisplayName("should get size of stack")
+    void shouldSizeStack() {
+      Integer[] array = new Integer[]{1, 2 ,3};
+      stack.push(array[0]);
+      stack.push(array[1]);
+      stack.push(array[2]);
+      assertThat(stack.size()).isEqualTo(3);
+      assertThat(stack.toArray()).hasSize(3);
+    }
   }
 
 }
