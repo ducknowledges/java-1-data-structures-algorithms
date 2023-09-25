@@ -49,4 +49,19 @@ class StackTest {
     }
   }
 
+  @Nested
+  @DisplayName("push")
+  class Push {
+    @Test
+    @DisplayName("should push element to end of stack")
+    void shouldPushElementToEnd() {
+      Integer[] array = new Integer[]{1, 2 ,3};
+      stack.push(array[0]);
+      stack.push(array[1]);
+      stack.push(array[2]);
+      assertThat(stack.size()).isEqualTo(3);
+      assertThat(stack.toArray()).hasSize(3);
+    }
+  }
+
 }

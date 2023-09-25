@@ -15,6 +15,11 @@ public class Stack<T> {
     return storage.size();
   }
 
+  // Time complexity O(1)
+  public void push(T val) {
+    storage.addLast(val);
+  }
+
   public Object[] toArray() {
     return storage.toArray();
   }
