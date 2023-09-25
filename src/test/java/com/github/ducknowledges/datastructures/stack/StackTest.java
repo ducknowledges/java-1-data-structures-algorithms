@@ -99,4 +99,35 @@ class StackTest {
     }
   }
 
+  @Nested
+  @DisplayName("peek")
+  class Peek {
+    @Test
+    @DisplayName("should peek null from empty stack")
+    void shouldPeekNullFromEmptyStack() {
+      assertThat(stack.peek()).isNull();
+      assertThat(stack.toArray()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("should peek element from top of single element stack")
+    void shouldPeekElementFromSingleElementStack() {
+      Integer[] array = new Integer[]{1};
+      stack.push(array[0]);
+      assertThat(stack.peek()).isEqualTo(array[0]);
+      assertThat(stack.toArray()).hasSize(1);
+    }
+
+    @Test
+    @DisplayName("should peek element from top of stack")
+    void shouldPeekElementFromStack() {
+      Integer[] array = new Integer[]{1, 2 ,3};
+      stack.push(array[0]);
+      stack.push(array[1]);
+      stack.push(array[2]);
+      assertThat(stack.peek()).isEqualTo(array[2]);
+      assertThat(stack.toArray()).hasSize(3);
+    }
+  }
+
 }

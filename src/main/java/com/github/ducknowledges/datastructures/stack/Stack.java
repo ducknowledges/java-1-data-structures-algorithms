@@ -28,6 +28,13 @@ public class Stack<T> {
     storage.addLast(val);
   }
 
+  public T peek() {
+    if (storage.isEmpty()) {
+      return null;
+    }
+    return storage.peekLast();
+  }
+
   public Object[] toArray() {
     return storage.toArray();
   }
