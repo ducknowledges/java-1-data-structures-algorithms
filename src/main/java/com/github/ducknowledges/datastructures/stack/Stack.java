@@ -35,6 +35,10 @@ public class Stack<T> {
     return storage.peek();
   }
 
+  public boolean isEmpty() {
+    return storage.isEmpty();
+  }
+
   public Object[] toArray() {
     return storage.toArray();
   }
