@@ -140,4 +140,39 @@ class StackTest {
     }
   }
 
+  @Nested
+  @DisplayName("isEmpty")
+  class IsEmpty {
+    @Test
+    @DisplayName("new stack should be empty")
+    void shouldBeEmptyNewStack() {
+      assertThat(stack.isEmpty()).isTrue();
+      assertThat(stack.toArray()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("should be empty after pop single element")
+    void shouldBeEmptyAfterPopSingleElement() {
+      Integer[] array = new Integer[]{1};
+      stack.push(array[0]);
+      stack.pop();
+      assertThat(stack.isEmpty()).isTrue();
+      assertThat(stack.toArray()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("should be empty after pop")
+    void shouldBeEmptyAfterPop() {
+      Integer[] array = new Integer[]{1, 2 ,3};
+      stack.push(array[0]);
+      stack.push(array[1]);
+      stack.push(array[2]);
+      stack.pop();
+      stack.pop();
+      stack.pop();
+      stack.pop();
+      assertThat(stack.isEmpty()).isTrue();
+      assertThat(stack.toArray()).isEmpty();
+    }
+  }
 }
