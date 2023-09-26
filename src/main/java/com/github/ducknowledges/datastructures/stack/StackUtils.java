@@ -30,21 +30,42 @@ public class StackUtils {
     return bracket.equals(")");
   }
 
-  public static Integer calculate(String postfixExpressionString) {
+  public static Double calculate(String postfixExpressionString) {
     Stack<String> expressionStack = getPostfixExpression(postfixExpressionString);
-    Stack<Integer> resultStack = new Stack<>();
+    Stack<Double> accumulator = new Stack<>();
     while (!expressionStack.isEmpty()) {
       String element = expressionStack.pop();
       if(element.equals("=")) break;
-      if(element.equals("+")) {
-        sumStackElementsOnHead(resultStack);
-      } else if(element.equals("*")) {
-        multiplyStackElementsOnHead(resultStack);
-      } else {
-        resultStack.push(Integer.parseInt(element));
-      }
+      operateOn(element, accumulator);
     }
-    return resultStack.peek();
+    return accumulator.peek();
+  }
+
+  private static void operateOn(String element, Stack<Double> accumulator) {
+    double result = switch (element) {
+      case "+" -> sum(accumulator.pop(), accumulator.pop());
+      case "-" -> subtract(accumulator.pop(), accumulator.pop());
+      case "*" -> multiply(accumulator.pop(), accumulator.pop());
+      case "/" -> divide(accumulator.pop(), accumulator.pop());
+      default -> Double.parseDouble(element);
+    };
+    accumulator.push(result);
+  }
+
+  private static double sum(double firstOperand, double secondOperand) {
+    return secondOperand + firstOperand;
+  }
+
+  private static double subtract(double firstOperand, double secondOperand) {
+    return secondOperand - firstOperand;
+  }
+
+  private static double multiply(double firstOperand, double secondOperand) {
+    return secondOperand * firstOperand;
+  }
+
+  private static double divide(double firstOperand, double secondOperand) {
+    return secondOperand / firstOperand;
   }
 
   private static Stack<String> getPostfixExpression(String postfixExpressionString) {
@@ -54,22 +75,6 @@ public class StackUtils {
       stack.push(array[i]);
     }
     return stack;
-  }
-
-  private static void sumStackElementsOnHead(Stack<Integer> stack) {
-    int result = stack.pop();
-    while (!stack.isEmpty()) {
-      result += stack.pop();
-    }
-    stack.push(result);
-  }
-
-  private static void multiplyStackElementsOnHead(Stack<Integer> stack) {
-    int result = stack.pop();
-    while (!stack.isEmpty()) {
-      result *= stack.pop();
-    }
-    stack.push(result);
   }
 
 }

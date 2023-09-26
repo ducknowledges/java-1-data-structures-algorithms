@@ -56,6 +56,20 @@ class StackUtilsTest {
       String expression = "8 2 + 5 * 9 + =";
       assertThat(StackUtils.calculate(expression)).isEqualTo(59);
     }
+
+    @Test
+    @DisplayName("should calculate postfix expression")
+    void shouldCalculateExpression3() {
+      String expression = "8 2 + 5 * 9 - =";
+      assertThat(StackUtils.calculate(expression)).isEqualTo(41);
+    }
+
+    @Test
+    @DisplayName("should calculate postfix expression")
+    void shouldCalculateExpression4() {
+      String expression = "8 2 + 5 * 9 / =";
+      assertThat(StackUtils.calculate(expression)).isEqualTo((double) 50 / 9);
+    }
   }
 
 }
