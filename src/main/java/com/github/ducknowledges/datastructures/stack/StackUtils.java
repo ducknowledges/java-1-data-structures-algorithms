@@ -1,5 +1,7 @@
 package com.github.ducknowledges.datastructures.stack;
 
+import java.util.function.DoubleBinaryOperator;
+
 public class StackUtils {
 
   private StackUtils() {
@@ -43,13 +45,19 @@ public class StackUtils {
 
   private static void operateOn(String element, Stack<Double> accumulator) {
     double result = switch (element) {
-      case "+" -> sum(accumulator.pop(), accumulator.pop());
-      case "-" -> subtract(accumulator.pop(), accumulator.pop());
-      case "*" -> multiply(accumulator.pop(), accumulator.pop());
-      case "/" -> divide(accumulator.pop(), accumulator.pop());
+      case "+" -> getResult(StackUtils::sum, accumulator);
+      case "-" -> getResult(StackUtils::subtract, accumulator);
+      case "*" -> getResult(StackUtils::multiply, accumulator);
+      case "/" -> getResult(StackUtils::divide, accumulator);
       default -> Double.parseDouble(element);
     };
     accumulator.push(result);
+  }
+
+  private static double getResult(DoubleBinaryOperator function, Stack<Double> accumulator) {
+    double firstOperand = accumulator.pop();
+    double secondOperand = accumulator.pop();
+    return function.applyAsDouble(firstOperand, secondOperand);
   }
 
   private static double sum(double firstOperand, double secondOperand) {
