@@ -2,6 +2,7 @@ package com.github.ducknowledges.datastructures.doublylinkedlist;
 
 import java.util.ArrayList;
 
+//TODO use single sentinel list
 public class SentinelLinkedList {
   public DoublyNode head;
   public DoublyNode tail;
@@ -9,7 +10,7 @@ public class SentinelLinkedList {
 
   public SentinelLinkedList() {
     head = new SentinelNode();
-    tail = new SentinelNode();
+    tail = head;
     head.next = tail;
     tail.prev = head;
     length = 0;

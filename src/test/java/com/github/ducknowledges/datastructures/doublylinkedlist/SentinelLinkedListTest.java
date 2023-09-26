@@ -115,7 +115,6 @@ class SentinelLinkedListTest {
     void shouldFindNoNodesInSingleList() {
       int value = 1;
       List<DoublyNode> nodes = getNodes(List.of(value));
-      DoublyNode node = nodes.get(0);
       SentinelLinkedList singleNodeList = getListWith(nodes);
       List<DoublyNode> foundNodes = singleNodeList.findAll(2);
       assertThat(foundNodes).isEmpty();
@@ -235,7 +234,6 @@ class SentinelLinkedListTest {
     void shouldNotRemoveNodeInSingleList() {
       int value = 1;
       List<DoublyNode> nodes = getNodes(List.of(value));
-      DoublyNode node = nodes.get(0);
       SentinelLinkedList singleNodeList = getListWith(nodes);
       assertThat(singleNodeList.count()).isEqualTo(1);
       assertThat(singleNodeList.remove(0)).isFalse();
@@ -398,6 +396,7 @@ class SentinelLinkedListTest {
       SentinelLinkedList list = getListWith(nodes);
       var notExistValue = 5;
       list.removeAll(notExistValue);
+      assertThat(list.count()).isEqualTo(4);
     }
 
     @Test
@@ -438,7 +437,6 @@ class SentinelLinkedListTest {
     void shouldCountSingleNodeList() {
       int value = 1;
       List<DoublyNode> nodes = getNodes(List.of(value));
-      DoublyNode node = nodes.get(0);
       SentinelLinkedList singleNodeList = getListWith(nodes);
       assertThat(singleNodeList.count()).isEqualTo(value);
     }
@@ -493,7 +491,6 @@ class SentinelLinkedListTest {
     void shouldInsertBeforeInSingleList() {
       int value = 1;
       List<DoublyNode> nodes = getNodes(List.of(value));
-      DoublyNode node = nodes.get(0);
       DoublyNode insertNode = new DoublyNode(2);
       SentinelLinkedList singleNodeList = getListWith(nodes);
       assertThat(singleNodeList.count()).isEqualTo(nodes.size());
@@ -570,7 +567,6 @@ class SentinelLinkedListTest {
     void shouldAddHeadInSingleList() {
       int value = 1;
       List<DoublyNode> nodes = getNodes(List.of(value));
-      DoublyNode node = nodes.get(0);
       DoublyNode insertNode = new DoublyNode(2);
       SentinelLinkedList singleNodeList = getListWith(nodes);
       assertThat(singleNodeList.count()).isEqualTo(nodes.size());
