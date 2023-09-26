@@ -40,4 +40,22 @@ class StackUtilsTest {
     }
   }
 
+  @Nested
+  @DisplayName("calculate")
+  class Calculate {
+    @Test
+    @DisplayName("should calculate postfix expression")
+    void shouldCalculateExpression1() {
+      String expression = "1 2 + 3 * =";
+      assertThat(StackUtils.calculate(expression)).isEqualTo(9);
+    }
+
+    @Test
+    @DisplayName("should calculate postfix expression")
+    void shouldCalculateExpression2() {
+      String expression = "8 2 + 5 * 9 + =";
+      assertThat(StackUtils.calculate(expression)).isEqualTo(59);
+    }
+  }
+
 }
