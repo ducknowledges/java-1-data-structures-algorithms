@@ -14,6 +14,10 @@ public class Queue<T> {
     storage.addLast(item);
   }
 
+  public int size() {
+    return storage.size();
+  }
+
   public Object[] toArray() {
     return storage.toArray();
   }

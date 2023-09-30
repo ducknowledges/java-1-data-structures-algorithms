@@ -22,7 +22,7 @@ class QueueTest {
   class Push {
     @Test
     @DisplayName("should enqueue single element to tail of queue")
-    void shouldEnqueueSingleElementToTail() {
+    void shouldEnqueueSingleElementToQueueTail() {
       Integer[] array = new Integer[]{1,};
       queue.enqueue(array[0]);
       assertThat(queue.toArray()).hasSize(1);
@@ -31,7 +31,7 @@ class QueueTest {
 
     @Test
     @DisplayName("should enqueue element to tail of queue")
-    void shouldEnqueueElementToTail() {
+    void shouldEnqueueElementToQueueTail() {
       Integer[] array = new Integer[]{1, 2 ,3};
       queue.enqueue(array[0]);
       queue.enqueue(array[1]);
@@ -42,6 +42,38 @@ class QueueTest {
     }
   }
 
+  @Nested
+  @DisplayName("size")
+  class Size {
+    @Test
+    @DisplayName("should get size of empty queue")
+    void shouldGetSizeEmptyQueue() {
+      assertThat(queue.size()).isZero();
+      assertThat(queue.toArray()).isEmpty();
+    }
 
+    @Test
+    @DisplayName("should get size of single element queue")
+    void shouldGetSizeSingleQueue() {
+      Integer[] array = new Integer[]{1};
+      queue.enqueue(array[0]);
+      assertThat(queue.size()).isEqualTo(1);
+      assertThat(queue.toArray()).hasSize(1);
+      assertThat(queue.toArray()[0]).isEqualTo(array[0]);
+    }
+
+    @Test
+    @DisplayName("should get size of queue")
+    void shouldGetSizeQueue() {
+      Integer[] array = new Integer[]{1, 2 ,3};
+      queue.enqueue(array[0]);
+      queue.enqueue(array[1]);
+      queue.enqueue(array[2]);
+      assertThat(queue.size()).isEqualTo(3);
+      assertThat(queue.toArray()).hasSize(3);
+      assertThat(queue.toArray()[0]).isEqualTo(array[0]);
+      assertThat(queue.toArray()[2]).isEqualTo(array[2]);
+    }
+  }
 
 }
