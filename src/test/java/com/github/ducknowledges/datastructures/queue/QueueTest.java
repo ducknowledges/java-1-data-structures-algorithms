@@ -19,7 +19,7 @@ class QueueTest {
 
   @Nested
   @DisplayName("enqueue")
-  class Push {
+  class Enqueue {
     @Test
     @DisplayName("should enqueue single element to tail of queue")
     void shouldEnqueueSingleElementToQueueTail() {
@@ -39,6 +39,42 @@ class QueueTest {
       assertThat(queue.toArray()).hasSize(3);
       assertThat(queue.toArray()[0]).isEqualTo(array[0]);
       assertThat(queue.toArray()[2]).isEqualTo(array[2]);
+    }
+  }
+
+  @Nested
+  @DisplayName("dequeue")
+  class Dequeue {
+    @Test
+    @DisplayName("should dequeue null from empty stack")
+    void shouldPopNullFromEmptyStack() {
+      assertThat(queue.dequeue()).isNull();
+      assertThat(queue.toArray()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("should dequeue element from head of single element queue")
+    void shouldPopElementFromSingleElementStack() {
+      Integer[] array = new Integer[]{1};
+      queue.enqueue(array[0]);
+      assertThat(queue.dequeue()).isEqualTo(array[0]);
+      assertThat(queue.toArray()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("should dequeue element from head of queue")
+    void shouldPeekElementFromStack() {
+      Integer[] array = new Integer[]{1, 2 ,3};
+      queue.enqueue(array[0]);
+      queue.enqueue(array[1]);
+      queue.enqueue(array[2]);
+      assertThat(queue.dequeue()).isEqualTo(array[0]);
+      assertThat(queue.toArray()).hasSize(2);
+      assertThat(queue.toArray()[0]).isEqualTo(array[1]);
+      assertThat(queue.toArray()[1]).isEqualTo(array[2]);
+      assertThat(queue.dequeue()).isEqualTo(array[1]);
+      assertThat(queue.dequeue()).isEqualTo(array[2]);
+      assertThat(queue.toArray()).isEmpty();
     }
   }
 

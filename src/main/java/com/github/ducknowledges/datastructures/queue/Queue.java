@@ -14,6 +14,10 @@ public class Queue<T> {
     storage.addLast(item);
   }
 
+  public T dequeue() {
+    return storage.pollFirst();
+  }
+
   public int size() {
     return storage.size();
   }
