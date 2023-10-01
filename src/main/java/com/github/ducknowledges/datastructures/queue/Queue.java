@@ -10,10 +10,12 @@ public class Queue<T> {
     this.storage = new LinkedList<>();
   }
 
+  // Time complexity O(1)
   public void enqueue(T item) {
     storage.addLast(item);
   }
 
+  // Time complexity O(1)
   public T dequeue() {
     return storage.pollFirst();
   }
