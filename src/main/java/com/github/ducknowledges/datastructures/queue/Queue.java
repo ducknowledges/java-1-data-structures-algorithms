@@ -24,6 +24,10 @@ public class Queue<T> {
     return storage.size();
   }
 
+  public boolean isEmpty() {
+    return storage.isEmpty();
+  }
+
   public Object[] toArray() {
     return storage.toArray();
   }

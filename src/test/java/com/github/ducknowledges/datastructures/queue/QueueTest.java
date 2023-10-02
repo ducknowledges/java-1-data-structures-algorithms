@@ -23,7 +23,7 @@ class QueueTest {
     @Test
     @DisplayName("should enqueue single element to tail of queue")
     void shouldEnqueueSingleElementToQueueTail() {
-      Integer[] array = new Integer[]{1,};
+      Integer[] array = new Integer[]{1};
       queue.enqueue(array[0]);
       assertThat(queue.toArray()).hasSize(1);
       assertThat(queue.toArray()[0]).isEqualTo(array[0]);
