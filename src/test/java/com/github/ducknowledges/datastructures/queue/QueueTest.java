@@ -25,20 +25,22 @@ class QueueTest {
     void shouldEnqueueSingleElementToQueueTail() {
       Integer[] array = new Integer[]{1};
       queue.enqueue(array[0]);
-      assertThat(queue.toArray()).hasSize(1);
-      assertThat(queue.toArray()[0]).isEqualTo(array[0]);
+      Object[] queueArray = queue.toArray();
+      assertThat(queueArray).hasSize(1);
+      assertThat(queueArray[0]).isEqualTo(array[0]);
     }
 
     @Test
     @DisplayName("should enqueue element to tail of queue")
     void shouldEnqueueElementToQueueTail() {
-      Integer[] array = new Integer[]{1, 2 ,3};
-      queue.enqueue(array[0]);
-      queue.enqueue(array[1]);
-      queue.enqueue(array[2]);
-      assertThat(queue.toArray()).hasSize(3);
-      assertThat(queue.toArray()[0]).isEqualTo(array[0]);
-      assertThat(queue.toArray()[2]).isEqualTo(array[2]);
+      Integer[] array = new Integer[]{1, 2, 3};
+      for (Integer integer : array) {
+        queue.enqueue(integer);
+      }
+      Object[] queueArray = queue.toArray();
+      assertThat(queueArray).hasSize(3);
+      assertThat(queueArray[0]).isEqualTo(array[0]);
+      assertThat(queueArray[2]).isEqualTo(array[2]);
     }
   }
 
@@ -47,14 +49,14 @@ class QueueTest {
   class Dequeue {
     @Test
     @DisplayName("should dequeue null from empty stack")
-    void shouldPopNullFromEmptyStack() {
+    void shouldDequeueNullFromEmptyStack() {
       assertThat(queue.dequeue()).isNull();
       assertThat(queue.toArray()).isEmpty();
     }
 
     @Test
     @DisplayName("should dequeue element from head of single element queue")
-    void shouldPopElementFromSingleElementStack() {
+    void shouldDequeueElementFromSingleElementStack() {
       Integer[] array = new Integer[]{1};
       queue.enqueue(array[0]);
       assertThat(queue.dequeue()).isEqualTo(array[0]);
@@ -63,15 +65,16 @@ class QueueTest {
 
     @Test
     @DisplayName("should dequeue element from head of queue")
-    void shouldPeekElementFromStack() {
-      Integer[] array = new Integer[]{1, 2 ,3};
-      queue.enqueue(array[0]);
-      queue.enqueue(array[1]);
-      queue.enqueue(array[2]);
+    void shouldDequeueElementFromStack() {
+      Integer[] array = new Integer[]{1, 2, 3};
+      for (Integer integer : array) {
+        queue.enqueue(integer);
+      }
       assertThat(queue.dequeue()).isEqualTo(array[0]);
-      assertThat(queue.toArray()).hasSize(2);
-      assertThat(queue.toArray()[0]).isEqualTo(array[1]);
-      assertThat(queue.toArray()[1]).isEqualTo(array[2]);
+      Object[] queueArray = queue.toArray();
+      assertThat(queueArray).hasSize(2);
+      assertThat(queueArray[0]).isEqualTo(array[1]);
+      assertThat(queueArray[1]).isEqualTo(array[2]);
       assertThat(queue.dequeue()).isEqualTo(array[1]);
       assertThat(queue.dequeue()).isEqualTo(array[2]);
       assertThat(queue.toArray()).isEmpty();
@@ -94,21 +97,23 @@ class QueueTest {
       Integer[] array = new Integer[]{1};
       queue.enqueue(array[0]);
       assertThat(queue.size()).isEqualTo(1);
-      assertThat(queue.toArray()).hasSize(1);
-      assertThat(queue.toArray()[0]).isEqualTo(array[0]);
+      Object[] queueArray = queue.toArray();
+      assertThat(queueArray).hasSize(1);
+      assertThat(queueArray[0]).isEqualTo(array[0]);
     }
 
     @Test
     @DisplayName("should get size of queue")
     void shouldGetSizeQueue() {
       Integer[] array = new Integer[]{1, 2 ,3};
-      queue.enqueue(array[0]);
-      queue.enqueue(array[1]);
-      queue.enqueue(array[2]);
+      for (Integer integer : array) {
+        queue.enqueue(integer);
+      }
       assertThat(queue.size()).isEqualTo(3);
-      assertThat(queue.toArray()).hasSize(3);
-      assertThat(queue.toArray()[0]).isEqualTo(array[0]);
-      assertThat(queue.toArray()[2]).isEqualTo(array[2]);
+      Object[] queueArray = queue.toArray();
+      assertThat(queueArray).hasSize(3);
+      assertThat(queueArray[0]).isEqualTo(array[0]);
+      assertThat(queueArray[2]).isEqualTo(array[2]);
     }
   }
 
