@@ -23,30 +23,56 @@ class DequeTest {
     @Test
     @DisplayName("should add element to front of deque")
     void shouldAddElementToFront() {
-      Integer[] array = new Integer[]{1};
-      deque.addFront(array[0]);
+      int expected = 1;
+      deque.addFront(expected);
       Object[] dequeArray = deque.toArray();
       assertThat(dequeArray).hasSize(1);
-      assertThat(dequeArray[0]).isEqualTo(array[0]);
+      assertThat(dequeArray[0]).isEqualTo(expected);
     }
 
     @Test
     @DisplayName("should add elements to front of deque")
     void shouldAddElementsToFront() {
       Integer[] array = new Integer[]{1, 2, 3};
+      int expected1 = array[2];
+      int expected2 = array[0];
       for (Integer integer : array) {
         deque.addFront(integer);
       }
       Object[] dequeArray = deque.toArray();
       assertThat(dequeArray).hasSize(3);
-      assertThat(dequeArray[0]).isEqualTo(array[2]);
-      assertThat(dequeArray[2]).isEqualTo(array[0]);
+      assertThat(dequeArray[0]).isEqualTo(expected1);
+      assertThat(dequeArray[2]).isEqualTo(expected2);
     }
   }
 
   @Nested
   @DisplayName("addTail")
   class AddTail {
+    @Test
+    @DisplayName("should add element to tail of deque")
+    void shouldAddElementToTail() {
+      int expected = 1;
+      deque.addTail(expected);
+      Object[] dequeArray = deque.toArray();
+      assertThat(dequeArray).hasSize(1);
+      assertThat(dequeArray[0]).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("should add elements to tail of deque")
+    void shouldAddElementsToTail() {
+      Integer[] array = new Integer[]{1, 2, 3};
+      int expected1 = array[0];
+      int expected2 = array[2];
+      for (Integer integer : array) {
+        deque.addTail(integer);
+      }
+      Object[] dequeArray = deque.toArray();
+      assertThat(dequeArray).hasSize(3);
+      assertThat(dequeArray[0]).isEqualTo(expected1);
+      assertThat(dequeArray[2]).isEqualTo(expected2);
+    }
   }
 
   @Nested
