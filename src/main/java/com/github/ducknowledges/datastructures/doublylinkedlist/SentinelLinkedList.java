@@ -2,7 +2,6 @@ package com.github.ducknowledges.datastructures.doublylinkedlist;
 
 import java.util.ArrayList;
 
-//TODO use single sentinel list
 public class SentinelLinkedList {
   public DoublyNode head;
   public DoublyNode tail;
