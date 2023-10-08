@@ -76,6 +76,39 @@ class DequeTest {
   }
 
   @Nested
+  @DisplayName("add one by one")
+  class AddOneByOne {
+    @Test
+    @DisplayName("should add tail and add front one by one to deque")
+    void shouldAddTailAndAddFront() {
+      int expected1 = 1;
+      int expected2 = 2;
+      deque.addTail(expected1);
+      deque.addFront(expected2);
+      Object[] dequeArray = deque.toArray();
+      assertThat(dequeArray).hasSize(2);
+      assertThat(dequeArray[0]).isEqualTo(expected2);
+      assertThat(dequeArray[1]).isEqualTo(expected1);
+    }
+
+    @Test
+    @DisplayName("should add front and add tail one by one to deque")
+    void shouldAddFrontAndAddTail() {
+      int expected1 = 1;
+      int expected2 = 2;
+      deque.addFront(expected1);
+      deque.addTail(expected2);
+      Object[] dequeArray = deque.toArray();
+      assertThat(dequeArray).hasSize(2);
+      assertThat(dequeArray[0]).isEqualTo(expected1);
+      assertThat(dequeArray[1]).isEqualTo(expected2);
+    }
+  }
+
+
+
+
+  @Nested
   @DisplayName("removeFront")
   class RemoveFront {
   }
@@ -84,4 +117,6 @@ class DequeTest {
   @DisplayName("removeTail")
   class RemoveTail {
   }
+
+
 }
