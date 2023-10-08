@@ -22,8 +22,7 @@ public class QueueUtils {
 
   private static <T> void rotateQueue(Queue<T> queue, int rotationCount) {
     for (int i = 0; i < rotationCount; i++) {
-      T element = queue.dequeue();
-      queue.enqueue(element);
+      queue.enqueue(queue.dequeue());
     }
   }
 
