@@ -125,7 +125,7 @@ class DequeTest {
     }
 
     @Test
-    @DisplayName("should remove front element from single deque element")
+    @DisplayName("should remove front elements from deque")
     void shouldRemoveFrontElementsDeque() {
       int expected1 = 1;
       int expected2 = 2;
@@ -141,6 +141,34 @@ class DequeTest {
   @Nested
   @DisplayName("removeTail")
   class RemoveTail {
+    @Test
+    @DisplayName("should return null if deque is empty")
+    void shouldReturnNullIfDequeIsEmpty() {
+      Integer actual = deque.removeTail();
+      assertThat(actual).isNull();
+    }
+
+    @Test
+    @DisplayName("should remove tail element from single deque element")
+    void shouldRemoveTailSingleElementDeque() {
+      int expected = 1;
+      deque.addFront(expected);
+      Integer actual = deque.removeTail();
+      assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("should remove tail elements from deque")
+    void shouldRemoveTailElementsDeque() {
+      int expected1 = 1;
+      int expected2 = 2;
+      deque.addFront(expected1);
+      deque.addTail(expected2);
+      Integer actual1 = deque.removeTail();
+      Integer actual2 = deque.removeTail();
+      assertThat(actual1).isEqualTo(expected2);
+      assertThat(actual2).isEqualTo(expected1);
+    }
   }
 
 }
