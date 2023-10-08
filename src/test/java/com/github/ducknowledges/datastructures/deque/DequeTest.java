@@ -26,7 +26,8 @@ class DequeTest {
       int expected = 1;
       deque.addFront(expected);
       Object[] dequeArray = deque.toArray();
-      assertThat(dequeArray).hasSize(1);
+      assertThat(dequeArray).hasSize(expected);
+      assertThat(deque.size()).isEqualTo(expected);
       assertThat(dequeArray[0]).isEqualTo(expected);
     }
 
@@ -40,7 +41,8 @@ class DequeTest {
         deque.addFront(integer);
       }
       Object[] dequeArray = deque.toArray();
-      assertThat(dequeArray).hasSize(3);
+      assertThat(dequeArray).hasSize(array.length);
+      assertThat(deque.size()).isEqualTo(array.length);
       assertThat(dequeArray[0]).isEqualTo(expected1);
       assertThat(dequeArray[2]).isEqualTo(expected2);
     }
@@ -55,7 +57,8 @@ class DequeTest {
       int expected = 1;
       deque.addTail(expected);
       Object[] dequeArray = deque.toArray();
-      assertThat(dequeArray).hasSize(1);
+      assertThat(dequeArray).hasSize(expected);
+      assertThat(deque.size()).isEqualTo(expected);
       assertThat(dequeArray[0]).isEqualTo(expected);
     }
 
@@ -69,7 +72,8 @@ class DequeTest {
         deque.addTail(integer);
       }
       Object[] dequeArray = deque.toArray();
-      assertThat(dequeArray).hasSize(3);
+      assertThat(dequeArray).hasSize(array.length);
+      assertThat(deque.size()).isEqualTo(array.length);
       assertThat(dequeArray[0]).isEqualTo(expected1);
       assertThat(dequeArray[2]).isEqualTo(expected2);
     }
@@ -87,6 +91,7 @@ class DequeTest {
       deque.addFront(expected2);
       Object[] dequeArray = deque.toArray();
       assertThat(dequeArray).hasSize(2);
+      assertThat(deque.size()).isEqualTo(2);
       assertThat(dequeArray[0]).isEqualTo(expected2);
       assertThat(dequeArray[1]).isEqualTo(expected1);
     }
@@ -100,6 +105,7 @@ class DequeTest {
       deque.addTail(expected2);
       Object[] dequeArray = deque.toArray();
       assertThat(dequeArray).hasSize(2);
+      assertThat(deque.size()).isEqualTo(2);
       assertThat(dequeArray[0]).isEqualTo(expected1);
       assertThat(dequeArray[1]).isEqualTo(expected2);
     }
@@ -121,6 +127,9 @@ class DequeTest {
       int expected = 1;
       deque.addTail(expected);
       Integer actual = deque.removeFront();
+      Object[] dequeArray = deque.toArray();
+      assertThat(dequeArray).isEmpty();
+      assertThat(deque.size()).isZero();
       assertThat(actual).isEqualTo(expected);
     }
 
@@ -133,6 +142,9 @@ class DequeTest {
       deque.addFront(expected2);
       Integer actual1 = deque.removeFront();
       Integer actual2 = deque.removeFront();
+      Object[] dequeArray = deque.toArray();
+      assertThat(dequeArray).isEmpty();
+      assertThat(deque.size()).isZero();
       assertThat(actual1).isEqualTo(expected2);
       assertThat(actual2).isEqualTo(expected1);
     }
@@ -154,6 +166,9 @@ class DequeTest {
       int expected = 1;
       deque.addFront(expected);
       Integer actual = deque.removeTail();
+      Object[] dequeArray = deque.toArray();
+      assertThat(dequeArray).isEmpty();
+      assertThat(deque.size()).isZero();
       assertThat(actual).isEqualTo(expected);
     }
 
@@ -166,6 +181,9 @@ class DequeTest {
       deque.addTail(expected2);
       Integer actual1 = deque.removeTail();
       Integer actual2 = deque.removeTail();
+      Object[] dequeArray = deque.toArray();
+      assertThat(dequeArray).isEmpty();
+      assertThat(deque.size()).isZero();
       assertThat(actual1).isEqualTo(expected2);
       assertThat(actual2).isEqualTo(expected1);
     }
