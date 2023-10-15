@@ -38,7 +38,7 @@ class OrderedListTest {
     void shouldReturnNegative() {
       first = 1;
       second = 2;
-      int expected = 1;
+      int expected = -1;
       int actual = list.compare(first, second);
       assertThat(actual).isEqualTo(expected);
     }
@@ -48,7 +48,7 @@ class OrderedListTest {
     void shouldReturnPositive() {
       first = 2;
       second = 1;
-      int expected = -1;
+      int expected = 1;
       int actual = list.compare(first, second);
       assertThat(actual).isEqualTo(expected);
     }

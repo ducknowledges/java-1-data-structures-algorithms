@@ -1,6 +1,6 @@
 package com.github.ducknowledges.datastructures.orderedlist;
 
-public class OrderedList<T> {
+public class OrderedList<T extends Comparable<T>> {
 
   public Node<T> head;
   public Node<T> tail;
@@ -13,8 +13,7 @@ public class OrderedList<T> {
   }
 
   public int compare(T v1, T v2) {
-    int difference = ((int)v1 - (int)v2) > 0 ? -1 : 1;
-    return v1.equals(v2) ? 0 : difference;
+    return v1.compareTo(v2);
   }
 
 }
