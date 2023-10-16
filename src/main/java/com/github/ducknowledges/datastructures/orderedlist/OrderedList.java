@@ -37,15 +37,7 @@ public class OrderedList<T extends Comparable<T>> {
     Node<T> current = head;
     while (current != null) {
       if ((_ascending && compare(value, current.value) < 0) || (!_ascending && compare(value, current.value) > 0)) {
-        if (current.prev != null) {
-          current.prev.next = newNode;
-          newNode.prev = current.prev;
-        } else {
-          head = newNode;
-        }
-        newNode.next = current;
-        current.prev = newNode;
-        size++;
+        insertBefore(current, newNode);
         return;
       }
       if (current.next == null) {
@@ -67,6 +59,19 @@ public class OrderedList<T extends Comparable<T>> {
     }
     this.tail = _item;
     this.size++;
+  }
+
+  private void insertBefore(Node<T> node, Node<T> newNode) {
+    if (node.prev != null) {
+      node.prev.next = newNode;
+      newNode.prev = node.prev;
+    } else {
+      head = newNode;
+    }
+
+    newNode.next = node;
+    node.prev = newNode;
+    size++;
   }
 
   // Time complexity O(n)
