@@ -36,7 +36,8 @@ public class OrderedList<T extends Comparable<T>> {
 
     Node<T> current = head;
     while (current != null) {
-      if ((_ascending && compare(value, current.value) < 0) || (!_ascending && compare(value, current.value) > 0)) {
+      int compare = compare(value, current.value);
+      if ((_ascending && compare < 0) || (!_ascending && compare > 0)) {
         insertBefore(current, newNode);
         return;
       }
