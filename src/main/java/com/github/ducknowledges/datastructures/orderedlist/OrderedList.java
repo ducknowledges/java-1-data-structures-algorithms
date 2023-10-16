@@ -71,6 +71,19 @@ public class OrderedList<T extends Comparable<T>> {
     this.size++;
   }
 
+  public Node<T> find(T val) {
+    Node<T> current = head;
+
+    while (current != null) {
+      if (compare(val, current.value) == 0) {
+        return current;
+      }
+      current = current.next;
+    }
+
+    return null;
+  }
+
   public int count() {
     return size;
   }

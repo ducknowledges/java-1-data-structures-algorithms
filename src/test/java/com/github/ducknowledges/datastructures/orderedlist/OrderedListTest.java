@@ -185,4 +185,134 @@ class OrderedListTest {
     }
   }
 
+  @Nested
+  @DisplayName("find")
+  class Find {
+    @Test
+    @DisplayName("should find null in empty list")
+    void shouldFindNullInEmptyList() {
+      var actual = list.find(1);
+      assertThat(actual).isNull();
+      assertThat(list.toArray()).isEqualTo(new Integer[]{});
+    }
+
+    @Test
+    @DisplayName("should find element in list")
+    void shouldFindElementInAscList() {
+      var expected = new Integer[]{0, 1, 2, 5};
+      list.add(expected[2]);
+      list.add(expected[1]);
+      list.add(expected[0]);
+      list.add(expected[3]);
+
+      var actual = list.find(expected[2]);
+      assertThat(actual.value).isEqualTo(expected[2]);
+      assertThat(list.toArray()).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("should find element in list")
+    void shouldFindElementInDescList() {
+      OrderedList<Integer> list = new OrderedList<>(false);
+      var expected = new Integer[]{5, 2, 1, 0};
+      list.add(expected[2]);
+      list.add(expected[1]);
+      list.add(expected[0]);
+      list.add(expected[3]);
+
+      var actual = list.find(expected[2]);
+      assertThat(actual.value).isEqualTo(expected[2]);
+      assertThat(list.toArray()).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("should add strings elements in ASC order")
+    void shouldFindStringsInAscOrder() {
+      OrderedList<String> list = new OrderedList<>(true);
+      var expected = new String[]{"a ", " b", " c ", "  d   "};
+      list.add(expected[2]);
+      list.add(expected[1]);
+      list.add(expected[0]);
+      list.add(expected[3]);
+
+      var actual = list.find(" " + expected[2]);
+      assertThat(actual.value).isEqualTo(expected[2]);
+      assertThat(list.toArray()).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("should add strings elements in DESC order")
+    void shouldAddStringsInDescOrder() {
+      OrderedList<String> list = new OrderedList<>(false);
+      var expected = new String[]{"  d   ", " c ", " b", "a "};
+      list.add(expected[2]);
+      list.add(expected[1]);
+      list.add(expected[0]);
+      list.add(expected[3]);
+
+      var actual = list.find(expected[2] + " ");
+      assertThat(actual.value).isEqualTo(expected[2]);
+      assertThat(list.toArray()).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("should return null element if element not found in asc order")
+    void shouldReturnNullIfNotFoundInAscOrder() {
+      var expected = new Integer[]{0, 1, 2, 5};
+      list.add(expected[2]);
+      list.add(expected[1]);
+      list.add(expected[0]);
+      list.add(expected[3]);
+
+      var actual = list.find(6);
+      assertThat(actual).isNull();
+      assertThat(list.toArray()).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("should return null element if element not found in desc order")
+    void shouldReturnNullIfNotFoundInDescOrder() {
+      OrderedList<Integer> list = new OrderedList<>(false);
+      var expected = new Integer[]{5, 2, 1, 0};
+      list.add(expected[2]);
+      list.add(expected[1]);
+      list.add(expected[0]);
+      list.add(expected[3]);
+
+      var actual = list.find(6);
+      assertThat(actual).isNull();
+      assertThat(list.toArray()).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("should return null element if string not found in asc order")
+    void shouldReturnNullIfStringNotFoundInAscOrder() {
+      OrderedList<String> list = new OrderedList<>(true);
+      var expected = new String[]{"a ", " b", " c ", "  d   "};
+      list.add(expected[2]);
+      list.add(expected[1]);
+      list.add(expected[0]);
+      list.add(expected[3]);
+
+      var actual = list.find("f ");
+      assertThat(actual).isNull();
+      assertThat(list.toArray()).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("should return null element if string not found in desc order")
+    void shouldReturnNullIfStringNotFoundInDescOrder() {
+      OrderedList<String> list = new OrderedList<>(false);
+      var expected = new String[]{"  d   ", " c ", " b", "a "};
+      list.add(expected[2]);
+      list.add(expected[1]);
+      list.add(expected[0]);
+      list.add(expected[3]);
+
+      var actual = list.find(" f");
+      assertThat(actual).isNull();
+      assertThat(list.toArray()).isEqualTo(expected);
+    }
+  }
+
 }
