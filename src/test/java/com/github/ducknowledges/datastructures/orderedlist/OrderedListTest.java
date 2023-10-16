@@ -588,6 +588,45 @@ class OrderedListTest {
       assertThat(list.count()).isEqualTo(expected.length);
       assertThat(list.toArray()).isEqualTo(new String[]{"  d   ", " c ", " b", "a "});
     }
+
+    @Test
+    @DisplayName("should delete first one element from the repeating ASC order")
+    void shouldDeleteFirstElementFromRepeatingAsc() {
+      var expected = new Integer[]{0, 1, 2, 2, 5};
+      list.add(expected[2]);
+      list.add(expected[1]);
+      list.add(expected[0]);
+      list.add(expected[4]);
+      list.add(expected[3]);
+
+      list.delete(expected[3]);
+      assertThat(list.count()).isEqualTo(expected.length - 1);
+      assertThat(list.toArray()).isEqualTo(new Integer[]{0, 1, 2, 5});
+
+      List<Node<Integer>> all = list.getAll();
+      assertListHead(all);
+      asserListTail(all);
+    }
+
+    @Test
+    @DisplayName("should delete first one element from the repeating DESC order")
+    void shouldDeleteFirstElementFromRepeatingDesc() {
+      OrderedList<Integer> list = new OrderedList<>(false);
+      var expected = new Integer[]{5, 2, 2, 1, 0};
+      list.add(expected[2]);
+      list.add(expected[4]);
+      list.add(expected[0]);
+      list.add(expected[3]);
+      list.add(expected[1]);
+
+      list.delete(expected[1]);
+      assertThat(list.count()).isEqualTo(expected.length - 1);
+      assertThat(list.toArray()).isEqualTo(new Integer[]{5, 2, 1, 0});
+
+      List<Node<Integer>> all = list.getAll();
+      assertListHead(all);
+      asserListTail(all);
+    }
   }
 
   @Nested
