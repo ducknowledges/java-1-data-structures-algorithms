@@ -20,15 +20,11 @@ public class OrderedList<T extends Comparable<T>> {
     if(v1 instanceof String) {
       return compareStrings(((String) v1).trim(), ((String) v2).trim());
     }
-    return compareElements(v1, v2);
+    return v1.compareTo(v2);
   }
 
   private int compareStrings(String str1, String str2) {
-    return _ascending ? str1.compareTo(str2) : str2.compareTo(str1);
-  }
-
-  private int compareElements(T v1, T v2) {
-    return _ascending ? v1.compareTo(v2) : v2.compareTo(v1);
+    return str1.compareTo(str2);
   }
 
   public void add(T value) {
