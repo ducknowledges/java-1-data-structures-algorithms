@@ -69,16 +69,20 @@ public class OrderedList<T extends Comparable<T>> {
     this.size++;
   }
 
+  // Time complexity O(n)
   public Node<T> find(T val) {
     Node<T> current = head;
 
     while (current != null) {
-      if (compare(val, current.value) == 0) {
+      int compare = compare(val, current.value);
+      if ((_ascending && compare < 0) || (!_ascending && compare > 0)) {
+        break;
+      }
+      if (compare == 0) {
         return current;
       }
       current = current.next;
     }
-
     return null;
   }
 
