@@ -36,7 +36,7 @@ public class OrderedList<T extends Comparable<T>> {
 
     Node<T> current = head;
     while (current != null) {
-      if (compare(value, current.value) < 0) {
+      if ((_ascending && compare(value, current.value) < 0) || (!_ascending && compare(value, current.value) > 0)) {
         if (current.prev != null) {
           current.prev.next = newNode;
           newNode.prev = current.prev;
