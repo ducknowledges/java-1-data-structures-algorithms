@@ -54,4 +54,97 @@ class OrderedListTest {
     }
   }
 
+
+  @Nested
+  @DisplayName("add")
+  class Add {
+    @Test
+    @DisplayName("should add element to empty list")
+    void shouldAddElementToEmptyList() {
+      int expected = 1;
+      assertThat(list.count()).isZero();
+      list.add(expected);
+
+      var array = list.toArray();
+      assertThat(list.count()).isEqualTo(1);
+      assertThat(array).hasSize(1);
+      assertThat(array[0]).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("should add integer elements in ASC order")
+    void shouldAddElementsInAscOrder() {
+      var expected = new Integer[]{0, 1, 2, 5};
+      list.add(expected[2]);
+      list.add(expected[1]);
+      list.add(expected[0]);
+      list.add(expected[3]);
+
+      var array = list.toArray();
+      assertThat(list.count()).isEqualTo(4);
+      assertThat(array).hasSize(4);
+      assertThat(array[0]).isEqualTo(expected[0]);
+      assertThat(array[1]).isEqualTo(expected[1]);
+      assertThat(array[2]).isEqualTo(expected[2]);
+      assertThat(array[3]).isEqualTo(expected[3]);
+    }
+
+    @Test
+    @DisplayName("should add integer elements in DESC order")
+    void shouldAddElementsInDescOrder() {
+      list = new OrderedList<>(false);
+      var expected = new Integer[]{5, 2, 1, 0};
+      list.add(expected[2]);
+      list.add(expected[1]);
+      list.add(expected[0]);
+      list.add(expected[3]);
+
+      var array = list.toArray();
+      assertThat(list.count()).isEqualTo(4);
+      assertThat(array).hasSize(4);
+      assertThat(array[0]).isEqualTo(expected[0]);
+      assertThat(array[1]).isEqualTo(expected[1]);
+      assertThat(array[2]).isEqualTo(expected[2]);
+      assertThat(array[3]).isEqualTo(expected[3]);
+    }
+
+    @Test
+    @DisplayName("should add strings elements in ASC order")
+    void shouldAddStringsInAscOrder() {
+      OrderedList<String> list = new OrderedList<>(true);
+      var expected = new String[]{"a ", " b", " c ", "  d   "};
+      list.add(expected[2]);
+      list.add(expected[1]);
+      list.add(expected[0]);
+      list.add(expected[3]);
+
+      var array = list.toArray();
+      assertThat(list.count()).isEqualTo(4);
+      assertThat(array).hasSize(4);
+      assertThat(array[0]).isEqualTo(expected[0]);
+      assertThat(array[1]).isEqualTo(expected[1]);
+      assertThat(array[2]).isEqualTo(expected[2]);
+      assertThat(array[3]).isEqualTo(expected[3]);
+    }
+
+    @Test
+    @DisplayName("should add strings elements in DESC order")
+    void shouldAddStringsInDescOrder() {
+      OrderedList<String> list = new OrderedList<>(false);
+      var expected = new String[]{"  d   ", " c ", " b", "a "};
+      list.add(expected[2]);
+      list.add(expected[1]);
+      list.add(expected[0]);
+      list.add(expected[3]);
+
+      var array = list.toArray();
+      assertThat(list.count()).isEqualTo(4);
+      assertThat(array).hasSize(4);
+      assertThat(array[0]).isEqualTo(expected[0]);
+      assertThat(array[1]).isEqualTo(expected[1]);
+      assertThat(array[2]).isEqualTo(expected[2]);
+      assertThat(array[3]).isEqualTo(expected[3]);
+    }
+  }
+
 }
