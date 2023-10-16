@@ -1,5 +1,7 @@
 package com.github.ducknowledges.datastructures.orderedlist;
 
+import java.util.ArrayList;
+
 public class OrderedList<T extends Comparable<T>> {
 
   public Node<T> head;
@@ -84,8 +86,50 @@ public class OrderedList<T extends Comparable<T>> {
     return null;
   }
 
+  public void delete(T val) {
+    Node<T> current = head;
+
+    while (current != null) {
+      if (compare(val, current.value) == 0) {
+        if (current.prev != null) {
+          current.prev.next = current.next;
+        } else {
+          head = current.next;
+        }
+
+        if (current.next != null) {
+          current.next.prev = current.prev;
+        } else {
+          tail = current.prev;
+        }
+
+        size--;
+        return;
+      }
+      current = current.next;
+    }
+  }
+
+  public void clear(boolean asc) {
+    _ascending = asc;
+    this.head = null;
+    this.tail = null;
+    this.size = 0;
+  }
+
   public int count() {
     return size;
+  }
+
+  ArrayList<Node<T>> getAll() {
+    ArrayList<Node<T>> r = new ArrayList<Node<T>>();
+    Node<T> node = head;
+    while(node != null)
+    {
+      r.add(node);
+      node = node.next;
+    }
+    return r;
   }
 
   public boolean isEmpty() {
