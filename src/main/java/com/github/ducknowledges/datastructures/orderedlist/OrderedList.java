@@ -70,19 +70,6 @@ public class OrderedList<T extends Comparable<T>> {
     this.size++;
   }
 
-  private void insertBefore(Node<T> node, Node<T> newNode) {
-    if (node.prev != null) {
-      node.prev.next = newNode;
-      newNode.prev = node.prev;
-    } else {
-      head = newNode;
-    }
-
-    newNode.next = node;
-    node.prev = newNode;
-    size++;
-  }
-
   // Time complexity O(n)
   public Node<T> find(T val) {
     Node<T> current = head;
