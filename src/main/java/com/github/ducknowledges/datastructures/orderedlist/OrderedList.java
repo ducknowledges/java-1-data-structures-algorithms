@@ -33,20 +33,28 @@ public class OrderedList<T extends Comparable<T>> {
       addInTail(newNode);
       return;
     }
-
     Node<T> current = head;
-    while (current != null) {
-      int compare = compare(value, current.value);
-      if ((_ascending && compare < 0) || (!_ascending && compare > 0)) {
-        insertBefore(current, newNode);
-        return;
-      }
-      if (current.next == null) {
-        addInTail(newNode);
-        return;
-      }
+    while (current != null && isCorrectOrder(value, current.value)) {
       current = current.next;
     }
+    Node<T> prevNode = current != null ? current.prev : tail;
+    if (prevNode != null) {
+      prevNode.next = newNode;
+      newNode.prev = prevNode;
+    } else {
+      head = newNode;
+    }
+    if (current != null) {
+      newNode.next = current;
+      current.prev = newNode;
+    } else {
+      tail = newNode;
+    }
+    size++;
+  }
+
+  private boolean isCorrectOrder(T v1, T v2) {
+    return _ascending ? compare(v1, v2) > 0 : compare(v1, v2) < 0;
   }
 
   private void addInTail(Node _item) {
@@ -93,27 +101,21 @@ public class OrderedList<T extends Comparable<T>> {
   }
 
   public void delete(T val) {
-    Node<T> current = head;
-
-    while (current != null) {
-      if (compare(val, current.value) == 0) {
-        if (current.prev != null) {
-          current.prev.next = current.next;
-        } else {
-          head = current.next;
-        }
-
-        if (current.next != null) {
-          current.next.prev = current.prev;
-        } else {
-          tail = current.prev;
-        }
-
-        size--;
-        return;
-      }
-      current = current.next;
+    Node<T> node = find(val);
+    if(node == null) {
+      return;
     }
+    if (node.prev != null) {
+      node.prev.next = node.next;
+    } else {
+      head = node.next;
+    }
+    if (node.next != null) {
+      node.next.prev = node.prev;
+    } else {
+      tail = node.prev;
+    }
+    size--;
   }
 
   public void clear(boolean asc) {
