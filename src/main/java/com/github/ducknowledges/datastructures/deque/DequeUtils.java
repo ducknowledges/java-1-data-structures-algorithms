@@ -7,13 +7,15 @@ public class DequeUtils {
   public static boolean isPalindrome(String str) {
     Deque<Character> deque = getDeque(str);
     while (deque.size() > 1) {
-      Character first = deque.removeFront();
-      Character last = deque.removeTail();
-      if (!first.equals(last)) {
+      if (areNotEqualChars(deque.removeFront(), deque.removeTail())) {
         return false;
       }
     }
     return true;
+  }
+
+  private static boolean areNotEqualChars(Character ch1, Character ch2) {
+      return !ch1.equals(ch2);
   }
 
   private static Deque<Character> getDeque(String str) {
