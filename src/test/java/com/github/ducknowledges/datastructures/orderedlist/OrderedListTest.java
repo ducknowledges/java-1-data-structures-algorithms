@@ -739,6 +739,27 @@ class OrderedListTest {
     }
   }
 
+  @Nested
+  @DisplayName("count")
+  class Count {
+    @Test
+    @DisplayName("should coun")
+    void shouldCount() {
+      list.add(1);
+      list.add(1);
+      list.add(1);
+      list.add(1);
+      assertThat(list.count()).isEqualTo(4);
+
+      list.delete(1);
+      list.delete(1);
+      assertThat(list.count()).isEqualTo(2);
+
+      list.clear(true);
+      assertThat(list.count()).isZero();
+    }
+  }
+
   void assertListHead(List<Node<Integer>> list) {
     if (list.size() == 1) {
       assertThat(list.get(0).next).isNull();
