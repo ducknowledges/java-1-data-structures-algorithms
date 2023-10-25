@@ -22,6 +22,25 @@ public class HashTable {
   }
 
   public int seekSlot(String value) {
+    int hash = this.hashFun(value);
+    String temp = slots[hash];
+    if (temp == null) {
+      return hash;
+    } else {
+      hash += step;
+      if (hash > size - 1) {
+        hash -= size;
+      }
+      while (!temp.equals(slots[hash])) {
+        if(slots[hash] == null) {
+          return hash;
+        }
+        hash += step;
+        if (hash > size - 1) {
+          hash -= size;
+        }
+      }
+    }
     return -1;
   }
 
