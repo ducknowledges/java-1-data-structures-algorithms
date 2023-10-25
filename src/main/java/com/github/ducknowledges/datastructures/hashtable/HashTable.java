@@ -14,7 +14,11 @@ public class HashTable {
   }
 
   public int hashFun(String value) {
-    return 0;
+    int sum = 0;
+    for (char ch: value.toCharArray()) {
+      sum += ch;
+    }
+    return sum % this.size;
   }
 
   public int seekSlot(String value) {
