@@ -45,7 +45,12 @@ public class HashTable {
   }
 
   public int put(String value) {
-    return -1;
+    int slot = seekSlot(value);
+    if (slot < 0) {
+      return -1;
+    }
+    slots[slot] = value;
+    return slot;
   }
 
   public int find(String value) {
