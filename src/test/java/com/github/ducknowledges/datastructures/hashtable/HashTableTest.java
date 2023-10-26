@@ -25,6 +25,10 @@ class HashTableTest {
     @Test
     @DisplayName("should return ZERO of hash function")
     void shouldReturnZeroOfHashFun() {
+      this.repeatAssertEqualityTenTimes(hashTable.hashFun(null), 0);
+
+      this.repeatAssertEqualityTenTimes(hashTable.hashFun(""), 0);
+
       hashTable = new HashTable(1, 1);
       this.repeatAssertEqualityTenTimes(hashTable.hashFun("Hello"), 0);
 
@@ -38,6 +42,11 @@ class HashTableTest {
     @Test
     @DisplayName("should return correct int of hash function")
     void shouldReturnCorrectIntegerOfHashFun() {
+      hashTable = new HashTable(128, 1);
+      this.repeatAssertEqualityTenTimes(hashTable.hashFun(""), 0);
+      hashTable = new HashTable(19, 1);
+      this.repeatAssertEqualityTenTimes(hashTable.hashFun(""), 0);
+
       hashTable = new HashTable(128, 1);
       this.repeatAssertEqualityTenTimes(hashTable.hashFun("Hello"), 116);
       hashTable = new HashTable(19, 1);
@@ -68,6 +77,8 @@ class HashTableTest {
       this.repeatAssertEqualityTenTimes(hashTable.hashFun("World Hello"), 7);
     }
 
+    @DisplayName("")
+
     private void repeatAssertEqualityTenTimes(int actual, int expected) {
       for (int i = 0; i < 10; i++) {
         assertThat(actual).isEqualTo(expected);
@@ -77,6 +88,13 @@ class HashTableTest {
 
   @Nested
   class SeekSlot {
+    @Test
+    @DisplayName("should get not seek slot for null")
+    void shouldNotSeekSlotForNull() {
+      int actual = hashTable.seekSlot(null);
+      assertThat(actual).isEqualTo(-1);
+    }
+
     @Test
     @DisplayName("should get correct slot of empty hashtable slot")
     void shouldSeekEmptySlot() {
@@ -121,7 +139,7 @@ class HashTableTest {
     }
 
     @Test
-    @DisplayName("should not seek empty slot")
+    @DisplayName("should not seek empty slot in full hashtable")
     void shouldNotBeSeek() {
       String[] fakeSlot = new String[]{
           "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
@@ -132,18 +150,43 @@ class HashTableTest {
       int actual = hashTable.seekSlot(input);
       assertThat(actual).isEqualTo(-1);
     }
+
+    @Test
+    @DisplayName("should not seek empty slot in full hashtable of same elements")
+    void shouldNotBeSeekInSameElements() {
+      String[] fakeSlot = new String[]{
+          "0", "0", "0", "0", "0", "0", "0", "0", "0", "0",
+          "0", "0", "0", "0", "0", "0", "0", "0", "0"
+      };
+      String input = "0";
+      hashTable.slots = fakeSlot;
+      int actual = hashTable.seekSlot(input);
+      assertThat(actual).isEqualTo(-1);
+    }
   }
 
   @Nested
   class Put {
+    @Test
+    @DisplayName("should not put null to hashtable")
+    void shouldNotPutNull() {
+      int actual = hashTable.put(null);
+      assertThat(actual).isEqualTo(-1);
+
+      String[] expectedSlot = new String[]{
+          null, null, null, null, null, null, null, null, null, null,
+          null, null, null, null, null, null, null, null, null
+      };
+      assertThat(hashTable.slots).isEqualTo(expectedSlot);
+    }
+
 
     @Test
-    @DisplayName("should put to slot of empty hashtable slot")
-    void shouldSeekEmptySlot() {
+    @DisplayName("should put to empty hashtable")
+    void shouldPutToEmptyHashtable() {
       String input = "Hello World";
       int actual = hashTable.put(input);
       assertThat(actual).isEqualTo(7);
-      assertThat(hashTable.slots[7]).isEqualTo(input);
 
       String[] expectedSlot = new String[]{
           null, null, null, null, null, null, null, "Hello World", null, null,
@@ -154,7 +197,7 @@ class HashTableTest {
 
     @Test
     @DisplayName("should put to next slot for not empty hashtable slot")
-    void shouldPutIfNotEmptySlot() {
+    void shouldPutIfNotEmptySlotOfHashtable() {
       String input = "World Hello";
       hashTable.slots[7] = "Hello World";
       int actual = hashTable.put(input);
@@ -168,7 +211,7 @@ class HashTableTest {
     }
 
     @Test
-    @DisplayName("should put slot in single empty hashtable slot")
+    @DisplayName("should put slot in single empty slot of hashtable")
     void shouldPutSingleEmptySlot() {
       String[] fakeSlot = new String[]{
           "0", "1", "2", "3", "4", "5", null, "7", "8", "9",
@@ -187,7 +230,7 @@ class HashTableTest {
     }
 
     @Test
-    @DisplayName("should put slot in last empty hashtable slot")
+    @DisplayName("should put slot in last empty slot of hashtable")
     void shouldPutLastEmptySlot() {
       String[] fakeSlot = new String[]{
           null, "1", "2", "3", "4", "5", "6", "7", "8", "9",
@@ -221,6 +264,20 @@ class HashTableTest {
       assertThat(hashTable.slots).isEqualTo(fakeSlot);
     }
 
+    @Test
+    @DisplayName("should not put in full hashtable slots with same elements")
+    void shouldNotBePutInSameElements() {
+      String[] fakeSlot = new String[]{
+          "0", "0", "0", "0", "0", "0", "0", "0", "0", "0",
+          "0", "0", "0", "0", "0", "0", "0", "0", "0"
+      };
+      String input = "input";
+      hashTable.slots = fakeSlot;
+      int actual = hashTable.put(input);
+      assertThat(actual).isEqualTo(-1);
+
+      assertThat(hashTable.slots).isEqualTo(fakeSlot);
+    }
   }
 
 }
