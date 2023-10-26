@@ -28,25 +28,21 @@ public class HashTable {
     if (value == null) {
       return -1;
     }
+
     int hash = this.hashFun(value);
     String temp = slots[hash];
     if (temp == null) {
       return hash;
     } else {
-      hash += step;
-      if (hash > size - 1) {
-        hash -= size;
-      }
+      hash = (hash + step) % size;
       while (!temp.equals(slots[hash])) {
         if(slots[hash] == null) {
           return hash;
         }
-        hash += step;
-        if (hash > size - 1) {
-          hash -= size;
-        }
+        hash = (hash + step) % size;
       }
     }
+
     return -1;
   }
 
@@ -64,24 +60,17 @@ public class HashTable {
     if (value == null || slots[hash] == null) {
       return -1;
     }
-
     if (slots[hash].equals(value)) {
       return hash;
     }
+
     int temp = hash;
-    hash += step;
-    if (hash >= size) {
-      hash -= size;
-    }
-    while (slots[hash] != null && temp != hash) {
-      if (value.equals(slots[hash])) {
+    do {
+      hash = (hash + step) % size;
+      if (slots[hash] != null && value.equals(slots[hash])) {
         return hash;
       }
-      hash += step;
-      if (hash >= size) {
-        hash -= size;
-      }
-    }
+    } while (hash != temp && slots[hash] != null);
 
     return -1;
   }
