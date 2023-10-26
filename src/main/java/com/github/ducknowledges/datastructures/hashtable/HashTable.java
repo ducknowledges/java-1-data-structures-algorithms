@@ -15,6 +15,9 @@ public class HashTable {
 
   public int hashFun(String value) {
     int sum = 0;
+    if (value == null) {
+      return sum;
+    }
     for (char ch: value.toCharArray()) {
       sum += ch;
     }
@@ -22,6 +25,9 @@ public class HashTable {
   }
 
   public int seekSlot(String value) {
+    if (value == null) {
+      return -1;
+    }
     int hash = this.hashFun(value);
     String temp = slots[hash];
     if (temp == null) {
@@ -54,6 +60,29 @@ public class HashTable {
   }
 
   public int find(String value) {
+    int hash = this.hashFun(value);
+    if (value == null || slots[hash] == null) {
+      return -1;
+    }
+
+    if (slots[hash].equals(value)) {
+      return hash;
+    }
+    int temp = hash;
+    hash += step;
+    if (hash >= size) {
+      hash -= size;
+    }
+    while (slots[hash] != null && temp != hash) {
+      if (value.equals(slots[hash])) {
+        return hash;
+      }
+      hash += step;
+      if (hash >= size) {
+        hash -= size;
+      }
+    }
+
     return -1;
   }
 

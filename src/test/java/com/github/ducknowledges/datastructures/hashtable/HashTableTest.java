@@ -280,4 +280,147 @@ class HashTableTest {
     }
   }
 
+  @Nested
+  class Find {
+    @Test
+    @DisplayName("should not find null in hashtable")
+    void shouldNotFindNullInHashtable1() {
+      int actual = hashTable.find(null);
+      assertThat(actual).isEqualTo(-1);
+
+      String[] expectedSlot = new String[]{
+          null, null, null, null, null, null, null, null, null, null,
+          null, null, null, null, null, null, null, null, null    };
+      assertThat(hashTable.slots).isEqualTo(expectedSlot);
+    }
+
+    @Test
+    @DisplayName("should not find null in full hashtable")
+    void shouldNotFindNullInFullHashtable() {
+      String[] fakeSlot = new String[]{
+          "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+          "10", "11", "12", "13", "14", "15", "16", "17", "18"
+      };
+      hashTable.slots = fakeSlot;
+      int actual = hashTable.find(null);
+      assertThat(actual).isEqualTo(-1);
+
+      assertThat(hashTable.slots).isEqualTo(fakeSlot);
+    }
+
+    @Test
+    @DisplayName("should find slot of single element hashtable")
+    void shouldFindSlotInSingleHashtable() {
+      String input = "Hello World";
+      hashTable.put(input);
+      int actual = hashTable.find(input);
+      assertThat(actual).isEqualTo(7);
+
+      String[] expectedSlot = new String[]{
+          null, null, null, null, null, null, null, "Hello World", null, null,
+          null, null, null, null, null, null, null, null, null    };
+      assertThat(hashTable.slots).isEqualTo(expectedSlot);
+    }
+
+    @Test
+    @DisplayName("should find next slot for not empty hashtable slot")
+    void shouldPutIfNotEmptySlot() {
+      String input1 = "Hello World";
+      String input2 = "World Hello";
+      hashTable.put(input1);
+      hashTable.put(input2);
+      int actual1 = hashTable.find(input1);
+      int actual2 = hashTable.find(input2);
+      assertThat(actual1).isEqualTo(7);
+      assertThat(actual2).isEqualTo(10);
+
+      String[] expectedSlot = new String[]{
+          null, null, null, null, null, null, null, "Hello World", null, null,
+          "World Hello", null, null, null, null, null, null, null, null
+      };
+      assertThat(hashTable.slots).isEqualTo(expectedSlot);
+    }
+
+    @Test
+    @DisplayName("should find slot in single empty hashtable slot")
+    void shouldFindInHashtableWithSingleEmptySlot() {
+      String[] fakeSlot = new String[]{
+          "0", "1", "2", "3", "4", "5", null, "7", "8", "9",
+          "10", "11", "12", "13", "14", "15", "16", "17", "18"
+      };
+      String input = "7";
+      hashTable.slots = fakeSlot;
+      int actual = hashTable.find(input);
+      assertThat(actual).isEqualTo(7);
+
+      String[] expectedSlot = new String[]{
+          "0", "1", "2", "3", "4", "5", null, "7", "8", "9",
+          "10", "11", "12", "13", "14", "15", "16", "17", "18"
+      };
+      assertThat(hashTable.slots).isEqualTo(expectedSlot);
+    }
+
+    @Test
+    @DisplayName("should find slot in single empty hashtable slot with same elements")
+    void shouldFindInFullHashtableWithSameElements() {
+      String[] fakeSlot = new String[]{
+          "0", "0", "0", "0", "0", "0", "0", "0", "0", "0",
+          "0", "0", "0", "0", "0", "0", "0", "0", "0"
+      };
+      String input = "0";
+      hashTable.slots = fakeSlot;
+      int actual = hashTable.find(input);
+      assertThat(actual).isEqualTo(10);
+
+      assertThat(hashTable.slots).isEqualTo(fakeSlot);
+    }
+
+    @Test
+    @DisplayName("should not find slot in empty hashtable")
+    void shouldNotFindInEmptyHashtable() {
+      String input = "Hello World";
+      int actual = hashTable.find(input);
+      assertThat(actual).isEqualTo(-1);
+
+      String[] expectedSlot = new String[]{
+          null, null, null, null, null, null, null, null, null, null,
+          null, null, null, null, null, null, null, null, null    };
+      assertThat(hashTable.slots).isEqualTo(expectedSlot);
+    }
+
+    @Test
+    @DisplayName("should not find in full hashtable slots")
+    void shouldNotBeFoundWithRandomHashtableValues() {
+      String input1 = "Hello World";
+      String input2 = "World Hello";
+      hashTable.put(input1);
+      hashTable.put(input2);
+
+      String input = "not exits";
+      int actual = hashTable.find(input);
+      assertThat(actual).isEqualTo(-1);
+
+      String[] expectedSlot = new String[]{
+          null, null, null, null, null, null, null, "Hello World", null, null,
+          "World Hello", null, null, null, null, null, null, null, null
+      };
+      assertThat(hashTable.slots).isEqualTo(expectedSlot);
+    }
+
+    @Test
+    @DisplayName("should not find in full hashtable slots")
+    void shouldNotBeFound() {
+      String[] fakeSlot = new String[]{
+          "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+          "10", "11", "12", "13", "14", "15", "16", "17", "18"
+      };
+      String input = "input";
+      hashTable.slots = fakeSlot;
+      int actual = hashTable.find(input);
+      assertThat(actual).isEqualTo(-1);
+
+      assertThat(hashTable.slots).isEqualTo(fakeSlot);
+    }
+  }
+
 }
