@@ -15,7 +15,14 @@ public class NativeDictionary<T> {
   }
 
   public int hashFun(String key) {
-    return 0;
+    int sum = 0;
+    if (key == null) {
+      return sum;
+    }
+    for (char ch: key.toCharArray()) {
+      sum += ch;
+    }
+    return sum % this.size;
   }
 
   public boolean isKey(String key) {
