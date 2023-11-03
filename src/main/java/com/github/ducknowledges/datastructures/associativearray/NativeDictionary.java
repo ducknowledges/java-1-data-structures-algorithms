@@ -28,15 +28,14 @@ public class NativeDictionary<T> {
   }
 
   public boolean isKey(String key) {
-    int slot = seekSlot(key);
-    if (slot == -1) {
-      return false;
+    int hash = hashFun(key);
+    while (slots[hash] != null) {
+      if (slots[hash].equals(key)) {
+        return true;
+      }
+      hash = (hash + step) % size;
     }
-    String string = slots[slot];
-    if (string == null) {
-      return false;
-    }
-    return string.equals(key);
+    return false;
   }
 
   public void put(String key, T value) {
@@ -48,6 +47,13 @@ public class NativeDictionary<T> {
   }
 
   public T get(String key) {
+    int hash = hashFun(key);
+    while (slots[hash] != null) {
+      if (slots[hash].equals(key)) {
+        return values[hash];
+      }
+      hash = (hash + step) % size;
+    }
     return null;
   }
 
