@@ -28,7 +28,15 @@ public class NativeDictionary<T> {
   }
 
   public boolean isKey(String key) {
-    return false;
+    int slot = seekSlot(key);
+    if (slot == -1) {
+      return false;
+    }
+    String string = slots[slot];
+    if (string == null) {
+      return false;
+    }
+    return string.equals(key);
   }
 
   public void put(String key, T value) {

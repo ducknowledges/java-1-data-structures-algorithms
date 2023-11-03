@@ -19,6 +19,7 @@ class NativeDictionaryTest {
   }
 
   @Nested
+  @DisplayName("hashFun")
   class HashFun {
     @Test
     @DisplayName("should return ZERO of hash function")
@@ -61,6 +62,7 @@ class NativeDictionaryTest {
   }
 
   @Nested
+  @DisplayName("put")
   class Put {
 
     @Test
@@ -202,4 +204,61 @@ class NativeDictionaryTest {
     }
   }
 
+  @Nested
+  @DisplayName("isKey")
+  class IsKey {
+
+    @Test
+    @DisplayName("should return True if key exist")
+    void shouldFoundKey() {
+      dictionary.put("key1", "val1");
+      dictionary.put("key2", "val3");
+
+      assertThat(dictionary.isKey("key1")).isTrue();
+      assertThat(dictionary.isKey("key2")).isTrue();
+    }
+
+    @Test
+    @DisplayName("should return True if key exist with collision")
+    void shouldFoundKeyInCollision() {
+      dictionary.put("key1", "val1");
+      dictionary.put("1key", "val1");
+      dictionary.put("key2", "val2");
+      dictionary.put("2key", "val2");
+
+      assertThat(dictionary.isKey("key1")).isTrue();
+      assertThat(dictionary.isKey("1key")).isTrue();
+      assertThat(dictionary.isKey("key2")).isTrue();
+      assertThat(dictionary.isKey("2key")).isTrue();
+    }
+
+    @Test
+    @DisplayName("should return False if key not exist in empty dictionary")
+    void shouldNotFoundKeyInEmptyDictionary() {
+      assertThat(dictionary.isKey("1key")).isFalse();
+      assertThat(dictionary.isKey("2key")).isFalse();
+      assertThat(dictionary.isKey("abracadabra")).isFalse();
+    }
+
+    @Test
+    @DisplayName("should return False if key null")
+    void shouldNotFoundNullKey() {
+      dictionary.put("key1", "val1");
+      dictionary.put("key2", "val2");
+
+      assertThat(dictionary.isKey(null)).isFalse();
+    }
+
+    @Test
+    @DisplayName("should return False if key not exist")
+    void shouldNotFoundKey() {
+      dictionary.put("key1", "val1");
+      dictionary.put("key2", "val2");
+
+      assertThat(dictionary.isKey("1key")).isFalse();
+      assertThat(dictionary.isKey("2key")).isFalse();
+      assertThat(dictionary.isKey("abracadabra")).isFalse();
+    }
+
+  }
 }
