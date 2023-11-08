@@ -57,6 +57,19 @@ public class NativeDictionary<T> {
     return null;
   }
 
+  public boolean remove(String key) {
+    int hash = hashFun(key);
+    while (slots[hash] != null) {
+      if (slots[hash].equals(key)) {
+        slots[hash] = null;
+        values[hash] = null;
+        return true;
+      }
+      hash = (hash + step) % size;
+    }
+    return false;
+  }
+
   private int seekSlot(String key) {
     if (key == null) {
       return -1;

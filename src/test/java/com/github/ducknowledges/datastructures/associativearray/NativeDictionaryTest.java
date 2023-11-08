@@ -299,12 +299,79 @@ class NativeDictionaryTest {
 
     @Test
     @DisplayName("should return Null if key null")
-    void shouldGetNullifKeyNull() {
+    void shouldGetNullIfKeyNull() {
       dictionary.put("key1", "val1");
       dictionary.put("key2", "val2");
 
       assertThat(dictionary.get(null)).isNull();
     }
-
   }
+
+  @Nested
+  @DisplayName("remove")
+  class Remove {
+    @Test
+    @DisplayName("should remove by key")
+    void shouldRemoveByKey() {
+      dictionary.put("key1", "val1");
+      dictionary.put("key2", "val2");
+      dictionary.put("key3", "val3");
+
+      assertThat(dictionary.remove("key1")).isTrue();
+      assertThat(dictionary.remove("key2")).isTrue();
+      assertThat(dictionary.isKey("key1")).isFalse();
+      assertThat(dictionary.isKey("key2")).isFalse();
+      assertThat(dictionary.isKey("key3")).isTrue();
+    }
+
+    @Test
+    @DisplayName("should remove by key if has collision")
+    void shouldRemoveByKeyInCollision() {
+      dictionary.put("key1", "val1");
+      dictionary.put("1key", "val1");
+      dictionary.put("key2", "val2");
+      dictionary.put("2key", "val2");
+
+      assertThat(dictionary.remove("1key")).isTrue();
+      assertThat(dictionary.remove("key1")).isTrue();
+      assertThat(dictionary.remove("2key")).isTrue();
+      assertThat(dictionary.remove("key2")).isTrue();
+      assertThat(dictionary.isKey("1key")).isFalse();
+      assertThat(dictionary.isKey("key1")).isFalse();
+      assertThat(dictionary.isKey("2key")).isFalse();
+      assertThat(dictionary.isKey("key2")).isFalse();
+    }
+
+    @Test
+    @DisplayName("should not remove if key not exist in empty dictionary")
+    void shouldNotRemoveByKeyInEmptyDictionary() {
+      assertThat(dictionary.isKey("1key")).isFalse();
+      assertThat(dictionary.isKey("2key")).isFalse();
+      assertThat(dictionary.remove("1key")).isFalse();
+      assertThat(dictionary.remove("2key")).isFalse();
+    }
+
+    @Test
+    @DisplayName("should not remove if key not exist")
+    void shouldNotRemoveByKey() {
+      dictionary.put("key1", "val1");
+      dictionary.put("key2", "val2");
+
+      assertThat(dictionary.remove("abracadabra")).isFalse();
+      assertThat(dictionary.isKey("key1")).isTrue();
+      assertThat(dictionary.isKey("key2")).isTrue();
+    }
+
+    @Test
+    @DisplayName("should not remove if key null")
+    void shouldNotRemoveByKeyIfKeyNull() {
+      dictionary.put("key1", "val1");
+      dictionary.put("key2", "val2");
+
+      assertThat(dictionary.remove(null)).isFalse();
+      assertThat(dictionary.isKey("key1")).isTrue();
+      assertThat(dictionary.isKey("key2")).isTrue();
+    }
+  }
+
 }
