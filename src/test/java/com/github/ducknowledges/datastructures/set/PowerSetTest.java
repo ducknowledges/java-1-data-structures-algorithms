@@ -50,7 +50,7 @@ class PowerSetTest {
     @DisplayName("should not put null to empty set")
     void shouldNotPutNullToEmptySet() {
       set.put(null);
-      assertThat(set.size()).isEqualTo(0);
+      assertThat(set.size()).isZero();
     }
   }
 
@@ -106,15 +106,22 @@ class PowerSetTest {
     void shouldRemoveElement() {
       set.put("key1");
       set.put("1key");
+      set.put("k1ey");
       set.put("key3");
-      assertThat(set.size()).isEqualTo(3);
+      assertThat(set.size()).isEqualTo(4);
       assertThat(set.remove("key3")).isTrue();
+      assertThat(set.size()).isEqualTo(3);
+      assertThat(set.remove("key1")).isTrue();
       assertThat(set.size()).isEqualTo(2);
+      assertThat(set.remove("1key")).isTrue();
+      assertThat(set.size()).isEqualTo(1);
+      assertThat(set.remove("k1ey")).isTrue();
+      assertThat(set.size()).isZero();
     }
 
     @Test
     @DisplayName("should not remove not existed element in set")
-    void shouldNotPutExistedElement() {
+    void shouldNotRemoveExistedElement() {
       set.put("key1");
       set.put("key2");
       assertThat(set.remove("key3")).isFalse();
@@ -130,7 +137,7 @@ class PowerSetTest {
 
     @Test
     @DisplayName("should not remove null element in set")
-    void shouldNotPutNull() {
+    void shouldNotRemoveNull() {
       set.put("key1");
       set.put("key2");
       assertThat(set.remove(null)).isFalse();

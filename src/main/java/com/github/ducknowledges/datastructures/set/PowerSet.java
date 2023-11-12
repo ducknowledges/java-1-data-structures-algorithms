@@ -99,7 +99,7 @@ public class PowerSet {
       slots = new String[size];
     }
 
-    int hashFun(String key) {
+    public int hashFun(String key) {
       int sum = 0;
       if (key == null) {
         return sum;
@@ -110,7 +110,7 @@ public class PowerSet {
       return sum % this.size;
     }
 
-    boolean isKey(String key) {
+    public boolean isKey(String key) {
       int hash = hashFun(key);
       while (slots[hash] != null) {
         if (slots[hash].equals(key)) {
@@ -121,23 +121,54 @@ public class PowerSet {
       return false;
     }
 
-    void put(String key) {
+    public void put(String key) {
       int slot = seekSlot(key);
       if (slot >= 0) {
         slots[slot] = key;
       }
     }
 
-    boolean remove(String key) {
-      int hash = hashFun(key);
-      while (slots[hash] != null) {
-        if (slots[hash].equals(key)) {
-          slots[hash] = null;
+
+    public boolean remove(String key) {
+      if (key == null) {
+        return false;
+      }
+      int firstIndex = hashFun(key);
+      int currentIndex = firstIndex;
+      while (slots[currentIndex] != null) {
+        if (slots[currentIndex].equals(key) && !hasCollision(currentIndex, firstIndex)) {
+          this.clearSlot(currentIndex);
           return true;
         }
-        hash = (hash + STEP) % size;
+        if (slots[currentIndex].equals(key)) {
+          while (hasCollision(currentIndex, firstIndex)) {
+            shiftSlotToNext(currentIndex);
+            currentIndex = nextIndex(currentIndex);
+            if (!hasCollision(currentIndex, firstIndex)) {
+              this.clearSlot(currentIndex);
+            }
+          }
+          return true;
+        }
+        currentIndex = nextIndex(currentIndex);
       }
       return false;
+    }
+
+    private void shiftSlotToNext(int currentIndex) {
+      slots[currentIndex] = slots[nextIndex(currentIndex)];
+    }
+
+    private boolean hasCollision(int currentIndex, int firstHash) {
+      return hashFun(slots[nextIndex(currentIndex)]) == firstHash;
+    }
+
+    private int nextIndex(int index) {
+      return (index + STEP) % size;
+    }
+
+    private void clearSlot(int hash) {
+      slots[hash] = null;
     }
 
     private int seekSlot(String key) {

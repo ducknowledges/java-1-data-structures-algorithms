@@ -227,7 +227,11 @@ class NativeDictionaryTest {
       dictionary.put("2key", "val2");
 
       assertThat(dictionary.isKey("key1")).isTrue();
+      assertThat(dictionary.remove("key1")).isTrue();
+      assertThat(dictionary.isKey("key1")).isFalse();
       assertThat(dictionary.isKey("1key")).isTrue();
+      assertThat(dictionary.remove("1key")).isTrue();
+      assertThat(dictionary.isKey("1key")).isFalse();
       assertThat(dictionary.isKey("key2")).isTrue();
       assertThat(dictionary.isKey("2key")).isTrue();
     }
@@ -329,11 +333,14 @@ class NativeDictionaryTest {
     void shouldRemoveByKeyInCollision() {
       dictionary.put("key1", "val1");
       dictionary.put("1key", "val1");
+      dictionary.put("k1ey", "val1");
       dictionary.put("key2", "val2");
       dictionary.put("2key", "val2");
 
-      assertThat(dictionary.remove("1key")).isTrue();
+//      assertThat(dictionary.remove("1key")).isTrue();
+//      assertThat(dictionary.remove("key1")).isTrue();
       assertThat(dictionary.remove("key1")).isTrue();
+      assertThat(dictionary.remove("1key")).isTrue();
       assertThat(dictionary.remove("2key")).isTrue();
       assertThat(dictionary.remove("key2")).isTrue();
       assertThat(dictionary.isKey("1key")).isFalse();

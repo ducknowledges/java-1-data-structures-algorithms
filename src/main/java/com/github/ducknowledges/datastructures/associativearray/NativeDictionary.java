@@ -58,16 +58,47 @@ public class NativeDictionary<T> {
   }
 
   public boolean remove(String key) {
-    int hash = hashFun(key);
-    while (slots[hash] != null) {
-      if (slots[hash].equals(key)) {
-        slots[hash] = null;
-        values[hash] = null;
+    if (key == null) {
+      return false;
+    }
+    int firstIndex = hashFun(key);
+    int currentIndex = firstIndex;
+    while (slots[currentIndex] != null) {
+      if (slots[currentIndex].equals(key) && !hasCollision(currentIndex, firstIndex)) {
+        this.clearSlot(currentIndex);
         return true;
       }
-      hash = (hash + step) % size;
+      if (slots[currentIndex].equals(key)) {
+        while (hasCollision(currentIndex, firstIndex)) {
+          shiftSlotToNext(currentIndex);
+          currentIndex = nextIndex(currentIndex);
+          if (!hasCollision(currentIndex, firstIndex)) {
+            this.clearSlot(currentIndex);
+          }
+        }
+        return true;
+      }
+      currentIndex = nextIndex(currentIndex);
     }
     return false;
+  }
+
+  private void shiftSlotToNext(int currentIndex) {
+    slots[currentIndex] = slots[nextIndex(currentIndex)];
+    values[currentIndex] = values[nextIndex(currentIndex)];
+  }
+
+  private boolean hasCollision(int currentIndex, int firstHash) {
+    return hashFun(slots[nextIndex(currentIndex)]) == firstHash;
+  }
+
+  private int nextIndex(int index) {
+    return (index + step) % size;
+  }
+
+  private void clearSlot(int hash) {
+    slots[hash] = null;
+    values[hash] = null;
   }
 
   private int seekSlot(String key) {
