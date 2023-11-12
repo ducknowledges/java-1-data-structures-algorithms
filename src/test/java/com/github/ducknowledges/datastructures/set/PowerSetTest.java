@@ -2,6 +2,7 @@ package com.github.ducknowledges.datastructures.set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -135,6 +136,92 @@ class PowerSetTest {
       assertThat(set.remove(null)).isFalse();
       assertThat(set.size()).isEqualTo(2);
     }
+  }
+
+  @Nested
+  @DisplayName("intersection")
+  class Intersection {
+
+    @Test
+    @DisplayName("should get empty set")
+    void shouldGetEmptySet1() {
+      PowerSet set2 = new PowerSet();
+      set2.put("key1");
+      set2.put("key2");
+
+      PowerSet newSet = set.intersection(set2);
+      assertThat(newSet.size()).isZero();
+      assertThat(newSet.getKeys()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("should get empty set")
+    void shouldGetEmptySet2() {
+      set.put("key1");
+      set.put("key2");
+      PowerSet set2 = new PowerSet();
+
+      PowerSet newSet = set.intersection(set2);
+      assertThat(newSet.size()).isZero();
+      assertThat(newSet.getKeys()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("should get intersected set")
+    void shouldGetIntersectedSet1() {
+      set.put("key1");
+      set.put("key2");
+
+      PowerSet set2 = new PowerSet();
+      set2.put("key1");
+      set2.put("key2");
+      set2.put("key3");
+
+      PowerSet newSet = set.intersection(set2);
+
+      assertThat(newSet.size()).isEqualTo(2);
+      assertThat(newSet.getKeys()).isEqualTo(List.of("key1", "key2"));
+    }
+
+    @Test
+    @DisplayName("should get intersected set")
+    void shouldGetIntersectedSet2() {
+      set.put("key1");
+      set.put("key2");
+      set.put("key3");
+
+      PowerSet set2 = new PowerSet();
+      set2.put("key1");
+      set2.put("key2");
+
+      PowerSet newSet = set.intersection(set2);
+
+      assertThat(newSet.size()).isEqualTo(2);
+      assertThat(newSet.getKeys()).isEqualTo(List.of("key1", "key2"));
+    }
+
+    @Test
+    @DisplayName("intersection performance less 1 second")
+    void testIntersectionPerformance() {
+      PowerSet set1 = getFullSet();
+      PowerSet set2 = getFullSet();
+
+      long startTime = System.currentTimeMillis();
+      set1.intersection(set2);
+      long endTime = System.currentTimeMillis();
+      long executionTime = endTime - startTime;
+
+      assertThat(executionTime).isLessThan(1000L);
+      System.out.println("Execution Time: " + executionTime + " millis");
+    }
+  }
+
+  private static PowerSet getFullSet() {
+    PowerSet set = new PowerSet();
+    for (int i = 0; i < 20000; i++) {
+      set.put("key" + i);
+    }
+    return set;
   }
 
 }

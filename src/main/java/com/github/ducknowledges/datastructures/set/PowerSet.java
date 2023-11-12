@@ -1,6 +1,8 @@
 package com.github.ducknowledges.datastructures.set;
 
 import com.github.ducknowledges.datastructures.associativearray.NativeDictionary;
+import java.util.LinkedList;
+import java.util.List;
 
 public class PowerSet {
 
@@ -35,6 +37,27 @@ public class PowerSet {
       size--;
     }
     return removed;
+  }
+
+  public List<String> getKeys() {
+    String[] slots = map.slots;
+    List<String> keys = new LinkedList<>();
+    for (String key: slots) {
+      if (key != null) {
+        keys.add(key);
+      }
+    }
+    return keys;
+  }
+
+  public PowerSet intersection(PowerSet set2) {
+    PowerSet newSet = new PowerSet();
+    for (String key: this.getKeys()) {
+      if (set2.get(key)) {
+        newSet.put(key);
+      }
+    }
+    return newSet;
   }
 
 }
