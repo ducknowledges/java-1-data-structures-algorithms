@@ -71,4 +71,14 @@ public class PowerSet {
     return newSet;
   }
 
+  public PowerSet difference(PowerSet set2) {
+    PowerSet newSet = new PowerSet();
+    for (String key: this.getKeys()) {
+      if (!set2.get(key)) {
+        newSet.put(key);
+      }
+    }
+    return newSet;
+  }
+
 }

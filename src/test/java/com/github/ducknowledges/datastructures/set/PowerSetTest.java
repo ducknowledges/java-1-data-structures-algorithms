@@ -299,7 +299,7 @@ class PowerSetTest {
     }
 
     @Test
-    @DisplayName("intersection performance less 1 second")
+    @DisplayName("intersection union less 1 second")
     void testIntersectionPerformance() {
       PowerSet set1 = getFullSet();
       PowerSet set2 = getFullSet();
@@ -314,10 +314,114 @@ class PowerSetTest {
     }
   }
 
+  @Nested
+  @DisplayName("difference")
+  class Difference {
+
+    @Test
+    @DisplayName("should get empty set")
+    void shouldGetEmptySet() {
+      PowerSet set2 = new PowerSet();
+
+      PowerSet newSet = set.difference(set2);
+      assertThat(newSet.size()).isZero();
+      assertThat(newSet.getKeys()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("should get empty set")
+    void shouldGetEmptySet1() {
+      PowerSet set2 = new PowerSet();
+      set2.put("1");
+      set2.put("2");
+
+      PowerSet newSet = set.difference(set2);
+      assertThat(newSet.size()).isZero();
+      assertThat(newSet.getKeys()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("should get empty set")
+    void shouldGetEmptySet2() {
+      set.put("1");
+      set.put("2");
+
+      PowerSet set2 = new PowerSet();
+      set2.put("1");
+      set2.put("2");
+      set2.put("3");
+
+      PowerSet newSet = set.difference(set2);
+
+      assertThat(newSet.size()).isZero();
+      assertThat(newSet.getKeys()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("should get difference set")
+    void shouldGetDifferenceSet() {
+      set.put("1");
+      set.put("2");
+      PowerSet set2 = new PowerSet();
+
+      PowerSet newSet = set.difference(set2);
+      assertThat(newSet.size()).isEqualTo(2);
+      assertThat(newSet.getKeys()).isEqualTo(List.of("1", "2"));
+    }
+
+    @Test
+    @DisplayName("should get difference set")
+    void shouldGetDifferenceSet2() {
+      set.put("1");
+      set.put("2");
+      set.put("3");
+
+      PowerSet set2 = new PowerSet();
+      set2.put("1");
+      set2.put("2");
+
+      PowerSet newSet = set.difference(set2);
+
+      assertThat(newSet.size()).isEqualTo(1);
+      assertThat(newSet.getKeys()).isEqualTo(List.of("3"));
+    }
+
+    @Test
+    @DisplayName("intersection difference less 1 second")
+    void testIntersectionPerformance() {
+      PowerSet set1 = getDifferenceFullSe1();
+      PowerSet set2 = getDifferenceFullSet2();
+
+      long startTime = System.currentTimeMillis();
+      set1.difference(set2);
+      long endTime = System.currentTimeMillis();
+      long executionTime = endTime - startTime;
+
+      assertThat(executionTime).isLessThan(1000L);
+      System.out.println("Execution Time: " + executionTime + " millis");
+    }
+  }
+
   private static PowerSet getFullSet() {
     PowerSet set = new PowerSet();
     for (int i = 0; i < 20000; i++) {
       set.put("key" + i);
+    }
+    return set;
+  }
+
+  private static PowerSet getDifferenceFullSe1() {
+    PowerSet set = new PowerSet();
+    for (int i = 0; i < 10000; i++) {
+      set.put("key" + i);
+    }
+    return set;
+  }
+
+  private static PowerSet getDifferenceFullSet2() {
+    PowerSet set = new PowerSet();
+    for (int i = 0; i < 10000; i++) {
+      set.put("" + i + "key");
     }
     return set;
   }
