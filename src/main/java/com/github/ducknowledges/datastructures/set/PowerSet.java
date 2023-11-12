@@ -60,4 +60,15 @@ public class PowerSet {
     return newSet;
   }
 
+  public PowerSet union(PowerSet set2) {
+    PowerSet newSet = new PowerSet();
+    for (String key: this.getKeys()) {
+      newSet.put(key);
+    }
+    for (String key: set2.getKeys()) {
+      newSet.put(key);
+    }
+    return newSet;
+  }
+
 }

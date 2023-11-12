@@ -144,10 +144,20 @@ class PowerSetTest {
 
     @Test
     @DisplayName("should get empty set")
+    void shouldGetEmptySet() {
+      PowerSet set2 = new PowerSet();
+
+      PowerSet newSet = set.intersection(set2);
+      assertThat(newSet.size()).isZero();
+      assertThat(newSet.getKeys()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("should get empty set")
     void shouldGetEmptySet1() {
       PowerSet set2 = new PowerSet();
-      set2.put("key1");
-      set2.put("key2");
+      set2.put("1");
+      set2.put("2");
 
       PowerSet newSet = set.intersection(set2);
       assertThat(newSet.size()).isZero();
@@ -157,8 +167,8 @@ class PowerSetTest {
     @Test
     @DisplayName("should get empty set")
     void shouldGetEmptySet2() {
-      set.put("key1");
-      set.put("key2");
+      set.put("1");
+      set.put("2");
       PowerSet set2 = new PowerSet();
 
       PowerSet newSet = set.intersection(set2);
@@ -169,35 +179,35 @@ class PowerSetTest {
     @Test
     @DisplayName("should get intersected set")
     void shouldGetIntersectedSet1() {
-      set.put("key1");
-      set.put("key2");
+      set.put("1");
+      set.put("2");
 
       PowerSet set2 = new PowerSet();
-      set2.put("key1");
-      set2.put("key2");
-      set2.put("key3");
+      set2.put("1");
+      set2.put("2");
+      set2.put("3");
 
       PowerSet newSet = set.intersection(set2);
 
       assertThat(newSet.size()).isEqualTo(2);
-      assertThat(newSet.getKeys()).isEqualTo(List.of("key1", "key2"));
+      assertThat(newSet.getKeys()).isEqualTo(List.of("1", "2"));
     }
 
     @Test
     @DisplayName("should get intersected set")
     void shouldGetIntersectedSet2() {
-      set.put("key1");
-      set.put("key2");
-      set.put("key3");
+      set.put("1");
+      set.put("2");
+      set.put("3");
 
       PowerSet set2 = new PowerSet();
-      set2.put("key1");
-      set2.put("key2");
+      set2.put("1");
+      set2.put("2");
 
       PowerSet newSet = set.intersection(set2);
 
       assertThat(newSet.size()).isEqualTo(2);
-      assertThat(newSet.getKeys()).isEqualTo(List.of("key1", "key2"));
+      assertThat(newSet.getKeys()).isEqualTo(List.of("1", "2"));
     }
 
     @Test
@@ -208,6 +218,94 @@ class PowerSetTest {
 
       long startTime = System.currentTimeMillis();
       set1.intersection(set2);
+      long endTime = System.currentTimeMillis();
+      long executionTime = endTime - startTime;
+
+      assertThat(executionTime).isLessThan(1000L);
+      System.out.println("Execution Time: " + executionTime + " millis");
+    }
+  }
+
+  @Nested
+  @DisplayName("union")
+  class Union {
+
+    @Test
+    @DisplayName("should get empty set")
+    void shouldGetEmptySet() {
+      PowerSet set2 = new PowerSet();
+
+      PowerSet newSet = set.union(set2);
+      assertThat(newSet.size()).isZero();
+      assertThat(newSet.getKeys()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("should get union set with empty set")
+    void shouldGetUnionSetWithEmptySet1() {
+      set.put("1");
+      set.put("2");
+      PowerSet set2 = new PowerSet();
+
+      PowerSet newSet = set.union(set2);
+      assertThat(newSet.size()).isEqualTo(2);
+      assertThat(newSet.getKeys()).isEqualTo(List.of("1", "2"));
+    }
+
+    @Test
+    @DisplayName("should get union set with empty set")
+    void shouldGetUnionSetWithEmptySet2() {
+      PowerSet set2 = new PowerSet();
+      set2.put("1");
+      set2.put("2");
+
+      PowerSet newSet = set.union(set2);
+      assertThat(newSet.size()).isEqualTo(2);
+      assertThat(newSet.getKeys()).isEqualTo(List.of("1", "2"));
+    }
+
+    @Test
+    @DisplayName("should get union set")
+    void shouldGetUnionSet1() {
+      set.put("1");
+      set.put("2");
+
+      PowerSet set2 = new PowerSet();
+      set2.put("1");
+      set2.put("2");
+      set2.put("3");
+
+      PowerSet newSet = set.union(set2);
+
+      assertThat(newSet.size()).isEqualTo(3);
+      assertThat(newSet.getKeys()).isEqualTo(List.of("1", "2", "3"));
+    }
+
+    @Test
+    @DisplayName("should get union set")
+    void shouldGetUnionSet2() {
+      set.put("1");
+      set.put("2");
+      set.put("3");
+
+      PowerSet set2 = new PowerSet();
+      set2.put("1");
+      set2.put("2");
+
+      PowerSet newSet = set.union(set2);
+
+      assertThat(newSet.size()).isEqualTo(3);
+      assertThat(newSet.getKeys()).isEqualTo(List.of("1", "2", "3"));
+    }
+
+    @Test
+    @DisplayName("intersection performance less 1 second")
+    void testIntersectionPerformance() {
+      PowerSet set1 = getFullSet();
+      PowerSet set2 = getFullSet();
+
+      long startTime = System.currentTimeMillis();
+      set1.union(set2);
       long endTime = System.currentTimeMillis();
       long executionTime = endTime - startTime;
 
