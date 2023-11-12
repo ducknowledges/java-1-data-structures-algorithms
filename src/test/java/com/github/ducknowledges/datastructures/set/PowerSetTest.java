@@ -222,7 +222,6 @@ class PowerSetTest {
       long executionTime = endTime - startTime;
 
       assertThat(executionTime).isLessThan(1000L);
-      System.out.println("Execution Time: " + executionTime + " millis");
     }
   }
 
@@ -299,7 +298,7 @@ class PowerSetTest {
     }
 
     @Test
-    @DisplayName("intersection union less 1 second")
+    @DisplayName("union performance less 1 second less 1 second")
     void testIntersectionPerformance() {
       PowerSet set1 = getFullSet();
       PowerSet set2 = getFullSet();
@@ -310,7 +309,6 @@ class PowerSetTest {
       long executionTime = endTime - startTime;
 
       assertThat(executionTime).isLessThan(1000L);
-      System.out.println("Execution Time: " + executionTime + " millis");
     }
   }
 
@@ -387,10 +385,10 @@ class PowerSetTest {
     }
 
     @Test
-    @DisplayName("intersection difference less 1 second")
+    @DisplayName("difference performance less 1 second less 1 second")
     void testIntersectionPerformance() {
-      PowerSet set1 = getDifferenceFullSe1();
-      PowerSet set2 = getDifferenceFullSet2();
+      PowerSet set1 = getDifferenceSe1();
+      PowerSet set2 = getDifferenceSet2();
 
       long startTime = System.currentTimeMillis();
       set1.difference(set2);
@@ -398,7 +396,83 @@ class PowerSetTest {
       long executionTime = endTime - startTime;
 
       assertThat(executionTime).isLessThan(1000L);
-      System.out.println("Execution Time: " + executionTime + " millis");
+    }
+  }
+
+  @Nested
+  @DisplayName("isSubset")
+  class IsSubset {
+
+    @Test
+    @DisplayName("should get True for empty sets")
+    void shouldGetTureForEmptySets() {
+      PowerSet set2 = new PowerSet();
+      assertThat(set.isSubset(set2)).isTrue();
+    }
+
+    @Test
+    @DisplayName("should get True for argument set is subset of set")
+    void shouldGetTrueIfArgumentIsSubset1() {
+      set.put("1");
+      set.put("2");
+      set.put("3");
+      PowerSet set2 = new PowerSet();
+      set2.put("1");
+      set2.put("2");
+
+      assertThat(set.isSubset(set2)).isTrue();
+    }
+
+    @Test
+    @DisplayName("should get True for argument set is subset of set")
+    void shouldGetTrueIfArgumentIsSubset2() {
+      set.put("1");
+      set.put("2");
+      PowerSet set2 = new PowerSet();
+      set2.put("1");
+      set2.put("2");
+
+      assertThat(set.isSubset(set2)).isTrue();
+    }
+
+    @Test
+    @DisplayName("should get False for argument set is not subset set")
+    void shouldGetFalseIfArgumentIsNotSubset1() {
+      set.put("1");
+      set.put("2");
+
+      PowerSet set2 = new PowerSet();
+      set2.put("1");
+      set2.put("2");
+      set2.put("3");
+      assertThat(set.isSubset(set2)).isFalse();
+    }
+
+    @Test
+    @DisplayName("should get False for argument set is not subset set")
+    void shouldGetFalseIfArgumentIsNotSubset2() {
+      set.put("1");
+      set.put("2");
+      set.put("3");
+
+      PowerSet set2 = new PowerSet();
+      set2.put("3");
+      set2.put("4");
+      assertThat(set.isSubset(set2)).isFalse();
+    }
+
+    @Test
+    @DisplayName("isSubset performance less 1 second less 1 second")
+    void testIntersectionPerformance() {
+      PowerSet set1 = getFullSet();
+      PowerSet set2 = getFullSet();
+
+      long startTime = System.currentTimeMillis();
+      set1.isSubset(set2);
+      long endTime = System.currentTimeMillis();
+      long executionTime = endTime - startTime;
+
+      assertThat(executionTime).isLessThan(1000L);
     }
   }
 
@@ -410,7 +484,7 @@ class PowerSetTest {
     return set;
   }
 
-  private static PowerSet getDifferenceFullSe1() {
+  private static PowerSet getDifferenceSe1() {
     PowerSet set = new PowerSet();
     for (int i = 0; i < 10000; i++) {
       set.put("key" + i);
@@ -418,7 +492,7 @@ class PowerSetTest {
     return set;
   }
 
-  private static PowerSet getDifferenceFullSet2() {
+  private static PowerSet getDifferenceSet2() {
     PowerSet set = new PowerSet();
     for (int i = 0; i < 10000; i++) {
       set.put("" + i + "key");

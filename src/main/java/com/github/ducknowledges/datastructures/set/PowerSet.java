@@ -81,4 +81,13 @@ public class PowerSet {
     return newSet;
   }
 
+  public boolean isSubset(PowerSet set2) {
+    for (String key: set2.getKeys()) {
+      if (!this.get(key)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
 }
