@@ -263,6 +263,33 @@ class NativeDictionaryTest {
       assertThat(dictionary.isKey("2key")).isFalse();
       assertThat(dictionary.isKey("abracadabra")).isFalse();
     }
+
+    @Test
+    @DisplayName("should return False by key if key not exist in full dictionary with collisions")
+    void shouldGetNotFoundKeyInFullCollision() {
+      dictionary.put("1aaaaaaaaaaaaaaaaaa", "val1");
+      dictionary.put("a1aaaaaaaaaaaaaaaaa", "val1");
+      dictionary.put("aa1aaaaaaaaaaaaaaaa", "val1");
+      dictionary.put("aaa1aaaaaaaaaaaaaaa", "val1");
+      dictionary.put("aaaa1aaaaaaaaaaaaaa", "val1");
+      dictionary.put("aaaaa1aaaaaaaaaaaaa", "val1");
+      dictionary.put("aaaaaa1aaaaaaaaaaaa", "val1");
+      dictionary.put("aaaaaaa1aaaaaaaaaaa", "val1");
+      dictionary.put("aaaaaaaa1aaaaaaaaaa", "val1");
+      dictionary.put("aaaaaaaaa1aaaaaaaaa", "val1");
+      dictionary.put("aaaaaaaaaa1aaaaaaaa", "val1");
+      dictionary.put("aaaaaaaaaaa1aaaaaaa", "val1");
+      dictionary.put("aaaaaaaaaaaa1aaaaaa", "val1");
+      dictionary.put("aaaaaaaaaaaaa1aaaaa", "val1");
+      dictionary.put("aaaaaaaaaaaaaa1aaaa", "val1");
+      dictionary.put("aaaaaaaaaaaaaaa1aaa", "val1");
+      dictionary.put("aaaaaaaaaaaaaaaa1aa", "val1");
+      dictionary.put("aaaaaaaaaaaaaaaaa1a", "val1");
+      dictionary.put("aaaaaaaaaaaaaaaaaa1", "val1");
+      dictionary.put("key1", "val");
+
+      assertThat(dictionary.isKey("key1")).isFalse();
+    }
   }
 
   @Nested
@@ -309,6 +336,32 @@ class NativeDictionaryTest {
 
       assertThat(dictionary.get(null)).isNull();
     }
+
+    @Test
+    @DisplayName("should not get value by key if has collision in full dictionary")
+    void shouldGetNullByKeyInFullCollision() {
+      dictionary.put("1aaaaaaaaaaaaaaaaaa", "val1");
+      dictionary.put("a1aaaaaaaaaaaaaaaaa", "val1");
+      dictionary.put("aa1aaaaaaaaaaaaaaaa", "val1");
+      dictionary.put("aaa1aaaaaaaaaaaaaaa", "val1");
+      dictionary.put("aaaa1aaaaaaaaaaaaaa", "val1");
+      dictionary.put("aaaaa1aaaaaaaaaaaaa", "val1");
+      dictionary.put("aaaaaa1aaaaaaaaaaaa", "val1");
+      dictionary.put("aaaaaaa1aaaaaaaaaaa", "val1");
+      dictionary.put("aaaaaaaa1aaaaaaaaaa", "val1");
+      dictionary.put("aaaaaaaaa1aaaaaaaaa", "val1");
+      dictionary.put("aaaaaaaaaa1aaaaaaaa", "val1");
+      dictionary.put("aaaaaaaaaaa1aaaaaaa", "val1");
+      dictionary.put("aaaaaaaaaaaa1aaaaaa", "val1");
+      dictionary.put("aaaaaaaaaaaaa1aaaaa", "val1");
+      dictionary.put("aaaaaaaaaaaaaa1aaaa", "val1");
+      dictionary.put("aaaaaaaaaaaaaaa1aaa", "val1");
+      dictionary.put("aaaaaaaaaaaaaaaa1aa", "val1");
+      dictionary.put("aaaaaaaaaaaaaaaaa1a", "val1");
+      dictionary.put("aaaaaaaaaaaaaaaaaa1", "val1");
+
+      assertThat(dictionary.get("key1")).isNull();
+    }
   }
 
   @Nested
@@ -331,22 +384,24 @@ class NativeDictionaryTest {
     @Test
     @DisplayName("should remove by key if has collision")
     void shouldRemoveByKeyInCollision() {
+      int x = dictionary.hashFun("key1");
+      int y = dictionary.hashFun("k1ey");
+
       dictionary.put("key1", "val1");
       dictionary.put("1key", "val1");
       dictionary.put("k1ey", "val1");
       dictionary.put("key2", "val2");
       dictionary.put("2key", "val2");
 
-//      assertThat(dictionary.remove("1key")).isTrue();
-//      assertThat(dictionary.remove("key1")).isTrue();
-      assertThat(dictionary.remove("key1")).isTrue();
       assertThat(dictionary.remove("1key")).isTrue();
+      assertThat(dictionary.remove("key1")).isTrue();
       assertThat(dictionary.remove("2key")).isTrue();
       assertThat(dictionary.remove("key2")).isTrue();
       assertThat(dictionary.isKey("1key")).isFalse();
       assertThat(dictionary.isKey("key1")).isFalse();
       assertThat(dictionary.isKey("2key")).isFalse();
       assertThat(dictionary.isKey("key2")).isFalse();
+      assertThat(dictionary.isKey("k1ey")).isTrue();
     }
 
     @Test
@@ -378,6 +433,52 @@ class NativeDictionaryTest {
       assertThat(dictionary.remove(null)).isFalse();
       assertThat(dictionary.isKey("key1")).isTrue();
       assertThat(dictionary.isKey("key2")).isTrue();
+    }
+
+    @Test
+    @DisplayName("should remove by key if has collision in full")
+    void shouldRemoveByKeyInCollision1() {
+      dictionary.put("1aaaaaaaaaaaaaaaaaa", "val1");
+      dictionary.put("a1aaaaaaaaaaaaaaaaa", "val1");
+      dictionary.put("aa1aaaaaaaaaaaaaaaa", "val1");
+      dictionary.put("aaa1aaaaaaaaaaaaaaa", "val1");
+      dictionary.put("aaaa1aaaaaaaaaaaaaa", "val1");
+      dictionary.put("aaaaa1aaaaaaaaaaaaa", "val1");
+      dictionary.put("aaaaaa1aaaaaaaaaaaa", "val1");
+      dictionary.put("aaaaaaa1aaaaaaaaaaa", "val1");
+      dictionary.put("aaaaaaaa1aaaaaaaaaa", "val1");
+      dictionary.put("aaaaaaaaa1aaaaaaaaa", "val1");
+      dictionary.put("aaaaaaaaaa1aaaaaaaa", "val1");
+      dictionary.put("aaaaaaaaaaa1aaaaaaa", "val1");
+      dictionary.put("aaaaaaaaaaaa1aaaaaa", "val1");
+      dictionary.put("aaaaaaaaaaaaa1aaaaa", "val1");
+      dictionary.put("aaaaaaaaaaaaaa1aaaa", "val1");
+      dictionary.put("aaaaaaaaaaaaaaa1aaa", "val1");
+      dictionary.put("aaaaaaaaaaaaaaaa1aa", "val1");
+      dictionary.put("aaaaaaaaaaaaaaaaa1a", "val1");
+      dictionary.put("aaaaaaaaaaaaaaaaaa1", "val1");
+
+      dictionary.remove("1aaaaaaaaaaaaaaaaaa");
+      dictionary.remove("a1aaaaaaaaaaaaaaaaa");
+      dictionary.remove("aa1aaaaaaaaaaaaaaaa");
+      dictionary.remove("aaa1aaaaaaaaaaaaaaa");
+      dictionary.remove("aaaa1aaaaaaaaaaaaaa");
+      dictionary.remove("aaaaa1aaaaaaaaaaaaa");
+      dictionary.remove("aaaaaa1aaaaaaaaaaaa");
+      dictionary.remove("aaaaaaa1aaaaaaaaaaa");
+      dictionary.remove("aaaaaaaa1aaaaaaaaaa");
+      dictionary.remove("aaaaaaaaa1aaaaaaaaa");
+      dictionary.remove("aaaaaaaaaa1aaaaaaaa");
+      dictionary.remove("aaaaaaaaaaa1aaaaaaa");
+      dictionary.remove("aaaaaaaaaaaa1aaaaaa");
+      dictionary.remove("aaaaaaaaaaaaa1aaaaa");
+      dictionary.remove("aaaaaaaaaaaaaa1aaaa");
+      dictionary.remove("aaaaaaaaaaaaaaa1aaa");
+      dictionary.remove("aaaaaaaaaaaaaaaa1aa");
+      dictionary.remove("aaaaaaaaaaaaaaaaa1a");
+      dictionary.remove("aaaaaaaaaaaaaaaaaa1");
+
+      assertThat(dictionary.slots).isEqualTo(new String[19]);
     }
   }
 

@@ -28,14 +28,10 @@ public class NativeDictionary<T> {
   }
 
   public boolean isKey(String key) {
-    int hash = hashFun(key);
-    while (slots[hash] != null) {
-      if (slots[hash].equals(key)) {
-        return true;
-      }
-      hash = (hash + step) % size;
+    if (key == null) {
+      return false;
     }
-    return false;
+    return findIndex(key) >= 0;
   }
 
   public void put(String key, T value) {
@@ -47,38 +43,39 @@ public class NativeDictionary<T> {
   }
 
   public T get(String key) {
-    int hash = hashFun(key);
-    while (slots[hash] != null) {
-      if (slots[hash].equals(key)) {
-        return values[hash];
-      }
-      hash = (hash + step) % size;
+    if (key == null) {
+      return null;
     }
-    return null;
+    int index = findIndex(key);
+    return index >= 0 ? values[index] : null;
   }
 
   public boolean remove(String key) {
     if (key == null) {
       return false;
     }
-    int firstIndex = hashFun(key);
-    int currentIndex = firstIndex;
-    while (slots[currentIndex] != null) {
-      if (slots[currentIndex].equals(key) && !hasCollision(currentIndex, firstIndex)) {
+    int index = findIndex(key);
+    if (index >= 0) {
+      int firstIndex = hashFun(key);
+      int currentIndex = index;
+      if (!hasCollision(currentIndex, firstIndex)) {
         this.clearSlot(currentIndex);
         return true;
       }
-      if (slots[currentIndex].equals(key)) {
-        while (hasCollision(currentIndex, firstIndex)) {
+      while (hasCollision(currentIndex, firstIndex)) {
           shiftSlotToNext(currentIndex);
           currentIndex = nextIndex(currentIndex);
           if (!hasCollision(currentIndex, firstIndex)) {
             this.clearSlot(currentIndex);
+            return true;
+          }
+          if (currentIndex == firstIndex) {
+            int x = (currentIndex - step) % size;
+            this.clearSlot(x < 0 ? x + size : x);
+            return true;
           }
         }
         return true;
-      }
-      currentIndex = nextIndex(currentIndex);
     }
     return false;
   }
@@ -99,6 +96,30 @@ public class NativeDictionary<T> {
   private void clearSlot(int hash) {
     slots[hash] = null;
     values[hash] = null;
+  }
+
+  public int findIndex(String key) {
+    if (key == null) {
+      return -1;
+    }
+
+    int index = this.hashFun(key);
+    if (slots[index] == null) {
+      return -1;
+    }
+    if (slots[index] != null && slots[index].equals(key)) {
+      return index;
+    }
+
+    int temp = index;
+    do {
+      index = (index + step) % size;
+      if (slots[index] != null && key.equals(slots[index])) {
+        return index;
+      }
+    } while (index != temp && slots[index] != null);
+
+    return -1;
   }
 
   private int seekSlot(String key) {
