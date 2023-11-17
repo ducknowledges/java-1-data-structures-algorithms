@@ -35,10 +35,16 @@ public class NativeDictionary<T> {
   }
 
   public void put(String key, T value) {
-    int index = seekSlot(key);
+    int index = findIndex(key);
     if (index >= 0) {
       slots[index] = key;
       values[index] = value;
+    } else {
+      index = seekSlot(key);
+      if (index >= 0) {
+        slots[index] = key;
+        values[index] = value;
+      }
     }
   }
 
