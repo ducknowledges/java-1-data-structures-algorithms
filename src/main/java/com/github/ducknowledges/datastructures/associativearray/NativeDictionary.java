@@ -35,14 +35,17 @@ public class NativeDictionary<T> {
   }
 
   public void put(String key, T value) {
+    if (key == null) {
+      return;
+    }
     int index = findIndex(key);
     if (index >= 0) {
-      this.setCache(index, key, value);
+      this.set(index, key, value);
       return;
     }
     index = seekSlot(key);
     if (index >= 0) {
-      this.setCache(index, key, value);
+      this.set(index, key, value);
     }
   }
 
@@ -66,7 +69,7 @@ public class NativeDictionary<T> {
     return false;
   }
 
-  private void setCache(int index, String key, T value) {
+  private void set(int index, String key, T value) {
     slots[index] = key;
     values[index] = value;
   }
