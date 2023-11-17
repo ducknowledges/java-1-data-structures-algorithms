@@ -204,12 +204,31 @@ class NativeDictionaryTest {
     }
 
     @Test
-    @DisplayName("should put and replace existed key")
-    void shouldPutAndReplaceExistedKey() {
-      dictionary.put("key1", "val1");
-      dictionary.put("1key", "val1");
-      dictionary.put("k1ey", "val1");
+    @DisplayName("should put and replace existed key with collision")
+    void shouldPutAndReplaceExistedOneKey() {
+      String[] expectedKeys = new String[]{
+          null, null, null, null, null, null, null, null, null, null,
+          null, null, null, null, null, null, null, "key1", null
+      };
+      String[] expectedValues = new String[]{
+          null, null, null, null, null, null, null, null, null, null,
+          null, null, null, null, null, null, null, "val3",null
+      };
 
+      dictionary.put("key1", "val1");
+      dictionary.put("key1", "val2");
+      dictionary.put("key1", "val3");
+
+      assertThat(dictionary.slots).isEqualTo(expectedKeys);
+      assertThat(dictionary.values).isEqualTo(expectedValues);
+      assertThat(dictionary.get("key1")).isEqualTo("val3");
+      assertThat(dictionary.remove("key1")).isTrue();
+      assertThat(dictionary.isKey("key1")).isFalse();
+    }
+
+    @Test
+    @DisplayName("should put and replace existed key with collision")
+    void shouldPutAndReplaceExistedKey() {
       String[] expectedKeys = new String[]{
           null, "1key", null, null, "k1ey", null, null, null, null, null,
           null, null, null, null, null, null, null, "key1", null
@@ -219,7 +238,11 @@ class NativeDictionaryTest {
           null, null, null, null, null, null, null, "val1",null
       };
 
+      dictionary.put("key1", "val1");
+      dictionary.put("1key", "val1");
+      dictionary.put("k1ey", "val1");
       dictionary.put("k1ey", "val2");
+
       assertThat(dictionary.slots).isEqualTo(expectedKeys);
       assertThat(dictionary.values).isEqualTo(expectedValues);
       assertThat(dictionary.get("k1ey")).isEqualTo("val2");
